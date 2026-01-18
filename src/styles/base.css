@@ -1,0 +1,206 @@
+@import "./tokens.css";
+
+/* ───────────────────────────────────────────────────────── */
+/* Core Tags */
+/* ───────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--white);
+  max-width: 100%;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid;
+  overflow: visible;
+  text-align: center;
+  height: 0px;
+}
+
+hr::after {
+  content: "";
+  padding: 0 4px;
+}
+
+/* Links */
+a {
+  color: var(--white);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link);
+  text-decoration: none;
+}
+
+nav {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  border-radius: var(--radius);
+  padding: var(--space-1);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: var(--link);
+}
+
+button:hover {
+  transform: translate(1px, 1px);
+}
+button:active {
+  transform: translate(2px, 2px);
+}
+
+input {
+  font-family: inherit;
+  color: var(--white);
+  background: transparent;
+  border: var(--border);
+  border-radius: var(--radius);
+  min-height: 2.5rem;
+  padding: 0 1rem;
+  width: 100%;
+  cursor: pointer;
+}
+input:focus {
+  outline: none;
+}
+
+select {
+  cursor: pointer;
+}
+select:focus {
+  outline: none;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: medium;
+  color: var(--white);
+  background: transparent;
+  border: var(--border);
+  border-radius: var(--radius);
+  min-height: 5rem;
+  padding: 0.75rem 1rem;
+  width: 100%;
+  resize: vertical;
+  box-sizing: border-box;
+  resize: none;
+}
+
+textarea::placeholder {
+  color: var(--gray);
+  opacity: 1;
+}
+
+/* Colorful classes (aka Tailwind) */
+.text-green {
+  color: var(--accent-green);
+}
+.text-bold {
+  font-weight: bolder;
+}
+
+/* Container for Navbar and Main Content */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-1) 5%;
+  gap: var(--space-3);
+}
+
+/* Generic classes */
+.label-items {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--white);
+  text-align: left;
+}
+span {
+  color: var(--white);
+}
+
+/* Dropdown Button */
+.button-dropdown-menu {
+  position: absolute;
+  left: 0;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  bottom: 100%;
+  background: var(--bg-lighter);
+  border: var(--border);
+  border-radius: var(--radius);
+  z-index: 10000;
+  list-style: none;
+  margin: 0;
+  padding: var(--space-1);
+  min-width: 100%;
+}
+
+/* Date Picker */
+.datepicker {
+  font-family: inherit;
+  color: white;
+  outline: none;
+  font-size: medium;
+  background: transparent;
+  border: var(--border);
+  padding: 0.5rem;
+  border-radius: var(--radius);
+}
+
+/* Checkbox */
+.checkbox {
+  width: 2rem;
+  height: 2rem;
+  accent-color: var(--accent-green);
+  cursor: pointer;
+}
+
+/* ───────────────────────────────────────────────────────── */
+/* TRANSACTIONS (Cost, Income, Exchange) */
+/* ───────────────────────────────────────────────────────── */
+.transaction__item {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 80/20 Group */
+.transaction__items_group {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-1);
+}
+
+.transaction__items_group > :first-child {
+  flex: 0 1 80%;
+}
+.transaction__items_group > :nth-child(2) {
+  flex: 0 1 20%;
+}
+
+/* ───────────────────────────────────────────────────────── */
+/* PAGE: Settings
+/* ───────────────────────────────────────────────────────── */
+
+.settings__label-items {
+  margin: 0.5rem;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}

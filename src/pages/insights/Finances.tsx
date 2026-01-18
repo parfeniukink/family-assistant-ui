@@ -1,0 +1,201 @@
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  fetchBasicAnalyticsByPeriod,
+  fetchBasicAnalyticsFiltered,
+} from "src/data/api/client";
+import type { TransactionsBasicAnalytics } from "src/data/types/analytics";
+import { Button } from "src/components";
+import TransactionsBaseAnalyticsSection from "./TransactionsBaseAnalyticsSection";
+import { TOKENS } from "src/styles/tokens";
+import toast from "react-hot-toast";
+import { type Filters } from "src/data/types/transactions";
+import { useMobile } from "src/context";
+
+// Types
+function AnalyticsFilters({
+  filters,
+  setFilters,
+  onCustomSearch,
+}: {
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  onCustomSearch: () => void;
+}) {
+  const { isMobile } = useMobile();
+  return (
+    <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+          justifyContent: "center",
+          gap: TOKENS.SPACE_2,
+          padding: TOKENS.SPACE_2,
+          border: TOKENS.BORDER,
+          boxShadow: TOKENS.SHADOW,
+          borderRadius: TOKENS.RADIUS,
+          marginRight: isMobile ? "" : TOKENS.SPACE_2,
+          width: isMobile ? "100%" : "",
+        }}
+      >
+        <label>
+          START DATE
+          <input
+            type="date"
+            value={filters.startDate || ""}
+            onChange={(e) =>
+              setFilters((f) => ({
+                ...f,
+                startDate: e.target.value ? e.target.value : "",
+              }))
+            }
+          />
+        </label>
+        <label>
+          END DATE
+          <input
+            type="date"
+            value={filters.endDate ?? ""}
+            onChange={(e) =>
+              setFilters((f) => ({
+                ...f,
+                endDate: e.target.value,
+              }))
+            }
+          />
+        </label>
+        <label>
+          PATTERN
+          <input
+            type="text"
+            value={filters.pattern || ""}
+            placeholder="search pattern"
+            onChange={(e) =>
+              setFilters((f) => ({
+                ...f,
+                pattern: e.target.value ? e.target.value : "",
+              }))
+            }
+          />
+        </label>
+        <Button
+          onClickCallback={onCustomSearch}
+          overrideStyles={{ minHeight: "50px", fontSize: "1rem" }}
+        >
+          search
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// By default the Component provide 2 types of analytics:
+// 1. For the current month
+// 2. For the last month (previous month)
+export default function Component() {
+  // Context
+  const { isMobile } = useMobile();
+
+  // State
+  const [currentMonthAnalytics, setCurrentMonthAnalytics] = useState<
+    TransactionsBasicAnalytics[]
+  >([]);
+  const [previousMonthAnalytics, setPreviousMonthAnalytics] = useState<
+    TransactionsBasicAnalytics[]
+  >([]);
+  // title, [transactions, Filters]
+  const [customRangeAnalytics, setCustomRangeAnalytics] = useState<
+    Record<string, [TransactionsBasicAnalytics[], Filters]>
+  >({});
+  const [filters, setFilters] = useState<Filters>({
+    endDate: new Date().toISOString().slice(0, 10),
+  });
+
+  useEffect(() => {
+    Promise.all([
+      fetchBasicAnalyticsByPeriod("current-month"),
+      fetchBasicAnalyticsByPeriod("previous-month"),
+    ])
+      .then(([currentMonth, previousMonth]) => {
+        if (currentMonth) setCurrentMonthAnalytics(currentMonth);
+        if (previousMonth) setPreviousMonthAnalytics(previousMonth);
+
+        if (!previousMonth && !currentMonth)
+          throw new Error("no basic analytics");
+      })
+      .catch((error) => {
+        toast.error(`${error}`);
+      });
+  }, []);
+
+  const handleCustomRange = useCallback(() => {
+    if (!filters.startDate || !filters.endDate) {
+      toast.error("start date & end date must be specified");
+      return;
+    }
+    fetchBasicAnalyticsFiltered(filters)
+      .then((response) => {
+        const title = filters.pattern
+          ? `${filters.startDate} - ${filters.endDate}, ${filters.pattern}`
+          : `${filters.startDate} - ${filters.endDate}`;
+
+        // Persist custom analytics on 'Search' action
+        setCustomRangeAnalytics((map) => ({
+          ...map,
+          [title]: [response, filters],
+        }));
+      })
+      .catch(() => {
+        toast.error("Failed to fetch custom analytics");
+      });
+  }, [filters]);
+
+  // Layout is flex if desktop, col otherwise; naive check
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        alignItems: isMobile ? "center" : "flex-start",
+        gap: TOKENS.SPACE_2,
+      }}
+    >
+      {/* Current month */}
+      <TransactionsBaseAnalyticsSection
+        title="📅 CURRENT MONTH"
+        analytics={currentMonthAnalytics}
+        filters={{ period: "current-month" }}
+      />
+      {/* Previous Month */}
+      <TransactionsBaseAnalyticsSection
+        title="📅 PREVIOUS MONTH"
+        analytics={previousMonthAnalytics}
+        filters={{ period: "previous-month" }}
+      />
+
+      {/* Custom Analytics */}
+      {Object.entries(customRangeAnalytics).map(
+        ([timestamp, analyticsAndFilters]) => {
+          const [analytics, filters] = analyticsAndFilters;
+
+          return (
+            <TransactionsBaseAnalyticsSection
+              key={timestamp}
+              title={`📅 ${timestamp}`}
+              analytics={analytics}
+              filters={filters}
+            />
+          );
+        },
+      )}
+
+      <AnalyticsFilters
+        filters={filters}
+        setFilters={setFilters}
+        onCustomSearch={handleCustomRange}
+      />
+    </div>
+  );
+}

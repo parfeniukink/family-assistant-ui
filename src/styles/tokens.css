@@ -1,0 +1,30 @@
+:root {
+  --bg: #302413;
+  --bg-lighter: #403019;
+  --black: #100e0d;
+  --accent: #7c3aed;
+  --white: #f6e4b8;
+  --gray: #ababab;
+  --link: #908eff;
+
+  --bg-blue: #4546a8;
+  --bg-red: #ca3c3e;
+  --bg-green: #475f36;
+
+  --accent-blue: #5e5fe4;
+  --accent-red: #ff4c4f;
+  --accent-green: #608048;
+
+  --border: 3px solid var(--black);
+  --shadow: 6px 6px 0 var(--black);
+
+  --radius: 10px;
+  --space-1: 1rem;
+  --space-2: 2rem;
+  --space-3: 3rem;
+  --space-5: 5rem;
+
+  /* Sizes */
+  --section-md-width: 35%;
+  --section-lg-width: 60%;
+}
