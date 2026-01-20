@@ -23,70 +23,67 @@ function AnalyticsFilters({
 }) {
   const { isMobile } = useMobile();
   return (
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          textAlign: "center",
-          justifyContent: "center",
-          gap: TOKENS.SPACE_2,
-          padding: TOKENS.SPACE_2,
-          border: TOKENS.BORDER,
-          boxShadow: TOKENS.SHADOW,
-          borderRadius: TOKENS.RADIUS,
-          marginRight: isMobile ? "" : TOKENS.SPACE_2,
-          width: isMobile ? "100%" : "",
-        }}
-      >
-        <label>
-          START DATE
-          <input
-            type="date"
-            value={filters.startDate || ""}
-            onChange={(e) =>
-              setFilters((f) => ({
-                ...f,
-                startDate: e.target.value ? e.target.value : "",
-              }))
-            }
-          />
-        </label>
-        <label>
-          END DATE
-          <input
-            type="date"
-            value={filters.endDate ?? ""}
-            onChange={(e) =>
-              setFilters((f) => ({
-                ...f,
-                endDate: e.target.value,
-              }))
-            }
-          />
-        </label>
-        <label>
-          PATTERN
-          <input
-            type="text"
-            value={filters.pattern || ""}
-            placeholder="search pattern"
-            onChange={(e) =>
-              setFilters((f) => ({
-                ...f,
-                pattern: e.target.value ? e.target.value : "",
-              }))
-            }
-          />
-        </label>
-        <Button
-          onClickCallback={onCustomSearch}
-          overrideStyles={{ minHeight: "50px", fontSize: "1rem" }}
-        >
-          search
-        </Button>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        justifyContent: "end",
+        gap: TOKENS.SPACE_2,
+        border: TOKENS.BORDER,
+        boxShadow: TOKENS.SHADOW,
+        borderRadius: TOKENS.RADIUS,
+        marginRight: isMobile ? "" : TOKENS.SPACE_2,
+        width: "100%",
+        padding: "20px",
+      }}
+    >
+      <h4 style={{ margin: 0 }}>DATES ... RANGE</h4>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <input
+          type="date"
+          value={filters.startDate || ""}
+          onChange={(e) =>
+            setFilters((f) => ({
+              ...f,
+              startDate: e.target.value ? e.target.value : "",
+            }))
+          }
+        />
+        <p>...</p>
+        <input
+          type="date"
+          value={filters.endDate ?? ""}
+          onChange={(e) =>
+            setFilters((f) => ({
+              ...f,
+              endDate: e.target.value,
+            }))
+          }
+        />
       </div>
+      <div className="">
+        <h4 style={{ margin: 0, textAlign: "center" }}>PATTERN</h4>
+        <input
+          style={{ fontSize: "16px", width: "100%" }}
+          type="text"
+          value={filters.pattern || ""}
+          placeholder="search pattern"
+          onChange={(e) =>
+            setFilters((f) => ({
+              ...f,
+              pattern: e.target.value ? e.target.value : "",
+            }))
+          }
+        />
+      </div>
+      <Button
+        onClickCallback={onCustomSearch}
+        overrideStyles={{ minHeight: "50px", fontSize: "1rem" }}
+      >
+        search
+      </Button>
     </div>
   );
 }

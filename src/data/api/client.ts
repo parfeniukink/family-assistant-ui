@@ -31,7 +31,9 @@ import type {
 } from "../types";
 import type { ErrorResponse } from "src/infrastructure/generic";
 
-const BASE_URL = "http://192.168.50.187:8001";
+console.log("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴");
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+console.log(BASE_URL);
 
 export async function apiCall<T>(
   url: string,

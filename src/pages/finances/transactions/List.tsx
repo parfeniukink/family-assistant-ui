@@ -194,6 +194,8 @@ export default function Page() {
           },
         )}
       </div>
+      {isMobile && <br />}
+      {isMobile && <br />}
     </Container>
   );
 }

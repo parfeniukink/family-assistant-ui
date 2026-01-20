@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useCurrencies, useIdentity, useMobile } from "src/context";
+import {
+  useCurrencies,
+  useEquities,
+  useIdentity,
+  useMobile,
+} from "src/context";
 import {
   incomeRetrieve,
   incomeUpdate,

@@ -63,21 +63,18 @@ export default function Component({
       alignItems: "center",
     },
     costs: {
-      background: "#37221b",
       padding: "0.25rem 0.5rem",
       color: "#d68f97",
       borderRadius: TOKENS.RADIUS,
       marginBottom: "0.2rem",
     },
     incomes: {
-      background: "#1e2e22",
       padding: "0.25rem 0.5rem",
       color: "#caf492",
       borderRadius: TOKENS.RADIUS,
       marginBottom: "0.2rem",
     },
     exchange: {
-      background: "#183b4b",
       padding: "0.25rem 0.5rem",
       color: "#9bdce8",
       borderRadius: TOKENS.RADIUS,
@@ -102,140 +99,153 @@ export default function Component({
     <Card
       style={
         isMobile
-          ? { width: "100%" }
+          ? {
+              width: "100%",
+              padding: "10px",
+            }
           : {
               display: "flex",
               flexDirection: "column",
-              minWidth: isMobile ? "" : 400,
-              maxWidth: isMobile ? "" : 700,
+              minWidth: 400,
+              maxWidth: 700,
+              margin: 0,
+              padding: TOKENS.SPACE_1,
             }
       }
     >
       <h3 style={{ margin: 0, fontSize: "large" }}>{title}</h3>
       {analytics.map((item) => (
         <React.Fragment key={item.currency.id}>
-          <h1 style={{ margin: 0, fontSize: "medium" }}>
-            [ {item.currency.name} ]
-          </h1>
-          <hr
+          <div
             style={{
-              borderTop: "1px solid",
-              width: "100%",
-              margin: "0 0 1rem 0",
+              margin: 0,
             }}
-          />
-          <div style={{ fontSize: "x-small" }}>
-            {/* Costs */}
-            <Link
-              key="costs"
-              to={item.costs.total ? detailCostsUrl(item.currency) : ""}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  ...(item.costs.total ? STYLES.costs : STYLES.flexBox),
-                }}
-              >
-                <p style={{ margin: 0, color: "#d68f97" }}>COSTS:</p>
-                <p style={{ margin: 0 }}>
-                  {`${prettyMoney(item.costs.total)} ${item.currency.sign}`}
-                </p>
-              </div>
-            </Link>
-            {/* Incomes */}
-            <Link
-              key="incomes"
-              to={item.incomes.total ? detailIncomesUrl(item.currency) : "#"}
-            >
-              <div
-                style={{
-                  ...STYLES.flexBetween,
-                  ...(item.incomes.total ? STYLES.incomes : STYLES.flexBox),
-                }}
-              >
-                <p style={{ margin: 0, color: "#caf492" }}>INCOMES:</p>
-                <p style={{ margin: 0 }}>
-                  {`${prettyMoney(item.incomes.total)} ${item.currency.sign}`}
-                </p>
-              </div>
-            </Link>
-            {/* Exchange */}
-            <Link
-              key="exchange"
-              to={item.fromExchanges ? detailExchangeUrl() : ""}
-            >
-              <div
-                style={{
-                  ...STYLES.flexBetween,
-                  ...(item.fromExchanges ? STYLES.exchange : STYLES.flexBox),
-                }}
-              >
-                <p style={{ margin: 0, color: "#9bdce8" }}>
-                  CURRENCY EXCHANGE:
-                </p>
-                {item.fromExchanges > 0 ? (
-                  <p style={{ margin: 0 }}>
-                    {`+ ${prettyMoney(item.fromExchanges)} ${item.currency.sign}`}
-                  </p>
-                ) : (
-                  <p style={{ margin: 0 }}>
-                    {`${prettyMoney(item.fromExchanges)} ${item.currency.sign}`}
-                  </p>
-                )}
-              </div>
-            </Link>
-            {/* Ratio */}
-            <div
+          >
+            <h1 style={{ margin: 0, fontSize: "medium" }}>
+              [ {item.currency.name} ]
+            </h1>
+            <hr
               style={{
-                ...STYLES.flexBetween,
-                ...STYLES.flexBox,
-                ...(item.totalRatio < 100 ? STYLES.ratioGood : STYLES.ratioBad),
+                borderTop: "1px solid",
+                width: "100%",
+                margin: "0 0 1rem 0",
               }}
-            >
-              <p style={{ margin: 0 }}>TOTAL RATIO:</p>
-              <p style={{ margin: 0 }}>{item.totalRatio} %</p>
-            </div>
-            {/* Cost Categories */}
-            {item.costs.categories && (
+            />
+            <div style={{ fontSize: "x-small" }}>
+              {/* Costs */}
+              <Link
+                key="costs"
+                to={item.costs.total ? detailCostsUrl(item.currency) : ""}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    ...(item.costs.total ? STYLES.costs : STYLES.flexBox),
+                  }}
+                >
+                  <p style={{ margin: 0, color: "#d68f97" }}>COSTS:</p>
+                  <p style={{ margin: 0 }}>
+                    {`${prettyMoney(item.costs.total)} ${item.currency.sign}`}
+                  </p>
+                </div>
+              </Link>
+              {/* Incomes */}
+              <Link
+                key="incomes"
+                to={item.incomes.total ? detailIncomesUrl(item.currency) : "#"}
+              >
+                <div
+                  style={{
+                    ...STYLES.flexBetween,
+                    ...(item.incomes.total ? STYLES.incomes : STYLES.flexBox),
+                  }}
+                >
+                  <p style={{ margin: 0, color: "#caf492" }}>INCOMES:</p>
+                  <p style={{ margin: 0 }}>
+                    {`${prettyMoney(item.incomes.total)} ${item.currency.sign}`}
+                  </p>
+                </div>
+              </Link>
+              {/* Exchange */}
+              <Link
+                key="exchange"
+                to={item.fromExchanges ? detailExchangeUrl() : ""}
+              >
+                <div
+                  style={{
+                    ...STYLES.flexBetween,
+                    ...(item.fromExchanges ? STYLES.exchange : STYLES.flexBox),
+                  }}
+                >
+                  <p style={{ margin: 0, color: "#9bdce8" }}>
+                    CURRENCY EXCHANGE:
+                  </p>
+                  {item.fromExchanges > 0 ? (
+                    <p style={{ margin: 0 }}>
+                      {`+ ${prettyMoney(item.fromExchanges)} ${item.currency.sign}`}
+                    </p>
+                  ) : (
+                    <p style={{ margin: 0 }}>
+                      {`${prettyMoney(item.fromExchanges)} ${item.currency.sign}`}
+                    </p>
+                  )}
+                </div>
+              </Link>
+              {/* Ratio */}
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  marginTop: TOKENS.SPACE_1,
+                  ...STYLES.flexBetween,
+                  ...STYLES.flexBox,
+                  ...(item.totalRatio < 100
+                    ? STYLES.ratioGood
+                    : STYLES.ratioBad),
                 }}
               >
-                {item.costs.categories.map((category) => (
-                  <Link
-                    key={category.id}
-                    to={detailCostsUrl(item.currency, category.id)}
-                  >
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <p style={{ margin: 0, padding: 0 }}>
-                        {category.name}
-                        <span
-                          style={{
-                            color: TOKENS.GRAY,
-                            fontSize: "x-small",
-                            marginLeft: "5px",
-                          }}
-                        >
-                          ({category.ratio}%)
-                        </span>
-                      </p>
-                      <p style={{ margin: 0 }}>
-                        {`${prettyMoney(category.total)} ${item.currency.sign}`}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
+                <p style={{ margin: 0 }}>TOTAL RATIO:</p>
+                <p style={{ margin: 0 }}>{item.totalRatio} %</p>
               </div>
-            )}
+              {/* Cost Categories */}
+              {item.costs.categories && (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginTop: TOKENS.SPACE_1,
+                  }}
+                >
+                  {item.costs.categories.map((category) => (
+                    <Link
+                      key={category.id}
+                      to={detailCostsUrl(item.currency, category.id)}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <p style={{ margin: 0, padding: 0 }}>
+                          {category.name}
+                          <span
+                            style={{
+                              color: TOKENS.GRAY,
+                              fontSize: "x-small",
+                              marginLeft: "5px",
+                            }}
+                          >
+                            ({category.ratio}%)
+                          </span>
+                        </p>
+                        <p style={{ margin: 0 }}>
+                          {`${prettyMoney(category.total)} ${item.currency.sign}`}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </React.Fragment>
       ))}

@@ -9,7 +9,7 @@ export function EquitySection() {
   const { equities } = useEquities();
   const { user } = useIdentity();
 
-  if (!equities || !user) {
+  if (!user || !equities) {
     return <NoData />;
   } else {
     return (

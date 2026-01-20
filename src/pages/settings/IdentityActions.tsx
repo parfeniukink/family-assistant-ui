@@ -1,12 +1,14 @@
-import { Button } from "src/components";
+import { Button, NoData } from "src/components";
 import { useIdentity, useMobile } from "src/context";
 
 export default function Component() {
   // Context
-  const { signOut } = useIdentity();
+  const { user, signOut } = useIdentity();
   const { isMobile } = useMobile();
 
-  return (
+  return !user ? (
+    <NoData />
+  ) : (
     // Space between items once more action buttons are added
     <div
       style={
@@ -17,9 +19,10 @@ export default function Component() {
               justifyContent: "start",
               alignItems: "center",
             }
-          : { display: "flex", justifyContent: "end" }
+          : { display: "flex", justifyContent: "space-between" }
       }
     >
+      <h2>Welcome, {user.name}</h2>
       <Button
         color="red"
         onClickCallback={signOut}

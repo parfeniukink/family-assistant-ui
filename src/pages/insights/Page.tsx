@@ -5,6 +5,8 @@ export default function Page() {
   return (
     <Container>
       <FinancesInsights />
+      <br />
+      <br />
     </Container>
   );
 }

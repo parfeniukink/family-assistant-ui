@@ -22,18 +22,24 @@ export function App() {
           duration: 5000,
           position: position,
           removeDelay: 1000,
-
           style: {
             background: TOKENS.BG_YELLOW,
             color: TOKENS.WHITE,
             zIndex: 10000,
           },
+
           success: {
+            duration: 5000,
+            position: position,
+            removeDelay: 1000,
             style: {
               background: TOKENS.BG_GREEN,
             },
           },
           error: {
+            duration: 5000,
+            position: position,
+            removeDelay: 1000,
             style: {
               background: TOKENS.BG_RED,
             },
