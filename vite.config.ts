@@ -16,5 +16,25 @@ export default defineConfig(({ mode }) => {
     preview: {
       allowedHosts: [env.VITE_ALLOWED_HOST],
     },
+    build: {
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+            'vendor-toast': ['react-hot-toast'],
+          },
+        },
+      },
+      cssCodeSplit: true,
+      chunkSizeWarningLimit: 500,
+    },
   };
 });

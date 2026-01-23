@@ -31,15 +31,25 @@ import type {
 } from "../types";
 import type { ErrorResponse } from "src/infrastructure/generic";
 
-console.log("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴");
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-console.log(BASE_URL);
+
+// In-memory cache for GET requests
+const cache = new Map<string, { data: any; timestamp: number }>();
+const CACHE_TTL = 60000; // 60 seconds
 
 export async function apiCall<T>(
   url: string,
   method: string = "GET",
   body?: Record<string, any>,
 ): Promise<T> {
+  // Check cache for GET requests
+  if (method === "GET") {
+    const cacheKey = url;
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return cached.data as T;
+    }
+  }
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -61,7 +71,6 @@ export async function apiCall<T>(
   // Handle Auth Errors
   if ([401, 403].includes(response.status)) {
     const jsonError = (await response.json()) as ErrorResult;
-    console.error(jsonError.message);
     throw new Error("Authentication Error");
   }
   // Handle Validation Errors
@@ -89,7 +98,6 @@ export async function apiCall<T>(
         }
       }
     } catch (error) {
-      console.error(error);
       toast.error("Error parsing API Response");
     } finally {
       throw new Error("Server Error");
@@ -99,6 +107,13 @@ export async function apiCall<T>(
   if (response.status === 204) return null as T;
 
   const jsonResponse = (await response.json()) as T;
+
+  // Cache GET requests
+  if (method === "GET") {
+    const cacheKey = url;
+    cache.set(cacheKey, { data: jsonResponse, timestamp: Date.now() });
+  }
+
   return jsonResponse;
 }
 

@@ -6,6 +6,46 @@ import type { Filters, TransactionsBasicAnalytics } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import { TOKENS } from "src/styles/tokens";
 
+// Style definitions moved outside component to avoid recreation on every render
+const STYLES: { [key: string]: React.CSSProperties } = {
+  flexBetween: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  costs: {
+    padding: "0.25rem 0.5rem",
+    color: "#d68f97",
+    borderRadius: TOKENS.RADIUS,
+    marginBottom: "0.2rem",
+  },
+  incomes: {
+    padding: "0.25rem 0.5rem",
+    color: "#caf492",
+    borderRadius: TOKENS.RADIUS,
+    marginBottom: "0.2rem",
+  },
+  exchange: {
+    padding: "0.25rem 0.5rem",
+    color: "#9bdce8",
+    borderRadius: TOKENS.RADIUS,
+    marginBottom: "0.2rem",
+  },
+  flexBox: {
+    padding: "0.25rem 0.5rem",
+    marginBottom: "0.2rem",
+    borderRadius: TOKENS.RADIUS,
+  },
+  ratioGood: {
+    background: TOKENS.BG_GREEN,
+    color: TOKENS.WHITE,
+  },
+  ratioBad: {
+    background: TOKENS.BG_RED,
+    color: TOKENS.WHITE,
+  },
+};
+
 export default function Component({
   title,
   analytics,
@@ -54,46 +94,6 @@ export default function Component({
     }
     return url;
   }
-
-  // Style definitions
-  const STYLES: { [key: string]: React.CSSProperties } = {
-    flexBetween: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    },
-    costs: {
-      padding: "0.25rem 0.5rem",
-      color: "#d68f97",
-      borderRadius: TOKENS.RADIUS,
-      marginBottom: "0.2rem",
-    },
-    incomes: {
-      padding: "0.25rem 0.5rem",
-      color: "#caf492",
-      borderRadius: TOKENS.RADIUS,
-      marginBottom: "0.2rem",
-    },
-    exchange: {
-      padding: "0.25rem 0.5rem",
-      color: "#9bdce8",
-      borderRadius: TOKENS.RADIUS,
-      marginBottom: "0.2rem",
-    },
-    flexBox: {
-      padding: "0.25rem 0.5rem",
-      marginBottom: "0.2rem",
-      borderRadius: TOKENS.RADIUS,
-    },
-    ratioGood: {
-      background: TOKENS.BG_GREEN,
-      color: TOKENS.WHITE,
-    },
-    ratioBad: {
-      background: TOKENS.BG_RED,
-      color: TOKENS.WHITE,
-    },
-  };
 
   return (
     <Card

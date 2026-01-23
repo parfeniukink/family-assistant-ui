@@ -5,7 +5,7 @@ import { TOKENS } from "src/styles/tokens";
 import { costShortcutApply } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { prettyMoney } from "src/domain/transactions";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export function CostShortcutsSection() {
   const { isMobile } = useMobile();
@@ -22,16 +22,7 @@ export function CostShortcutsSection() {
   //   new Date().toISOString().slice(0, 10),
   // );
 
-  const onShortcutClick = (shortcut: CostShortcut) => {
-    if (shortcut.value == null) {
-      setUserValue(null);
-      setActiveShortcut(shortcut);
-    } else {
-      handleShortcut(shortcut, shortcut.value);
-    }
-  };
-
-  const handleShortcut = async (shortcut: CostShortcut, value: number) => {
+  const handleShortcut = useCallback(async (shortcut: CostShortcut, value: number) => {
     setIsSubmitting(true);
     try {
       const res = await costShortcutApply(shortcut.id, { value });
@@ -45,7 +36,16 @@ export function CostShortcutsSection() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [refreshEquity]);
+
+  const onShortcutClick = useCallback((shortcut: CostShortcut) => {
+    if (shortcut.value == null) {
+      setUserValue(null);
+      setActiveShortcut(shortcut);
+    } else {
+      handleShortcut(shortcut, shortcut.value);
+    }
+  }, [handleShortcut]);
 
   if (!costShortcuts) {
     return <NoData />;

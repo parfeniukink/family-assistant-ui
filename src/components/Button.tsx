@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, memo } from "react";
 import { TOKENS } from "../styles/tokens";
 
 type ButtonProps = {
@@ -24,7 +24,7 @@ const DEFAULT_STYLES: React.CSSProperties = {
   boxShadow: TOKENS.SHADOW,
 };
 
-export function Button({
+export const Button = memo(function Button({
   children,
   color,
   hoverBackground,
@@ -33,6 +33,14 @@ export function Button({
 }: ButtonProps) {
   const [isHovered, setHovered] = useState(false);
   const [isActive, setActive] = useState(false);
+
+  const handleMouseEnter = useCallback(() => setHovered(true), []);
+  const handleMouseLeave = useCallback(() => {
+    setHovered(false);
+    setActive(false);
+  }, []);
+  const handleMouseDown = useCallback(() => setActive(true), []);
+  const handleMouseUp = useCallback(() => setActive(false), []);
 
   let transform = "translate(0, 0)";
 
@@ -67,17 +75,14 @@ export function Button({
   return (
     <button
       style={style}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => {
-        setHovered(false);
-        setActive(false);
-      }}
-      onMouseDown={() => setActive(true)}
-      onMouseUp={() => setActive(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
       onClick={onClickCallback}
       type="button"
     >
       {children}
     </button>
   );
-}
+});
