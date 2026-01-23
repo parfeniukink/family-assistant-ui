@@ -30,7 +30,10 @@ export const CostShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const loadShortcuts = async () => {
     const response: ResponseMulti<CostShortcut> = await costShortcutsList();
-    setCostShortcuts(response.result);
+    const sorted = response.result
+      .slice()
+      .sort((a, b) => (a.ui?.positionIndex ?? 0) - (b.ui?.positionIndex ?? 0));
+    setCostShortcuts(sorted);
   };
 
   const createShortcut = async (data: CostShortcutCreateRequestBody) => {
