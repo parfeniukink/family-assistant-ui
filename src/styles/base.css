@@ -73,9 +73,16 @@ input {
 input:focus {
   outline: none;
 }
+input::placeholder {
+  color: var(--gray);
+  opacity: 1;
+}
 
 select {
   cursor: pointer;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  min-height: 2.5rem;
 }
 select:focus {
   outline: none;

@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { equityList } from "../data/api/client";
 import type { Equity } from "../data/types";
+import { useIdentity } from "./IdentityContext";
 
 type EquityContextType = {
   equities: Equity[];
@@ -9,19 +10,21 @@ type EquityContextType = {
 
 const EquityContext = createContext<EquityContextType | undefined>(undefined);
 
-export const EquityProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function EquityProvider({ children }: { children: React.ReactNode }) {
+  const { user } = useIdentity();
   const [equities, setEquities] = useState<Equity[]>([]);
 
   const fetchEquities = async () => {
+    if (!user) return;
     const response = await equityList();
     setEquities(response.result);
   };
 
   useEffect(() => {
-    fetchEquities();
-  }, []);
+    if (user) {
+      fetchEquities();
+    }
+  }, [user]);
 
   return (
     <EquityContext.Provider
@@ -33,7 +36,7 @@ export const EquityProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </EquityContext.Provider>
   );
-};
+}
 
 export function useEquities() {
   const ctx = useContext(EquityContext);

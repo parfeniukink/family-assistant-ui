@@ -1,7 +1,6 @@
 import * as React from "react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
-import { AppContext } from "src/context";
 import { Toaster } from "react-hot-toast";
 import { TOKENS } from "./styles/tokens.ts";
 
@@ -11,11 +10,9 @@ export function App() {
 
   return (
     <>
-      <AppContext>
-        <React.Suspense fallback={<div className="page-loading">Loading…</div>}>
-          <RouterProvider router={router} />
-        </React.Suspense>
-      </AppContext>
+      <React.Suspense fallback={<div className="page-loading">Loading…</div>}>
+        <RouterProvider router={router} />
+      </React.Suspense>
 
       <Toaster
         toastOptions={{

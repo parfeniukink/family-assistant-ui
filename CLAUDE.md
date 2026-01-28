@@ -27,19 +27,36 @@ React 19 + TypeScript + Vite frontend. No backend in this repo.
 `AppContext` composes all providers in this order (outermost first):
 
 1. `MobileProvider` - viewport detection
-2. `UserProvider` - authentication, token in localStorage
+2. `UserProvider` - authentication state (user, isLoading, signIn, signOut)
 3. `EquityProvider` - equity/balance data
 4. `CurrencyProvider` - available currencies
 5. `CostCategoryProvider` - expense categories
 6. `CostShortcutsProvider` - quick-add shortcuts
 7. `TransactionsProvider` - transaction list state
 
+### Authentication
+
+JWT-based auth with access/refresh tokens:
+
+- **Access token**: Stored in memory (authService module), 15-minute expiry
+- **Refresh token**: Stored in localStorage, 7-day expiry, single-use
+- **Auto-refresh**: Tokens refresh automatically before expiry
+- **Login**: `POST /auth/login` with username/password, then `GET /identity/users` for user data
+- **Logout**: `POST /auth/logout` to revoke refresh token
+
+Key files:
+- `src/data/api/authService.ts` - Token storage and refresh logic
+- `src/context/IdentityContext.tsx` - React auth state (UserProvider)
+- `src/data/types/auth.ts` - Auth-related types
+
 ### API Layer
 
 All API calls go through `src/data/api/client.ts`:
 
 - `apiCall<T>()` handles auth headers, error toasts, and response parsing
-- Token stored in localStorage, attached via Bearer header
+- Access token retrieved from authService (in-memory), attached via Bearer header
+- On 401: automatically attempts token refresh and retries the request
+- On 429: shows rate limit toast with retry time
 - Errors (401/403/400/422/500) are handled centrally with toast notifications
 
 ### Routing

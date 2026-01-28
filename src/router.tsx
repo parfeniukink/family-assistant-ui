@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { RequireAuth } from "src/components";
+import { CoreProviders, DataProviders } from "src/context/AppContext";
 
 const Authentication = React.lazy(() => import("./pages/Authentication"));
 
@@ -38,121 +39,157 @@ export const router = createBrowserRouter([
   // ─────────────────────────────────────────────────────────
   // Public route
   // ─────────────────────────────────────────────────────────
-  { path: "/auth", element: <Authentication /> },
+  {
+    path: "/auth",
+    element: (
+      <CoreProviders>
+        <Authentication />
+      </CoreProviders>
+    ),
+  },
   // ─────────────────────────────────────────────────────────
-  // Protected routes
+  // Protected routes (with data providers for finance routes)
   // ─────────────────────────────────────────────────────────
   {
     path: "/",
     element: (
-      <RequireAuth>
-        <Navigate to="/finances" replace />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Navigate to="/finances" replace />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
-  // Costs
+  // Finance routes - require all data providers
   {
     path: "/finances",
     element: (
-      <RequireAuth>
-        <FinancesDashboard />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <FinancesDashboard />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions",
     element: (
-      <RequireAuth>
-        <Transactions />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Transactions />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/costs",
     element: (
-      <RequireAuth>
-        <CostCreate />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <CostCreate />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/costs/:costId",
     element: (
-      <RequireAuth>
-        <Cost />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Cost />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/incomes",
     element: (
-      <RequireAuth>
-        <IncomeCreate />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <IncomeCreate />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/incomes/:incomeId",
     element: (
-      <RequireAuth>
-        <Income />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Income />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/exchange",
     element: (
-      <RequireAuth>
-        <ExchangeCreate />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <ExchangeCreate />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/transactions/exchange/:exchangeId",
     element: (
-      <RequireAuth>
-        <Exchange />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Exchange />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/assets",
     element: (
-      <RequireAuth>
-        <Assets />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Assets />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/finances/cash",
     element: (
-      <RequireAuth>
-        <Cash />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Cash />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/insights",
     element: (
-      <RequireAuth>
-        <Insights />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Insights />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
+  // Settings and News - only need core providers (no data loading)
   {
     path: "/settings",
     element: (
-      <RequireAuth>
-        <Settings />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <Settings />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
   {
     path: "/news",
     element: (
-      <RequireAuth>
-        <News />
-      </RequireAuth>
+      <DataProviders>
+        <RequireAuth>
+          <News />
+        </RequireAuth>
+      </DataProviders>
     ),
   },
 ]);

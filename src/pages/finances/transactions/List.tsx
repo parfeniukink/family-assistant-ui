@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import type { OperationType, Transaction } from "src/data/types";
+import type { OperationType } from "src/data/types";
 import {
   prettyMoney,
   groupTransactionsByDate,
@@ -50,6 +50,39 @@ export default function Page() {
     return groupTransactionsByDate(transactions);
   }, [transactions]);
 
+  // Pre-compute per-currency totals for each date group (eliminates O(n²) complexity)
+  const groupedWithTotals = useMemo(() => {
+    return Object.entries(groupedTransactions).map(([date, transactions]) => {
+      // Single pass through transactions to compute totals per currency
+      const totals = new Map<
+        string,
+        { totalIncome: number; totalCost: number }
+      >();
+
+      transactions.forEach((tx) => {
+        if (!totals.has(tx.currency)) {
+          totals.set(tx.currency, { totalIncome: 0, totalCost: 0 });
+        }
+        const currencyTotals = totals.get(tx.currency)!;
+        if (tx.operation === "income") {
+          currencyTotals.totalIncome += tx.value;
+        } else if (tx.operation === "cost") {
+          currencyTotals.totalCost += tx.value;
+        }
+      });
+
+      const incomeAndCostByCurrency = Array.from(totals.entries()).map(
+        ([currency, { totalIncome, totalCost }]) => ({
+          currency,
+          totalIncome,
+          totalCost,
+        }),
+      );
+
+      return { date, transactions, incomeAndCostByCurrency };
+    });
+  }, [groupedTransactions]);
+
   // returns the DETAIL URL, based on the TRANSACTION
 
   return (
@@ -62,32 +95,11 @@ export default function Page() {
           flexWrap: "wrap",
           alignItems: "flex-start",
           justifyContent: "space-between",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
-        {(Object.entries(groupedTransactions) as [string, Transaction[]][]).map(
-          ([date, transactions]) => {
-            // Step 1: Get unique currencies for this group
-            const currencies = Array.from(
-              new Set(transactions.map((tx) => tx.currency)),
-            );
-
-            // Step 2: Prepare per-currency totals (for each currency, sum income and cost)
-            const incomeAndCostByCurrency = currencies.map((currency) => {
-              const currencyTxs = transactions.filter(
-                (tx) => tx.currency === currency,
-              );
-              const totalIncome = currencyTxs
-                .filter((tx) => tx.operation === "income")
-                .reduce((sum, tx) => sum + tx.value, 0);
-
-              const totalCost = currencyTxs
-                .filter((tx) => tx.operation === "cost")
-                .reduce((sum, tx) => sum + tx.value, 0);
-
-              return { currency, totalIncome, totalCost };
-            });
-
+        {groupedWithTotals.map(
+          ({ date, transactions, incomeAndCostByCurrency }) => {
             return (
               <Card
                 style={
@@ -150,7 +162,7 @@ export default function Page() {
 
                   <div
                     style={{
-                      fontSize: "x-small",
+                      fontSize: "small",
                       display: "flex",
                       flexDirection: "column",
                       gap: isMobile ? "7px" : "",

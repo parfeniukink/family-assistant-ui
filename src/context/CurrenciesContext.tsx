@@ -10,9 +10,7 @@ const CurrencyContext = createContext<CurrencyContextState | undefined>(
   undefined,
 );
 
-export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const { equities } = useEquities();
 
   // Derive currencies from equities
@@ -29,7 +27,7 @@ export const CurrencyProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </CurrencyContext.Provider>
   );
-};
+}
 
 export function useCurrencies() {
   const ctx = useContext(CurrencyContext);

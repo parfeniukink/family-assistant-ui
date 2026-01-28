@@ -10,6 +10,7 @@ import type {
   CostShortcutCreateRequestBody,
 } from "../data/types";
 import type { ResponseMulti } from "src/infrastructure/generic";
+import { useIdentity } from "./IdentityContext";
 
 type CostShortcutsContextType = {
   costShortcuts: CostShortcut[];
@@ -23,12 +24,16 @@ const CostShortcutsContext = createContext<
   CostShortcutsContextType | undefined
 >(undefined);
 
-export const CostShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({
+export function CostShortcutsProvider({
   children,
-}) => {
+}: {
+  children: React.ReactNode;
+}) {
+  const { user } = useIdentity();
   const [costShortcuts, setCostShortcuts] = useState<CostShortcut[]>([]);
 
   const loadShortcuts = async () => {
+    if (!user) return;
     const response: ResponseMulti<CostShortcut> = await costShortcutsList();
     const sorted = response.result
       .slice()
@@ -38,17 +43,27 @@ export const CostShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const createShortcut = async (data: CostShortcutCreateRequestBody) => {
     try {
-      await costShortcutCreate(data);
+      const response = await costShortcutCreate(data);
+      // Optimistic update: add new shortcut to local state instead of refetching
+      setCostShortcuts((prev) => [...prev, response.result]);
+    } catch (error) {
+      // On error, reload to ensure consistency
       await loadShortcuts();
-    } finally {
+      throw error;
     }
   };
 
   const removeShortcut = async (shortcutId: number) => {
+    // Optimistic update: remove from local state immediately
+    const previousShortcuts = costShortcuts;
+    setCostShortcuts((prev) => prev.filter((s) => s.id !== shortcutId));
+
     try {
       await costShortcutDelete(shortcutId);
-    } finally {
-      await loadShortcuts();
+    } catch (error) {
+      // On error, rollback to previous state
+      setCostShortcuts(previousShortcuts);
+      throw error;
     }
   };
 
@@ -62,8 +77,10 @@ export const CostShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    loadShortcuts();
-  }, []);
+    if (user) {
+      loadShortcuts();
+    }
+  }, [user]);
 
   return (
     <CostShortcutsContext.Provider
@@ -78,7 +95,7 @@ export const CostShortcutsProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </CostShortcutsContext.Provider>
   );
-};
+}
 
 export function useCostShortcuts() {
   const ctx = useContext(CostShortcutsContext);

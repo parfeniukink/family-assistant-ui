@@ -15,6 +15,7 @@ export function Dropdown({ children, value, onChangeCallback }: DropdownProps) {
         fontFamily: "inherit",
         color: TOKENS.WHITE,
         border: TOKENS.BORDER,
+        borderRadius: TOKENS.RADIUS,
         background: "none",
         fontSize: "16px",
       }}

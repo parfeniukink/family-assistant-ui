@@ -4,13 +4,21 @@ import { Card, Container } from "src/components";
 
 export default function Page() {
   return (
-    <Container>
-      <Card>
-        <IdentityActions />
-      </Card>
-      <Card>
-        <FinancesSection />
-      </Card>
-    </Container>
+    <>
+      <Container>
+        <Card>
+          <IdentityActions />
+        </Card>
+        <Card>
+          <FinancesSection />
+        </Card>
+      </Container>
+      <div>
+        <br />
+        <br />
+        <br />
+        <br />
+      </div>
+    </>
   );
 }

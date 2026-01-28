@@ -345,6 +345,7 @@ export default function ShortcutsReorderSection() {
                 borderRadius: TOKENS.RADIUS,
                 opacity: draggedIndex === idx ? 0.3 : 1,
                 background: TOKENS.BG_LIGHTER,
+                textAlign: "left",
                 transition: "box-shadow 0.1s, background 0.1s, opacity 0.15s",
                 cursor: saving ? "not-allowed" : "move",
               }}
@@ -355,40 +356,28 @@ export default function ShortcutsReorderSection() {
                   justifyContent: "space-between",
                   gap: TOKENS.SPACE_2,
                   fontSize: "small",
-                  margin: 0,
                 }}
               >
-                <div
-                  style={{
-                    minWidth: "150px",
-                  }}
-                >
+                <div>
                   <p style={{ margin: 0 }}>
                     {sc.name} {sc.value ?? "__"} {sc.currency.sign}
                   </p>
                   <p style={{ margin: 0 }}>{sc.category.name}</p>
                 </div>
-                <div
-                  style={{
+                <Button
+                  color={TOKENS.BG_RED}
+                  hoverBackground={TOKENS.BG_RED}
+                  onClickCallback={() => {
+                    handleRemoveShortcut(sc.id);
+                  }}
+                  overrideStyles={{
                     width: "25px",
-                    height: "100%",
+                    boxShadow: "none",
+                    border: `2px solid ${TOKENS.BLACK}`,
                   }}
                 >
-                  <Button
-                    color={TOKENS.BG_RED}
-                    hoverBackground={TOKENS.BG_RED}
-                    onClickCallback={() => {
-                      handleRemoveShortcut(sc.id);
-                    }}
-                    overrideStyles={{
-                      width: "25px",
-                      boxShadow: "none",
-                      border: `2px solid ${TOKENS.BLACK}`,
-                    }}
-                  >
-                    x
-                  </Button>
-                </div>
+                  x
+                </Button>
               </div>
             </li>
           ))}

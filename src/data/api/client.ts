@@ -4,6 +4,7 @@ import type {
   PaginatedResponse,
   ResponseMulti,
   ErrorResult,
+  ErrorResponse,
 } from "src/infrastructure/generic";
 import type {
   CostCategory,
@@ -26,44 +27,135 @@ import type {
   AnalyticsFiltersQueryParams,
   ConfigurationPartialUpdateRequestBody,
   User,
-  Identity,
-  UserAuthRequestBody,
+  TokensRequestBody,
+  TokensResponse,
 } from "../types";
-import type { ErrorResponse } from "src/infrastructure/generic";
+import {
+  getAccessToken,
+  performTokenRefresh,
+  clearTokens,
+} from "./authService";
 
-console.log("🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴");
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-console.log(BASE_URL);
+
+// In-memory cache for GET requests
+const cache = new Map<string, { data: unknown; timestamp: number }>();
+const CACHE_TTL = 60000; // 60 seconds
+
+// Flag to prevent redirect loops
+let isRedirecting = false;
+
+function redirectToLogin(): void {
+  if (isRedirecting) return;
+  isRedirecting = true;
+
+  // Clear cache and tokens on auth failure
+  cache.clear();
+  clearTokens();
+
+  // Use window.location for hard redirect to ensure clean state
+  window.location.href = "/auth";
+}
 
 export async function apiCall<T>(
   url: string,
   method: string = "GET",
-  body?: Record<string, any>,
+  body?: Record<string, unknown>,
+  skipAuth: boolean = false,
 ): Promise<T> {
+  // Check cache for GET requests
+  if (method === "GET") {
+    const cacheKey = url;
+    const cached = cache.get(cacheKey);
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+      return cached.data as T;
+    }
+  }
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
 
-  // Take token from localStorage for all requests
-  const token = localStorage.getItem("token");
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
+  // Get token from authService (in-memory)
+  if (!skipAuth) {
+    const token = getAccessToken();
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
   }
 
   const fullUrl = `${BASE_URL}${url}`;
 
   const response = await fetch(fullUrl, {
     method,
-    headers: headers,
+    headers,
     body: body ? JSON.stringify(body) : undefined,
   });
 
-  // Handle Auth Errors
-  if ([401, 403].includes(response.status)) {
-    const jsonError = (await response.json()) as ErrorResult;
-    console.error(jsonError.message);
-    throw new Error("Authentication Error");
+  // Handle 401
+  if (response.status === 401) {
+    // For auth endpoints (skipAuth=true), just throw without refresh attempt
+    if (skipAuth) {
+      const jsonError = (await response.json()) as ErrorResult;
+      toast.error(jsonError.message || "Invalid credentials");
+      throw new Error("Authentication Error");
+    }
+
+    // For other endpoints, try refresh and retry
+    const refreshed = await performTokenRefresh();
+
+    if (refreshed) {
+      // Retry the original request with new token
+      const newToken = getAccessToken();
+      if (newToken) {
+        headers["Authorization"] = `Bearer ${newToken}`;
+      }
+
+      const retryResponse = await fetch(fullUrl, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : undefined,
+      });
+
+      if (retryResponse.ok || retryResponse.status === 204) {
+        if (retryResponse.status === 204) return null as T;
+        const jsonResponse = (await retryResponse.json()) as T;
+        if (method === "GET") {
+          cache.set(url, { data: jsonResponse, timestamp: Date.now() });
+        }
+        return jsonResponse;
+      }
+
+      // If retry also fails with 401, redirect to login
+      if (retryResponse.status === 401) {
+        redirectToLogin();
+        throw new Error("Authentication Error");
+      }
+
+      // Handle other errors from retry
+      return handleErrorResponse<T>(retryResponse);
+    } else {
+      // Refresh failed - redirect to login
+      redirectToLogin();
+      throw new Error("Authentication Error");
+    }
   }
+
+  // Handle 403 - no retry, forbidden
+  if (response.status === 403) {
+    const jsonError = (await response.json()) as ErrorResult;
+    toast.error(jsonError.message || "Access forbidden");
+    throw new Error("Authorization Error");
+  }
+
+  // Handle 429 Rate Limit
+  if (response.status === 429) {
+    const retryAfter = response.headers.get("Retry-After");
+    const waitSeconds = retryAfter ? parseInt(retryAfter, 10) : 60;
+    toast.error(`Too many requests. Please wait ${waitSeconds} seconds.`);
+    throw new Error("Rate Limited");
+  }
+
   // Handle Validation Errors
   if ([400, 422].includes(response.status)) {
     const jsonError = (await response.json()) as ErrorResponse;
@@ -74,7 +166,7 @@ export async function apiCall<T>(
   }
 
   // Handle Server Errors
-  if ([500].includes(response.status)) {
+  if (response.status === 500) {
     try {
       const rawResponse = await response.json();
 
@@ -88,31 +180,88 @@ export async function apiCall<T>(
           toast.error(error.message);
         }
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
       toast.error("Error parsing API Response");
-    } finally {
-      throw new Error("Server Error");
     }
+    throw new Error("Server Error");
   }
+
   // Success Cases
   if (response.status === 204) return null as T;
 
   const jsonResponse = (await response.json()) as T;
+
+  // Cache GET requests
+  if (method === "GET") {
+    cache.set(url, { data: jsonResponse, timestamp: Date.now() });
+  }
+
   return jsonResponse;
+}
+
+async function handleErrorResponse<T>(
+  response: globalThis.Response,
+): Promise<T> {
+  if (response.status === 403) {
+    const jsonError = (await response.json()) as ErrorResult;
+    toast.error(jsonError.message || "Access forbidden");
+    throw new Error("Authorization Error");
+  }
+
+  if (response.status === 429) {
+    const retryAfter = response.headers.get("Retry-After");
+    const waitSeconds = retryAfter ? parseInt(retryAfter, 10) : 60;
+    toast.error(`Too many requests. Please wait ${waitSeconds} seconds.`);
+    throw new Error("Rate Limited");
+  }
+
+  if ([400, 422].includes(response.status)) {
+    const jsonError = (await response.json()) as ErrorResponse;
+    for (const error of jsonError.result) {
+      toast.error(error.message);
+    }
+    throw new Error("Client Error");
+  }
+
+  if (response.status === 500) {
+    try {
+      const rawResponse = await response.json();
+      if (rawResponse["message"]) {
+        toast.error((rawResponse as ErrorResult).message);
+      }
+      if (rawResponse["result"]) {
+        for (const error of (rawResponse as ErrorResponse).result) {
+          toast.error(error.message);
+        }
+      }
+    } catch {
+      toast.error("Error parsing API Response");
+    }
+    throw new Error("Server Error");
+  }
+
+  throw new Error("Unknown Error");
+}
+
+// ─────────────────────────────────────────────────────────
+// AUTH
+// ─────────────────────────────────────────────────────────
+export async function getTokens(
+  requestBody: TokensRequestBody,
+): Promise<Response<TokensResponse>> {
+  return await apiCall<Response<TokensResponse>>(
+    "/identity/tokens",
+    "POST",
+    requestBody,
+    true, // skipAuth - login doesn't need auth header
+  );
 }
 
 // ─────────────────────────────────────────────────────────
 // IDENTITY
 // ─────────────────────────────────────────────────────────
-export async function auth(
-  requestBody: UserAuthRequestBody,
-): Promise<Response<Identity>> {
-  return await apiCall<Response<Identity>>(
-    "/identity/auth",
-    "POST",
-    requestBody,
-  );
+export async function fetchCurrentUser(): Promise<Response<User>> {
+  return await apiCall<Response<User>>("/identity/users");
 }
 
 // ─────────────────────────────────────────────────────────
@@ -229,10 +378,11 @@ export async function costShortcutsList(): Promise<
 export async function updateCostShortcutsOrder(
   reorderedItems: CostShortcut[],
 ): Promise<void> {
-  const requestBody = reorderedItems.map((item) => ({
+  const requestBody: Record<string, any> = reorderedItems.map((item) => ({
     id: item.id,
     uiPositionIndex: item.ui.positionIndex,
   }));
+
   await apiCall<void>(
     `/transactions/costs/shortcuts/positions`,
     "PUT",

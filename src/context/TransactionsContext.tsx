@@ -27,9 +27,11 @@ function retrieveUrlFromTransaction(transaction: Transaction): string {
   }
 }
 
-export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
+export function TransactionsProvider({
   children,
-}) => {
+}: {
+  children: React.ReactNode;
+}) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [contextValue, setContextValue] = useState<number>(0);
   const [transactionsLeft, setTransactionsLeft] = useState<number>(0);
@@ -72,7 +74,7 @@ export const TransactionsProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </TransactionsContext.Provider>
   );
-};
+}
 
 export function useTransactions() {
   const ctx = useContext(TransactionsContext);

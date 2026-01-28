@@ -138,7 +138,7 @@ export default function Component() {
   async function handleCurrencySelection(
     e: React.ChangeEvent<HTMLSelectElement>,
   ) {
-    const currencyId = Number(e.target.value);
+    const currencyId = e.target.value ? Number(e.target.value) : null;
     setSelectedCurrencyId(currencyId);
     await updateConfig({ defaultCurrencyId: currencyId });
   }
@@ -173,9 +173,7 @@ export default function Component() {
             value={String(selectedCurrencyId) ?? ""}
             onChangeCallback={handleCurrencySelection}
           >
-            <option value="" disabled>
-              Select Currency
-            </option>
+            <option value={undefined}>Not Specified</option>
             {currencies.map((item) => (
               <option value={item.id} key={item.id}>
                 {item.sign} {item.name}
@@ -190,9 +188,7 @@ export default function Component() {
             value={String(selectedCostCategoryId) ?? ""}
             onChangeCallback={handleCostCategorySelection}
           >
-            <option value="" disabled>
-              Select Category
-            </option>
+            <option value={undefined}>Not Specified</option>
             {categories.map((item) => (
               <option value={item.id} key={item.id}>
                 {item.name}

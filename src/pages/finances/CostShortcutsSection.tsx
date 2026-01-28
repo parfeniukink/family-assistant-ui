@@ -5,7 +5,7 @@ import { TOKENS } from "src/styles/tokens";
 import { costShortcutApply } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { prettyMoney } from "src/domain/transactions";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export function CostShortcutsSection() {
   const { isMobile } = useMobile();
@@ -22,30 +22,36 @@ export function CostShortcutsSection() {
   //   new Date().toISOString().slice(0, 10),
   // );
 
-  const onShortcutClick = (shortcut: CostShortcut) => {
-    if (shortcut.value == null) {
-      setUserValue(null);
-      setActiveShortcut(shortcut);
-    } else {
-      handleShortcut(shortcut, shortcut.value);
-    }
-  };
+  const handleShortcut = useCallback(
+    async (shortcut: CostShortcut, value: number) => {
+      setIsSubmitting(true);
+      try {
+        const res = await costShortcutApply(shortcut.id, { value });
+        toast.success(
+          `Saved ${res.result.name} ${prettyMoney(res.result.value)}${res.result.currency.sign}`,
+        );
+        setActiveShortcut(null);
+        setUserValue(null);
+        refreshEquity();
+      } catch (error) {
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [refreshEquity],
+  );
 
-  const handleShortcut = async (shortcut: CostShortcut, value: number) => {
-    setIsSubmitting(true);
-    try {
-      const res = await costShortcutApply(shortcut.id, { value });
-      toast.success(
-        `Saved ${res.result.name} ${prettyMoney(res.result.value)}${res.result.currency.sign}`,
-      );
-      setActiveShortcut(null);
-      setUserValue(null);
-      refreshEquity();
-    } catch (error) {
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const onShortcutClick = useCallback(
+    (shortcut: CostShortcut) => {
+      if (shortcut.value == null) {
+        setUserValue(null);
+        setActiveShortcut(shortcut);
+      } else {
+        handleShortcut(shortcut, shortcut.value);
+      }
+    },
+    [handleShortcut],
+  );
 
   if (!costShortcuts) {
     return <NoData />;
@@ -119,12 +125,13 @@ export function CostShortcutsSection() {
                 display: "flex",
                 flexDirection: "column",
                 background: TOKENS.BG_LIGHTER,
-                padding: TOKENS.SPACE_5,
                 border: TOKENS.BORDER,
+                padding: isMobile
+                  ? TOKENS.SPACE_2
+                  : `${TOKENS.SPACE_3} ${TOKENS.SPACE_5}`,
                 borderRadius: TOKENS.RADIUS,
-                minWidth: "700px",
                 boxShadow: TOKENS.SHADOW,
-                gap: TOKENS.SPACE_3,
+                gap: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_3,
               }}
             >
               <div style={{ textAlign: "center" }}>
@@ -165,7 +172,7 @@ export function CostShortcutsSection() {
                   }
                 }}
                 overrideStyles={{
-                  minHeight: "175px",
+                  minHeight: isMobile ? "100px" : "175px",
                   fontSize: "x-large",
                 }}
               >
@@ -173,6 +180,12 @@ export function CostShortcutsSection() {
               </Button>
             </div>
           </div>
+        )}
+        {isMobile && (
+          <>
+            <br />
+            <br />
+          </>
         )}
       </>
     );
