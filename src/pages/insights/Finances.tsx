@@ -3,7 +3,7 @@ import {
   fetchBasicAnalyticsByPeriod,
   fetchBasicAnalyticsFiltered,
 } from "src/data/api/client";
-import type { TransactionsBasicAnalytics } from "src/data/types/analytics";
+import type { TransactionsBasicAnalyticsResponse } from "src/data/types/analytics";
 import { Button } from "src/components";
 import TransactionsBaseAnalyticsSection from "./TransactionsBaseAnalyticsSection";
 import { TOKENS } from "src/styles/tokens";
@@ -96,15 +96,13 @@ export default function Component() {
   const { isMobile } = useMobile();
 
   // State
-  const [currentMonthAnalytics, setCurrentMonthAnalytics] = useState<
-    TransactionsBasicAnalytics[]
-  >([]);
-  const [previousMonthAnalytics, setPreviousMonthAnalytics] = useState<
-    TransactionsBasicAnalytics[]
-  >([]);
-  // title, [transactions, Filters]
+  const [currentMonthAnalytics, setCurrentMonthAnalytics] =
+    useState<TransactionsBasicAnalyticsResponse | null>(null);
+  const [previousMonthAnalytics, setPreviousMonthAnalytics] =
+    useState<TransactionsBasicAnalyticsResponse | null>(null);
+  // title, [response, Filters]
   const [customRangeAnalytics, setCustomRangeAnalytics] = useState<
-    Record<string, [TransactionsBasicAnalytics[], Filters]>
+    Record<string, [TransactionsBasicAnalyticsResponse, Filters]>
   >({});
   const [filters, setFilters] = useState<Filters>({
     endDate: new Date().toISOString().slice(0, 10),
@@ -119,7 +117,7 @@ export default function Component() {
         if (currentMonth) setCurrentMonthAnalytics(currentMonth);
         if (previousMonth) setPreviousMonthAnalytics(previousMonth);
 
-        if (!previousMonth && !currentMonth)
+        if (!previousMonth?.result && !currentMonth?.result)
           throw new Error("no basic analytics");
       })
       .catch((error) => {
@@ -160,32 +158,35 @@ export default function Component() {
       }}
     >
       {/* Current month */}
-      <TransactionsBaseAnalyticsSection
-        title="📅 CURRENT MONTH"
-        analytics={currentMonthAnalytics}
-        filters={{ period: "current-month" }}
-      />
+      {currentMonthAnalytics && (
+        <TransactionsBaseAnalyticsSection
+          title="📅 CURRENT MONTH"
+          analytics={currentMonthAnalytics.result}
+          totalRatio={currentMonthAnalytics.totalRatio}
+          filters={{ period: "current-month" }}
+        />
+      )}
       {/* Previous Month */}
-      <TransactionsBaseAnalyticsSection
-        title="📅 PREVIOUS MONTH"
-        analytics={previousMonthAnalytics}
-        filters={{ period: "previous-month" }}
-      />
+      {previousMonthAnalytics && (
+        <TransactionsBaseAnalyticsSection
+          title="📅 PREVIOUS MONTH"
+          analytics={previousMonthAnalytics.result}
+          totalRatio={previousMonthAnalytics.totalRatio}
+          filters={{ period: "previous-month" }}
+        />
+      )}
 
       {/* Custom Analytics */}
       {Object.entries(customRangeAnalytics).map(
-        ([timestamp, analyticsAndFilters]) => {
-          const [analytics, filters] = analyticsAndFilters;
-
-          return (
-            <TransactionsBaseAnalyticsSection
-              key={timestamp}
-              title={`📅 ${timestamp}`}
-              analytics={analytics}
-              filters={filters}
-            />
-          );
-        },
+        ([timestamp, [response, filters]]) => (
+          <TransactionsBaseAnalyticsSection
+            key={timestamp}
+            title={`📅 ${timestamp}`}
+            analytics={response.result}
+            totalRatio={response.totalRatio}
+            filters={filters}
+          />
+        ),
       )}
 
       <AnalyticsFilters

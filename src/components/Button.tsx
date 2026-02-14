@@ -77,8 +77,8 @@ export const Button = memo(function Button({
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
+      onMouseDown={handleMouseDown}
       onClick={onClickCallback}
       type="button"
     >

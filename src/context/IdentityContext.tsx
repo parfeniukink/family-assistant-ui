@@ -124,6 +124,9 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
 
   async function signIn(username: string, password: string): Promise<boolean> {
     try {
+      // Clear any outdated data from previous sessions
+      localStorage.clear();
+
       // Step 1: Login to get tokens
       const loginResponse = await apiLogin({ username, password });
       const { accessToken, refreshToken } = loginResponse.result;

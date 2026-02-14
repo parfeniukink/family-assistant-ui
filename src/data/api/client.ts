@@ -23,7 +23,7 @@ import type {
   IncomePartialUpdateRequestBody,
   OperationType,
   AnalyticsPeriod,
-  TransactionsBasicAnalytics,
+  TransactionsBasicAnalyticsResponse,
   AnalyticsFiltersQueryParams,
   ConfigurationPartialUpdateRequestBody,
   User,
@@ -482,17 +482,16 @@ export async function equityList(): Promise<ResponseMulti<Equity>> {
 
 export async function fetchBasicAnalyticsByPeriod(
   period: AnalyticsPeriod,
-): Promise<TransactionsBasicAnalytics[]> {
-  const response = await apiCall<ResponseMulti<TransactionsBasicAnalytics>>(
+): Promise<TransactionsBasicAnalyticsResponse> {
+  return await apiCall<TransactionsBasicAnalyticsResponse>(
     `/analytics/transactions/basic?period=${period}`,
     "GET",
   );
-  return response.result;
 }
 
 export async function fetchBasicAnalyticsFiltered(
   filters: AnalyticsFiltersQueryParams,
-): Promise<TransactionsBasicAnalytics[]> {
+): Promise<TransactionsBasicAnalyticsResponse> {
   let url = `/analytics/transactions/basic`;
   if (filters.startDate && filters.endDate) {
     url = `${url}?startDate=${filters.startDate}&endDate=${filters.endDate}`;
@@ -501,11 +500,7 @@ export async function fetchBasicAnalyticsFiltered(
   if (filters.pattern) {
     url = `${url}&pattern=${filters.pattern}`;
   }
-  const response = await apiCall<ResponseMulti<TransactionsBasicAnalytics>>(
-    url,
-    "GET",
-  );
-  return response.result;
+  return await apiCall<TransactionsBasicAnalyticsResponse>(url, "GET");
 }
 
 export async function configurationUpdate(

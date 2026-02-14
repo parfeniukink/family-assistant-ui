@@ -32,7 +32,12 @@ export type TransactionsBasicAnalytics = {
   costs: CostsBasicAnalytics;
   incomes: IncomesBasicAnalytics;
   fromExchanges: number; // how much came from currency exchange
-  totalRatio: number; // all costs / all incomes
+};
+
+// Response wrapper with unified totalRatio (cross-currency, USD-converted)
+export type TransactionsBasicAnalyticsResponse = {
+  result: TransactionsBasicAnalytics[];
+  totalRatio: number; // unified ratio across all currencies (converted to USD)
 };
 
 export type AnalyticsFiltersQueryParams = {

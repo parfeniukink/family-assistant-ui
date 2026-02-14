@@ -46,8 +46,10 @@ export function CostCategoryProvider({
   };
 
   useEffect(() => {
-    if (user && categories.length === 0) {
+    if (user) {
       fetchCategories();
+    } else {
+      setCategories([]);
     }
   }, [user]);
 

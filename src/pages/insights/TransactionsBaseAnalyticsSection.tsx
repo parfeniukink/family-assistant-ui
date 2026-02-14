@@ -49,10 +49,12 @@ const STYLES: { [key: string]: React.CSSProperties } = {
 export default function Component({
   title,
   analytics,
+  totalRatio,
   filters,
 }: {
   title: string;
   analytics: TransactionsBasicAnalytics[];
+  totalRatio: number;
   filters?: Filters;
 }) {
   // State
@@ -114,6 +116,19 @@ export default function Component({
       }
     >
       <h3 style={{ margin: 0, fontSize: "large" }}>{title}</h3>
+      {/* Unified Total Ratio (cross-currency) */}
+      <div
+        style={{
+          ...STYLES.flexBetween,
+          ...STYLES.flexBox,
+          ...(totalRatio < 100 ? STYLES.ratioGood : STYLES.ratioBad),
+          marginTop: TOKENS.SPACE_1,
+          marginBottom: TOKENS.SPACE_1,
+        }}
+      >
+        <p style={{ margin: 0 }}>TOTAL RATIO:</p>
+        <p style={{ margin: 0 }}>{totalRatio} %</p>
+      </div>
       {analytics.map((item) => (
         <React.Fragment key={item.currency.id}>
           <div
@@ -192,19 +207,6 @@ export default function Component({
                   )}
                 </div>
               </Link>
-              {/* Ratio */}
-              <div
-                style={{
-                  ...STYLES.flexBetween,
-                  ...STYLES.flexBox,
-                  ...(item.totalRatio < 100
-                    ? STYLES.ratioGood
-                    : STYLES.ratioBad),
-                }}
-              >
-                <p style={{ margin: 0 }}>TOTAL RATIO:</p>
-                <p style={{ margin: 0 }}>{item.totalRatio} %</p>
-              </div>
               {/* Cost Categories */}
               {item.costs.categories && (
                 <div

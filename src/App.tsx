@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import { TOKENS } from "./styles/tokens.ts";
 
 export function App() {
-  const isMobile = window.innerWidth < 400;
+  const isMobile = window.innerWidth < 600;
   const position = isMobile ? "top-center" : "bottom-right";
 
   return (
