@@ -68,6 +68,7 @@ export type CostShortcut = {
 
 export type CostShortcutApplyRequestBody = {
   value: number | null;
+  date_override?: string | null;
 };
 
 // INCOME-related

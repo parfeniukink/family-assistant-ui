@@ -16,17 +16,20 @@ export function CostShortcutsSection() {
     null,
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // TODO: 'Date Override' Feature
-  // const [activeDate, setActiveDate] = useState(
-  //   new Date().toISOString().slice(0, 10),
-  // );
+  const [activeDate, setActiveDate] = useState(
+    new Date().toISOString().slice(0, 10),
+  );
 
   const handleShortcut = useCallback(
     async (shortcut: CostShortcut, value: number) => {
       setIsSubmitting(true);
+      const today = new Date().toISOString().slice(0, 10);
+      const dateOverride = activeDate !== today ? activeDate : null;
       try {
-        const res = await costShortcutApply(shortcut.id, { value });
+        const res = await costShortcutApply(shortcut.id, {
+          value,
+          date_override: dateOverride,
+        });
         toast.success(
           `Saved ${res.result.name} ${prettyMoney(res.result.value)}${res.result.currency.sign}`,
         );
@@ -38,7 +41,7 @@ export function CostShortcutsSection() {
         setIsSubmitting(false);
       }
     },
-    [refreshEquity],
+    [refreshEquity, activeDate],
   );
 
   const onShortcutClick = useCallback(
@@ -59,15 +62,7 @@ export function CostShortcutsSection() {
     return (
       <>
         <Card>
-          {/* 🚧 Feature is not ready yet */}
-          <div style={{ opacity: "0.3" }}>
-            <Datepicker
-              setDateCallback={() => {
-                toast("'Date Override' feature is not ready yet");
-              }}
-              disabled={true}
-            />
-          </div>
+          <Datepicker date={activeDate} setDateCallback={setActiveDate} />
           <br />
 
           <div
