@@ -157,7 +157,10 @@ export function CostShortcutsSection() {
                 color="darkslategrey"
                 hoverBackground="indianred"
                 onClickCallback={() => {
-                  if (userValue != null && Number(userValue)) {
+                  if (
+                    userValue != null &&
+                    Number(userValue.replace(",", "."))
+                  ) {
                     handleShortcut(
                       activeShortcut,
                       Number(userValue.replace(",", ".")),
