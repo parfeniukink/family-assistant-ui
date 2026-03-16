@@ -9,6 +9,10 @@ export type Configuration = {
   incomeSnippets: string[];
   notifyCostThreshold: number | null;
   monobankIntegration: boolean;
+  newsFilterPrompt: string | null;
+  newsPreferenceProfile: string | null;
+  gcRetentionDays: number;
+  analyzePreferences: boolean;
 };
 
 export type ConfigurationPartialUpdateRequestBody = {
@@ -19,6 +23,10 @@ export type ConfigurationPartialUpdateRequestBody = {
   incomeSnippets?: string[];
   notifyCostThreshold?: number | null;
   monobankApiKey?: string | null;
+  newsFilterPrompt?: string | null;
+  newsPreferenceProfile?: string | null;
+  gcRetentionDays?: number;
+  analyzePreferences?: boolean;
 };
 
 export type User = {
