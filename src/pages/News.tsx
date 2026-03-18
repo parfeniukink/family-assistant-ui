@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container, Card, NoData, RequireAuth } from "src/components";
 import { useMobile } from "src/context";
+import { renderMarkdown } from "src/utils/renderMarkdown";
 import { TOKENS } from "src/styles/tokens";
+import toast from "react-hot-toast";
 import {
   newsGroupsList,
   newsItemGet,
@@ -10,6 +12,7 @@ import {
   newsItemReact,
   newsItemExtend,
   newsItemFeedback,
+  addManualArticle,
 } from "src/data/api/client";
 import type {
   NewsGroup,
@@ -191,14 +194,14 @@ function PreviewModal({
           background: TOKENS.BG_LIGHTER,
           border: TOKENS.BORDER,
           borderRadius: TOKENS.RADIUS,
-          padding: isMobile ? "0.75rem" : "1.5rem",
-          maxWidth: isMobile ? "600px" : "900px",
+          padding: isMobile ? "0.75rem" : "2rem",
+          maxWidth: isMobile ? "600px" : "1100px",
           width: "100%",
-          maxHeight: isMobile ? "90vh" : "80vh",
+          maxHeight: isMobile ? "90vh" : "85vh",
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: "1rem",
+          gap: "1.25rem",
           textAlign: "left",
         }}
       >
@@ -258,7 +261,7 @@ function PreviewModal({
 
         {/* Description */}
         {!detail ? (
-          <span style={{ color: TOKENS.GRAY, fontSize: "0.85rem" }}>
+          <span style={{ color: TOKENS.GRAY, fontSize: "0.95rem" }}>
             Loading...
           </span>
         ) : (
@@ -267,14 +270,14 @@ function PreviewModal({
               margin: 0,
               paddingLeft: "1.2rem",
               color: TOKENS.GRAY,
-              fontSize: "0.9rem",
-              lineHeight: 1.7,
+              fontSize: "1rem",
+              lineHeight: 1.8,
               listStyleType: "disc",
             }}
           >
             {bullets.map((b, i) => (
               <li key={i} style={{ marginBottom: "0.3rem" }}>
-                {b}
+                {renderMarkdown(b)}
               </li>
             ))}
           </ul>
@@ -286,18 +289,18 @@ function PreviewModal({
             style={{
               background: TOKENS.BG,
               borderRadius: TOKENS.RADIUS,
-              padding: "0.75rem",
-              fontSize: "0.85rem",
+              padding: "1rem",
+              fontSize: "0.95rem",
               color: TOKENS.GRAY,
-              lineHeight: 1.6,
+              lineHeight: 1.7,
             }}
           >
-            <strong style={{ color: TOKENS.WHITE, fontSize: "0.75rem" }}>
+            <strong style={{ color: TOKENS.WHITE, fontSize: "0.85rem" }}>
               Deep dive
             </strong>
             <ul style={{ margin: "0.35rem 0 0", paddingLeft: "1.2rem" }}>
               {toBullets(detail.detailedDescription).map((b, i) => (
-                <li key={i}>{b}</li>
+                <li key={i}>{renderMarkdown(b)}</li>
               ))}
             </ul>
           </div>
@@ -307,18 +310,18 @@ function PreviewModal({
             style={{
               background: TOKENS.BG,
               borderRadius: TOKENS.RADIUS,
-              padding: "0.75rem",
-              fontSize: "0.85rem",
+              padding: "1rem",
+              fontSize: "0.95rem",
               color: TOKENS.GRAY,
-              lineHeight: 1.6,
+              lineHeight: 1.7,
             }}
           >
-            <strong style={{ color: TOKENS.WHITE, fontSize: "0.75rem" }}>
+            <strong style={{ color: TOKENS.WHITE, fontSize: "0.85rem" }}>
               Big picture
             </strong>
             <ul style={{ margin: "0.35rem 0 0", paddingLeft: "1.2rem" }}>
               {toBullets(detail.extendedDescription).map((b, i) => (
-                <li key={i}>{b}</li>
+                <li key={i}>{renderMarkdown(b)}</li>
               ))}
             </ul>
           </div>
@@ -538,6 +541,8 @@ function PreviewModal({
 
 /* ── Source card ── */
 
+const PREVIEW_COUNT = 5;
+
 function SourceCard({
   block,
   onPreview,
@@ -550,9 +555,14 @@ function SourceCard({
   onDelete: (id: number) => void;
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const hiddenCount = block.items.length - PREVIEW_COUNT;
+  const visible = expanded
+    ? block.items
+    : block.items.slice(0, PREVIEW_COUNT);
 
   return (
-    <div className="news-source-card">
+    <div>
       <Card
         style={{
           background: TOKENS.BG_LIGHTER,
@@ -573,10 +583,10 @@ function SourceCard({
             marginBottom: "0.25rem",
           }}
         >
-          {block.source}
+          {block.source} ({block.items.length})
         </span>
 
-        {block.items.map((item, idx) => (
+        {visible.map((item, idx) => (
           <div
             key={item.id}
             style={{
@@ -692,6 +702,31 @@ function SourceCard({
             </div>
           </div>
         ))}
+
+        {hiddenCount > 0 && !expanded && (
+          <span
+            onClick={() => setExpanded(true)}
+            style={{
+              fontSize: "0.75rem",
+              color: TOKENS.LINK,
+              cursor: "pointer",
+            }}
+          >
+            Show {hiddenCount} more...
+          </span>
+        )}
+        {hiddenCount > 0 && expanded && (
+          <span
+            onClick={() => setExpanded(false)}
+            style={{
+              fontSize: "0.75rem",
+              color: TOKENS.LINK,
+              cursor: "pointer",
+            }}
+          >
+            Show less
+          </span>
+        )}
       </Card>
     </div>
   );
@@ -716,6 +751,23 @@ export default function Page() {
   const [previewDetail, setPreviewDetail] = useState<NewsItemDetail | null>(
     null,
   );
+  const [manualUrl, setManualUrl] = useState("");
+  const [submittingUrl, setSubmittingUrl] = useState(false);
+
+  async function handleManualAdd() {
+    const trimmed = manualUrl.trim();
+    if (!trimmed) return;
+    setSubmittingUrl(true);
+    try {
+      await addManualArticle(trimmed);
+      toast.success("Article is being analyzed");
+      setManualUrl("");
+    } catch {
+      // handled by apiCall
+    } finally {
+      setSubmittingUrl(false);
+    }
+  }
 
   async function fetchWindow(
     end: string,
@@ -901,46 +953,81 @@ export default function Page() {
       ? `${formatDateHeading(groups[groups.length - 1].date)} — ${formatDateHeading(groups[0].date)}`
       : "";
 
+  const rangeBadge = rangeLabel ? (
+    <span
+      style={{
+        fontSize: "0.65rem",
+        color: TOKENS.GRAY,
+        textAlign: "center",
+        lineHeight: 1.3,
+      }}
+    >
+      {rangeLabel}
+    </span>
+  ) : null;
+
   const filterPanel = (
     <>
-      <input
-        type="date"
-        value={endDate}
-        min={earliestDate ?? undefined}
-        max={toISODate(new Date())}
-        onChange={(e) => handleDateChange(e.target.value)}
-        style={{
-          background: TOKENS.BG_LIGHTER,
-          color: TOKENS.WHITE,
-          border: TOKENS.BORDER,
-          borderRadius: TOKENS.RADIUS,
-          padding: "0.4rem 0.6rem",
-          fontSize: "0.8rem",
-          cursor: "pointer",
-          colorScheme: "dark",
-          width: "100%",
-        }}
-      />
+      <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+        <span className="news-filter-label" style={{ fontSize: "0.7rem", color: TOKENS.GRAY }}>
+          Until
+        </span>
+        <input
+          type="date"
+          value={endDate}
+          min={earliestDate ?? undefined}
+          max={toISODate(new Date())}
+          onChange={(e) => handleDateChange(e.target.value)}
+          style={{
+            background: TOKENS.BG_LIGHTER,
+            color: TOKENS.WHITE,
+            border: TOKENS.BORDER,
+            borderRadius: TOKENS.RADIUS,
+            padding: "0.4rem 0.6rem",
+            fontSize: "0.8rem",
+            cursor: "pointer",
+            colorScheme: "dark",
+            width: "auto",
+          }}
+        />
+      </div>
 
-      <input
-        type="number"
-        value={windowDays}
-        min={1}
-        max={365}
-        onChange={(e) => {
-          const v = parseInt(e.target.value, 10);
-          if (!isNaN(v) && v >= 1) handleWindowDaysChange(v);
-        }}
-        title="Number of days"
+      <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
+        <span className="news-filter-label" style={{ fontSize: "0.7rem", color: TOKENS.GRAY }}>
+          Days
+        </span>
+        <input
+          type="number"
+          value={windowDays}
+          min={1}
+          max={365}
+          onChange={(e) => {
+            const v = parseInt(e.target.value, 10);
+            if (!isNaN(v) && v >= 1) handleWindowDaysChange(v);
+          }}
+          title="Number of days"
+          style={{
+            background: TOKENS.BG_LIGHTER,
+            color: TOKENS.WHITE,
+            border: TOKENS.BORDER,
+            borderRadius: TOKENS.RADIUS,
+            padding: "0.4rem 0.6rem",
+            fontSize: "0.8rem",
+            width: "4rem",
+            textAlign: "center",
+          }}
+        />
+      </div>
+
+      {rangeBadge}
+
+      <div
         style={{
-          background: TOKENS.BG_LIGHTER,
-          color: TOKENS.WHITE,
-          border: TOKENS.BORDER,
-          borderRadius: TOKENS.RADIUS,
-          padding: "0.4rem 0.6rem",
-          fontSize: "0.8rem",
-          width: "100%",
-          textAlign: "center",
+          width: "1px",
+          height: "1.4rem",
+          background: TOKENS.GRAY,
+          opacity: 0.2,
+          flexShrink: 0,
         }}
       />
 
@@ -959,6 +1046,16 @@ export default function Page() {
         size="1.4rem"
       />
 
+      <div
+        style={{
+          width: "1px",
+          height: "1.4rem",
+          background: TOKENS.GRAY,
+          opacity: 0.2,
+          flexShrink: 0,
+        }}
+      />
+
       {REACTIONS.map((r) => (
         <IconBtn
           key={r}
@@ -972,52 +1069,74 @@ export default function Page() {
     </>
   );
 
-  const rangeBadge = rangeLabel ? (
-    <span
-      style={{
-        fontSize: "0.65rem",
-        color: TOKENS.GRAY,
-        textAlign: "center",
-        lineHeight: 1.3,
-      }}
-    >
-      {rangeLabel}
-    </span>
-  ) : null;
-
   return (
     <RequireAuth>
       <Container>
-        {/* Mobile: range label + filters at top */}
+        {/* Filters bar */}
         <div
-          className="news-filters-mobile"
           style={{
-            display: "none",
-            flexDirection: "column",
-            alignItems: "flex-start",
+            display: "flex",
+            alignItems: "center",
             gap: "0.5rem",
+            flexWrap: "wrap",
             marginBottom: "1rem",
           }}
         >
+          {filterPanel}
+
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              width: "100%",
-              flexWrap: "wrap",
+              width: "1px",
+              height: "1.4rem",
+              background: TOKENS.GRAY,
+              opacity: 0.2,
+              flexShrink: 0,
             }}
-          >
-            {filterPanel}
+          />
+
+          <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+            <input
+              type="url"
+              placeholder="Add article URL..."
+              value={manualUrl}
+              onChange={(e) => setManualUrl(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleManualAdd();
+              }}
+              style={{
+                background: TOKENS.BG_LIGHTER,
+                color: TOKENS.WHITE,
+                border: TOKENS.BORDER,
+                borderRadius: TOKENS.RADIUS,
+                padding: "0.4rem 0.6rem",
+                fontSize: "0.8rem",
+                width: "14rem",
+                fontFamily: "inherit",
+              }}
+            />
+            <button
+              onClick={handleManualAdd}
+              disabled={submittingUrl || !manualUrl.trim()}
+              style={{
+                background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
+                color: TOKENS.WHITE,
+                border: "none",
+                borderRadius: TOKENS.RADIUS,
+                padding: "0.4rem 0.75rem",
+                fontSize: "0.8rem",
+                cursor: submittingUrl ? "not-allowed" : "pointer",
+                fontFamily: "inherit",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {submittingUrl ? "..." : "+"}
+            </button>
           </div>
-          {rangeBadge}
         </div>
 
-        <div style={{ display: "flex", gap: "1.5rem" }}>
-          {/* Groups */}
+        <div style={{ margin: "0 -3%", overflow: "hidden" }}>
           <div
             style={{
-              flex: 1,
               display: "flex",
               flexDirection: "column",
               gap: 0,
@@ -1056,10 +1175,10 @@ export default function Page() {
                 </div>
 
                 <div
+                  className="news-source-grid"
                   style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    display: "grid",
+                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                     gap: "0.5rem",
                   }}
                 >
@@ -1076,47 +1195,14 @@ export default function Page() {
               </div>
             ))}
           </div>
-
-          {/* Desktop filters (right sidebar, column) */}
-          <div
-            className="news-filters-desktop"
-            style={{
-              width: "110px",
-              flexShrink: 0,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "0.5rem",
-              position: "sticky",
-              top: "1rem",
-              alignSelf: "flex-start",
-            }}
-          >
-            {rangeBadge}
-            {rangeBadge && (
-              <div
-                style={{
-                  width: "100%",
-                  borderBottom: `1px solid ${TOKENS.BLACK}`,
-                  marginBottom: "0.25rem",
-                }}
-              />
-            )}
-            {filterPanel}
-          </div>
         </div>
 
         <style>{`
           @media (max-width: 600px) {
-            .news-filters-mobile { display: flex !important; }
-            .news-filters-desktop { display: none !important; }
-            .news-source-card { width: 100% !important; }
+            .news-source-grid { grid-template-columns: 1fr !important; }
             .news-date-heading { margin-top: 1.25rem !important; }
             .news-item-index { display: none !important; }
-          }
-          @media (min-width: 601px) {
-            .news-filters-mobile { display: none !important; }
-            .news-filters-desktop { display: flex !important; }
+            .news-filter-label { display: none !important; }
           }
         `}</style>
         {isMobile && <div style={{ height: "90px" }} />}

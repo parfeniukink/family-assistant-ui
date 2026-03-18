@@ -632,6 +632,10 @@ export async function newsItemExtend(
   );
 }
 
+export async function addManualArticle(url: string): Promise<void> {
+  await apiCall<void>("/news/manual", "POST", { url });
+}
+
 // ─────────────────────────────────────────────────────────
 // JOBS
 // ─────────────────────────────────────────────────────────
