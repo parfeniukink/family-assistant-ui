@@ -70,7 +70,7 @@ function formatDateHeading(iso: string): string {
 function toBullets(raw: string): string[] {
   const text = cleanHtml(raw);
   const parts = text
-    .split(/(?<=[.!?])\s+/)
+    .split(/(?<=[.!?])\s+(?=[A-Z\*])/)
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
   return parts.length > 0 ? parts : [text];
