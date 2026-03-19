@@ -369,9 +369,16 @@ export default function JobsSection() {
                 {job.lastRunAt &&
                   ` · ${new Date(job.lastRunAt).toLocaleString()}`}
                 {job.lastError && (
-                  <span style={{ color: TOKENS.ACCENT_RED }}>
+                  <span
+                    style={{
+                      color: TOKENS.ACCENT_RED,
+                      display: "inline",
+                    }}
+                  >
                     {" "}
-                    · {job.lastError}
+                    · {job.lastError.length > 80
+                      ? job.lastError.slice(0, 80) + "…"
+                      : job.lastError}
                   </span>
                 )}
               </div>
@@ -501,7 +508,7 @@ export default function JobsSection() {
           />
         )}
 
-        <div style={{ height: "40px", width: "340px", alignSelf: "center" }}>
+        <div style={{ height: "40px", width: "100%", maxWidth: "340px", alignSelf: "center" }}>
           <Button onClickCallback={handleAdd}>ADD JOB</Button>
         </div>
 
