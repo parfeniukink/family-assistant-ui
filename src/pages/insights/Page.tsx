@@ -38,7 +38,7 @@ export default function Page() {
         }}
       >
         <button style={tabStyle("finances")} onClick={() => handleTabChange("finances")}>
-          FINANCES
+          RESOURCES
         </button>
         <button style={tabStyle("ai")} onClick={() => handleTabChange("ai")}>
           AI

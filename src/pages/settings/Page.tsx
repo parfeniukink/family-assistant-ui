@@ -7,11 +7,11 @@ import { Card, Container } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 import { useMobile } from "src/context";
 
-type SettingsTab = "financial" | "news" | "jobs";
+type SettingsTab = "resources" | "information";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<SettingsTab>(
-    () => (sessionStorage.getItem("settings-tab") as SettingsTab) || "financial",
+    () => (sessionStorage.getItem("settings-tab") as SettingsTab) || "resources",
   );
 
   function handleTabChange(tab: SettingsTab) {
@@ -54,29 +54,22 @@ export default function Page() {
           }}
         >
           <button
-            style={tabStyle("financial")}
-            onClick={() => handleTabChange("financial")}
+            style={tabStyle("resources")}
+            onClick={() => handleTabChange("resources")}
             type="button"
           >
-            FINANCIAL
+            RESOURCES
           </button>
           <button
-            style={tabStyle("news")}
-            onClick={() => handleTabChange("news")}
+            style={tabStyle("information")}
+            onClick={() => handleTabChange("information")}
             type="button"
           >
-            NEWS
-          </button>
-          <button
-            style={tabStyle("jobs")}
-            onClick={() => handleTabChange("jobs")}
-            type="button"
-          >
-            JOBS
+            INFORMATION
           </button>
         </div>
 
-        {activeTab === "financial" &&
+        {activeTab === "resources" &&
           (isMobile ? (
             <div>
               <FinancesSection />
@@ -86,26 +79,30 @@ export default function Page() {
               <FinancesSection />
             </Card>
           ))}
-        {activeTab === "news" &&
-          (isMobile ? (
-            <div>
-              <NewsSection />
+        {activeTab === "information" && (
+          <>
+            {isMobile ? (
+              <div>
+                <NewsSection />
+              </div>
+            ) : (
+              <Card>
+                <NewsSection />
+              </Card>
+            )}
+            <div style={{ marginTop: "1.5rem" }}>
+              {isMobile ? (
+                <div>
+                  <JobsSection />
+                </div>
+              ) : (
+                <Card>
+                  <JobsSection />
+                </Card>
+              )}
             </div>
-          ) : (
-            <Card>
-              <NewsSection />
-            </Card>
-          ))}
-        {activeTab === "jobs" &&
-          (isMobile ? (
-            <div>
-              <JobsSection />
-            </div>
-          ) : (
-            <Card>
-              <JobsSection />
-            </Card>
-          ))}
+          </>
+        )}
       </Container>
       <div>
         <br />

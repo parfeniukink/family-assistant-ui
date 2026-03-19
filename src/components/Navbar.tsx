@@ -27,9 +27,9 @@ export function Navbar() {
           : {}
       }
     >
-      <Link to="/finances">{!isMobile ? "FINANCES" : "💰"}</Link>
+      <Link to="/finances">{!isMobile ? "RESOURCES" : "💰"}</Link>
+      <Link to="/news">{!isMobile ? "INFORMATION" : "📰"}</Link>
       <Link to="/insights">{!isMobile ? "INSIGHTS" : "💡"}</Link>
-      <Link to="/news">{!isMobile ? "NEWS" : "📰"}</Link>
       <Link to="/settings">{!isMobile ? "SETTINGS" : "🔧"}</Link>
     </nav>
   );
