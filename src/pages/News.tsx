@@ -958,189 +958,164 @@ export default function Page() {
     }
   }
 
-  const rangeLabel =
-    groups.length > 0
-      ? `${formatDateHeading(groups[groups.length - 1].date)} — ${formatDateHeading(groups[0].date)}`
-      : "";
-
-  const rangeBadge = rangeLabel ? (
-    <span
-      style={{
-        fontSize: "0.65rem",
-        color: TOKENS.GRAY,
-        textAlign: "center",
-        lineHeight: 1.3,
-      }}
-    >
-      {rangeLabel}
-    </span>
-  ) : null;
-
-  const filterPanel = (
-    <>
-      <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-        <span className="news-filter-label" style={{ fontSize: "0.7rem", color: TOKENS.GRAY }}>
-          Until
-        </span>
-        <input
-          type="date"
-          value={endDate}
-          min={earliestDate ?? undefined}
-          max={toISODate(new Date())}
-          onChange={(e) => handleDateChange(e.target.value)}
-          style={{
-            background: TOKENS.BG_LIGHTER,
-            color: TOKENS.WHITE,
-            border: TOKENS.BORDER,
-            borderRadius: TOKENS.RADIUS,
-            padding: "0.4rem 0.6rem",
-            fontSize: "0.8rem",
-            cursor: "pointer",
-            colorScheme: "dark",
-            width: "auto",
-          }}
-        />
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", gap: "0.35rem" }}>
-        <span className="news-filter-label" style={{ fontSize: "0.7rem", color: TOKENS.GRAY }}>
-          Days
-        </span>
-        <input
-          type="number"
-          value={windowDays}
-          min={1}
-          max={365}
-          onChange={(e) => {
-            const v = parseInt(e.target.value, 10);
-            if (!isNaN(v) && v >= 1) handleWindowDaysChange(v);
-          }}
-          title="Number of days"
-          style={{
-            background: TOKENS.BG_LIGHTER,
-            color: TOKENS.WHITE,
-            border: TOKENS.BORDER,
-            borderRadius: TOKENS.RADIUS,
-            padding: "0.4rem 0.6rem",
-            fontSize: "0.8rem",
-            width: "4rem",
-            textAlign: "center",
-          }}
-        />
-      </div>
-
-      {rangeBadge}
-
-      <div
-        style={{
-          width: "1px",
-          height: "1.4rem",
-          background: TOKENS.GRAY,
-          opacity: 0.2,
-          flexShrink: 0,
-        }}
-      />
-
-      <IconBtn
-        emoji="🔖"
-        label="Bookmarked only"
-        onClick={() => handleBookmarkedFilter(!filterBookmarked)}
-        active={filterBookmarked}
-        size="1.4rem"
-      />
-      <IconBtn
-        emoji="💬"
-        label="Commented only"
-        onClick={() => handleCommentedFilter(!filterCommented)}
-        active={filterCommented}
-        size="1.4rem"
-      />
-
-      <div
-        style={{
-          width: "1px",
-          height: "1.4rem",
-          background: TOKENS.GRAY,
-          opacity: 0.2,
-          flexShrink: 0,
-        }}
-      />
-
-      {REACTIONS.map((r) => (
-        <IconBtn
-          key={r}
-          emoji={r}
-          label={`Filter by ${r}`}
-          onClick={() => handleReactionFilter(filterReaction === r ? null : r)}
-          active={filterReaction === r}
-          size="1.4rem"
-        />
-      ))}
-    </>
-  );
-
   return (
     <RequireAuth>
       <Container>
-        {/* Filters bar */}
+        {/* Filters */}
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
-            flexWrap: "wrap",
+            flexDirection: "column",
+            gap: "0.6rem",
             marginBottom: "1rem",
           }}
         >
-          {filterPanel}
-
+          {/* Row 1: Date + range slider */}
           <div
             style={{
-              width: "1px",
-              height: "1.4rem",
-              background: TOKENS.GRAY,
-              opacity: 0.2,
-              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
             }}
-          />
-
-          <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+          >
             <input
-              type="url"
-              placeholder="Add article URL..."
-              value={manualUrl}
-              onChange={(e) => setManualUrl(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleManualAdd();
-              }}
+              type="date"
+              value={endDate}
+              min={earliestDate ?? undefined}
+              max={toISODate(new Date())}
+              onChange={(e) => handleDateChange(e.target.value)}
               style={{
                 background: TOKENS.BG_LIGHTER,
                 color: TOKENS.WHITE,
                 border: TOKENS.BORDER,
                 borderRadius: TOKENS.RADIUS,
-                padding: "0.4rem 0.6rem",
-                fontSize: "0.8rem",
-                width: "14rem",
-                fontFamily: "inherit",
+                padding: "0.35rem 0.5rem",
+                fontSize: "0.75rem",
+                cursor: "pointer",
+                colorScheme: "dark",
+                width: "auto",
+                flexShrink: 0,
               }}
             />
-            <button
-              onClick={handleManualAdd}
-              disabled={submittingUrl || !manualUrl.trim()}
+            <span
               style={{
-                background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
-                color: TOKENS.WHITE,
-                border: "none",
-                borderRadius: TOKENS.RADIUS,
-                padding: "0.4rem 0.75rem",
-                fontSize: "0.8rem",
-                cursor: submittingUrl ? "not-allowed" : "pointer",
-                fontFamily: "inherit",
-                whiteSpace: "nowrap",
+                fontSize: "0.7rem",
+                color: TOKENS.GRAY,
+                flexShrink: 0,
+                minWidth: "2rem",
+                textAlign: "center",
               }}
             >
-              {submittingUrl ? "..." : "+"}
-            </button>
+              {windowDays}d
+            </span>
+            <input
+              type="range"
+              min={1}
+              max={30}
+              value={windowDays}
+              onChange={(e) => handleWindowDaysChange(parseInt(e.target.value, 10))}
+              style={{
+                flex: 1,
+                accentColor: TOKENS.ACCENT,
+                cursor: "pointer",
+              }}
+            />
+          </div>
+
+          {/* Row 2: Filters */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.25rem",
+            }}
+          >
+            <IconBtn
+              emoji="🔖"
+              label="Bookmarked only"
+              onClick={() => handleBookmarkedFilter(!filterBookmarked)}
+              active={filterBookmarked}
+              size="1.2rem"
+            />
+            <IconBtn
+              emoji="💬"
+              label="Commented only"
+              onClick={() => handleCommentedFilter(!filterCommented)}
+              active={filterCommented}
+              size="1.2rem"
+            />
+
+            <div
+              style={{
+                width: "1px",
+                height: "1.2rem",
+                background: TOKENS.GRAY,
+                opacity: 0.2,
+                flexShrink: 0,
+                margin: "0 0.15rem",
+              }}
+            />
+
+            {REACTIONS.map((r) => (
+              <IconBtn
+                key={r}
+                emoji={r}
+                label={`Filter by ${r}`}
+                onClick={() =>
+                  handleReactionFilter(filterReaction === r ? null : r)
+                }
+                active={filterReaction === r}
+                size="1.2rem"
+              />
+            ))}
+
+            <div style={{ flex: 1 }} />
+
+            {/* Manual URL input */}
+            <div
+              style={{
+                display: "flex",
+                gap: "0.25rem",
+                alignItems: "center",
+              }}
+            >
+              <input
+                type="url"
+                placeholder="Add URL..."
+                value={manualUrl}
+                onChange={(e) => setManualUrl(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleManualAdd();
+                }}
+                style={{
+                  background: TOKENS.BG_LIGHTER,
+                  color: TOKENS.WHITE,
+                  border: TOKENS.BORDER,
+                  borderRadius: TOKENS.RADIUS,
+                  padding: "0.35rem 0.5rem",
+                  fontSize: "0.75rem",
+                  width: isMobile ? "8rem" : "12rem",
+                  fontFamily: "inherit",
+                }}
+              />
+              <button
+                onClick={handleManualAdd}
+                disabled={submittingUrl || !manualUrl.trim()}
+                style={{
+                  background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
+                  color: TOKENS.WHITE,
+                  border: "none",
+                  borderRadius: TOKENS.RADIUS,
+                  padding: "0.35rem 0.6rem",
+                  fontSize: "0.75rem",
+                  cursor: submittingUrl ? "not-allowed" : "pointer",
+                  fontFamily: "inherit",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {submittingUrl ? "..." : "+"}
+              </button>
+            </div>
           </div>
         </div>
 
