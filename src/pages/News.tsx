@@ -958,6 +958,54 @@ export default function Page() {
     }
   }
 
+  const manualUrlInput = (
+    <div
+      style={{
+        display: "flex",
+        gap: "0.25rem",
+        alignItems: "center",
+      }}
+    >
+      <input
+        type="url"
+        placeholder="Add URL..."
+        value={manualUrl}
+        onChange={(e) => setManualUrl(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleManualAdd();
+        }}
+        style={{
+          background: TOKENS.BG_LIGHTER,
+          color: TOKENS.WHITE,
+          border: TOKENS.BORDER,
+          borderRadius: TOKENS.RADIUS,
+          padding: "0.35rem 0.5rem",
+          fontSize: "0.75rem",
+          flex: isMobile ? 1 : undefined,
+          width: isMobile ? undefined : "12rem",
+          fontFamily: "inherit",
+        }}
+      />
+      <button
+        onClick={handleManualAdd}
+        disabled={submittingUrl || !manualUrl.trim()}
+        style={{
+          background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
+          color: TOKENS.WHITE,
+          border: "none",
+          borderRadius: TOKENS.RADIUS,
+          padding: "0.35rem 0.6rem",
+          fontSize: "0.75rem",
+          cursor: submittingUrl ? "not-allowed" : "pointer",
+          fontFamily: "inherit",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {submittingUrl ? "..." : "+"}
+      </button>
+    </div>
+  );
+
   return (
     <RequireAuth>
       <Container>
@@ -1069,53 +1117,12 @@ export default function Page() {
               />
             ))}
 
-            <div style={{ flex: 1 }} />
-
-            {/* Manual URL input */}
-            <div
-              style={{
-                display: "flex",
-                gap: "0.25rem",
-                alignItems: "center",
-              }}
-            >
-              <input
-                type="url"
-                placeholder="Add URL..."
-                value={manualUrl}
-                onChange={(e) => setManualUrl(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleManualAdd();
-                }}
-                style={{
-                  background: TOKENS.BG_LIGHTER,
-                  color: TOKENS.WHITE,
-                  border: TOKENS.BORDER,
-                  borderRadius: TOKENS.RADIUS,
-                  padding: "0.35rem 0.5rem",
-                  fontSize: "0.75rem",
-                  width: isMobile ? "8rem" : "12rem",
-                  fontFamily: "inherit",
-                }}
-              />
-              <button
-                onClick={handleManualAdd}
-                disabled={submittingUrl || !manualUrl.trim()}
-                style={{
-                  background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
-                  color: TOKENS.WHITE,
-                  border: "none",
-                  borderRadius: TOKENS.RADIUS,
-                  padding: "0.35rem 0.6rem",
-                  fontSize: "0.75rem",
-                  cursor: submittingUrl ? "not-allowed" : "pointer",
-                  fontFamily: "inherit",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {submittingUrl ? "..." : "+"}
-              </button>
-            </div>
+            {!isMobile && (
+              <>
+                <div style={{ flex: 1 }} />
+                {manualUrlInput}
+              </>
+            )}
           </div>
         </div>
 
@@ -1276,6 +1283,9 @@ export default function Page() {
             .news-filter-label { display: none !important; }
           }
         `}</style>
+        {isMobile && (
+          <div style={{ marginTop: "1rem" }}>{manualUrlInput}</div>
+        )}
         {isMobile && <div style={{ height: "90px" }} />}
       </Container>
 
