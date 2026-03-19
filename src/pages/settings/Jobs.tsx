@@ -352,22 +352,26 @@ export default function JobsSection() {
                 )}
               </div>
               <div
+                className="job-card-stats"
                 style={{
                   fontSize: "0.8rem",
                   color: TOKENS.GRAY,
                   marginTop: "0.25rem",
                   textAlign: "left",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 }}
               >
                 runs: {job.runCount}
                 {typeof job.intervalMinutes === "number" &&
-                  ` | every ${formatInterval(job.intervalMinutes)}`}
+                  ` · every ${formatInterval(job.intervalMinutes)}`}
                 {job.lastRunAt &&
-                  ` | last: ${new Date(job.lastRunAt).toLocaleString()}`}
+                  ` · ${new Date(job.lastRunAt).toLocaleString()}`}
                 {job.lastError && (
                   <span style={{ color: TOKENS.ACCENT_RED }}>
                     {" "}
-                    | {job.lastError}
+                    · {job.lastError}
                   </span>
                 )}
               </div>
@@ -433,13 +437,20 @@ export default function JobsSection() {
       <style>{`
         @media (max-width: 600px) {
           .job-card {
-            flex-wrap: wrap !important;
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 0.5rem !important;
           }
           .job-card-name-mobile {
             display: block !important;
           }
           .job-card-name-desktop {
             display: none !important;
+          }
+          .job-card-stats {
+            white-space: normal !important;
+            overflow: visible !important;
+            font-size: 0.7rem !important;
           }
         }
       `}</style>

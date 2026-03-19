@@ -550,11 +550,13 @@ function SourceCard({
   onPreview,
   onBookmark,
   onDelete,
+  isMobile,
 }: {
   block: NewsSourceBlock;
   onPreview: (item: NewsGroupItem, source: string) => void;
   onBookmark: (id: number) => void;
   onDelete: (id: number) => void;
+  isMobile?: boolean;
 }) {
   const [hovered, setHovered] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
@@ -593,10 +595,12 @@ function SourceCard({
             key={item.id}
             style={{
               display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: isMobile ? "0.3rem" : "0.5rem",
+              padding: isMobile ? "0.2rem 0" : undefined,
             }}
           >
+            {!isMobile && (
             <span
               className="news-item-index"
               style={{
@@ -609,6 +613,7 @@ function SourceCard({
             >
               {idx + 1}.
             </span>
+            )}
 
             {item.reaction && (
               <span style={{ fontSize: "0.75rem", flexShrink: 0 }}>
@@ -623,13 +628,14 @@ function SourceCard({
               style={{
                 flex: 1,
                 minWidth: 0,
-                fontSize: "0.85rem",
+                fontSize: isMobile ? "0.75rem" : "0.85rem",
                 color: hasReaction(item) ? TOKENS.WHITE : TOKENS.GRAY,
                 opacity: item.viewed && !hasReaction(item) ? 0.6 : 1,
                 cursor: "pointer",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
+                overflow: isMobile ? undefined : "hidden",
+                textOverflow: isMobile ? undefined : "ellipsis",
+                whiteSpace: isMobile ? "normal" : "nowrap",
+                lineHeight: isMobile ? 1.3 : undefined,
                 textDecoration: hovered === item.id ? "underline" : "none",
               }}
             >
@@ -753,6 +759,7 @@ export default function Page() {
   const [previewDetail, setPreviewDetail] = useState<NewsItemDetail | null>(
     null,
   );
+  const [mobileDay, setMobileDay] = useState(0);
   const [manualUrl, setManualUrl] = useState("");
   const [submittingUrl, setSubmittingUrl] = useState(false);
 
@@ -792,6 +799,7 @@ export default function Page() {
         commented: commented || undefined,
       });
       setGroups(response.result);
+      setMobileDay(0);
       if (response.earliestDate) {
         setEarliestDate(response.earliestDate);
       }
@@ -1136,74 +1144,160 @@ export default function Page() {
           </div>
         </div>
 
-        <div style={{ margin: "0 -3%", overflow: "hidden" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 0,
-              minWidth: 0,
-            }}
-          >
+        {isMobile ? (
+          /* ── Mobile: day-by-day navigation ── */
+          <div>
             {!loading && groups.length === 0 && <NoData />}
-
-            {groups.map((group, gi) => (
-              <div key={group.date}>
-                <div
-                  className="news-date-heading"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "0.75rem",
-                    margin: gi === 0 ? "0 0 0.75rem 0" : "2.5rem 0 0.75rem 0",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: "0.8rem",
-                      color: TOKENS.WHITE,
-                      fontWeight: "bold",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {formatDateHeading(group.date)}
-                  </span>
+            {groups.length > 0 && (() => {
+              const dayIndex = Math.min(
+                Math.max(0, mobileDay),
+                groups.length - 1,
+              );
+              const group = groups[dayIndex];
+              return (
+                <>
                   <div
                     style={{
-                      flex: 1,
-                      borderBottom: `1px solid ${TOKENS.BLACK}`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0.75rem",
                     }}
-                  />
-                </div>
-
-                <div
-                  className="news-source-grid"
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                    gap: "0.5rem",
-                  }}
-                >
-                  {group.blocks.map((block) => (
-                    <SourceCard
-                      key={block.source}
-                      block={block}
-                      onPreview={handlePreview}
-                      onBookmark={handleBookmark}
-                      onDelete={handleDelete}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+                  >
+                    <button
+                      onClick={() => setMobileDay((d) => Math.max(0, d - 1))}
+                      disabled={dayIndex === 0}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color: dayIndex === 0 ? TOKENS.BLACK : TOKENS.WHITE,
+                        fontSize: "1.2rem",
+                        cursor: dayIndex === 0 ? "default" : "pointer",
+                        padding: "0.25rem 0.5rem",
+                      }}
+                    >
+                      ‹
+                    </button>
+                    <span
+                      style={{
+                        fontSize: "0.85rem",
+                        color: TOKENS.WHITE,
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {formatDateHeading(group.date)}
+                    </span>
+                    <button
+                      onClick={() =>
+                        setMobileDay((d) => Math.min(groups.length - 1, d + 1))
+                      }
+                      disabled={dayIndex >= groups.length - 1}
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        color:
+                          dayIndex >= groups.length - 1
+                            ? TOKENS.BLACK
+                            : TOKENS.WHITE,
+                        fontSize: "1.2rem",
+                        cursor:
+                          dayIndex >= groups.length - 1 ? "default" : "pointer",
+                        padding: "0.25rem 0.5rem",
+                      }}
+                    >
+                      ›
+                    </button>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    {group.blocks.map((block) => (
+                      <SourceCard
+                        key={block.source}
+                        block={block}
+                        onPreview={handlePreview}
+                        onBookmark={handleBookmark}
+                        onDelete={handleDelete}
+                        isMobile
+                      />
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
-        </div>
+        ) : (
+          /* ── Desktop: all days ── */
+          <div style={{ margin: "0 -3%", overflow: "hidden" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 0,
+                minWidth: 0,
+              }}
+            >
+              {!loading && groups.length === 0 && <NoData />}
+
+              {groups.map((group, gi) => (
+                <div key={group.date}>
+                  <div
+                    className="news-date-heading"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                      margin:
+                        gi === 0 ? "0 0 0.75rem 0" : "2.5rem 0 0.75rem 0",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "0.8rem",
+                        color: TOKENS.WHITE,
+                        fontWeight: "bold",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {formatDateHeading(group.date)}
+                    </span>
+                    <div
+                      style={{
+                        flex: 1,
+                        borderBottom: `1px solid ${TOKENS.BLACK}`,
+                      }}
+                    />
+                  </div>
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    {group.blocks.map((block) => (
+                      <SourceCard
+                        key={block.source}
+                        block={block}
+                        onPreview={handlePreview}
+                        onBookmark={handleBookmark}
+                        onDelete={handleDelete}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         <style>{`
           @media (max-width: 600px) {
-            .news-source-grid { grid-template-columns: 1fr !important; }
-            .news-date-heading { margin-top: 1.25rem !important; }
-            .news-item-index { display: none !important; }
             .news-filter-label { display: none !important; }
           }
         `}</style>
