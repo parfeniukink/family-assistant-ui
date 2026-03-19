@@ -169,9 +169,13 @@ export async function apiCall<T>(
 
   // Handle Validation Errors
   if ([400, 422].includes(response.status)) {
-    const jsonError = (await response.json()) as ErrorResponse;
-    for (const error of jsonError.result) {
-      toast.error(error.message);
+    const rawError = await response.json();
+    if (rawError.result) {
+      for (const error of (rawError as ErrorResponse).result) {
+        toast.error(error.message);
+      }
+    } else if (rawError.message) {
+      toast.error(rawError.message);
     }
     throw new Error("Client Error");
   }
@@ -234,9 +238,13 @@ async function handleErrorResponse<T>(
   }
 
   if ([400, 422].includes(response.status)) {
-    const jsonError = (await response.json()) as ErrorResponse;
-    for (const error of jsonError.result) {
-      toast.error(error.message);
+    const rawError = await response.json();
+    if (rawError.result) {
+      for (const error of (rawError as ErrorResponse).result) {
+        toast.error(error.message);
+      }
+    } else if (rawError.message) {
+      toast.error(rawError.message);
     }
     throw new Error("Client Error");
   }
