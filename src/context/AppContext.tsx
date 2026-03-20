@@ -5,12 +5,15 @@ import { CostCategoryProvider } from "./CostCategoriesContext";
 import { CostShortcutsProvider } from "./CostShortcutsContext";
 import { TransactionsProvider } from "./TransactionsContext";
 import { MobileProvider } from "./MobileContext";
+import { NotificationsProvider } from "./NotificationsContext";
 
 // Core providers needed for all routes (authentication, viewport)
 export function CoreProviders({ children }: { children: React.ReactNode }) {
   return (
     <MobileProvider>
-      <UserProvider>{children}</UserProvider>
+      <UserProvider>
+        <NotificationsProvider>{children}</NotificationsProvider>
+      </UserProvider>
     </MobileProvider>
   );
 }

@@ -1,5 +1,6 @@
 import { TOKENS } from "src/styles/tokens";
 import { Navbar } from "./Navbar";
+import { NotificationModal } from "./NotificationModal";
 import { useMobile } from "src/context";
 
 export function Container({ children }: { children: React.ReactNode }) {
@@ -15,6 +16,7 @@ export function Container({ children }: { children: React.ReactNode }) {
       }}
     >
       <Navbar />
+      <NotificationModal />
       <div
         style={{
           display: "flex",

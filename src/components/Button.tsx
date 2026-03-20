@@ -4,6 +4,7 @@ import { TOKENS } from "../styles/tokens";
 type ButtonProps = {
   children: React.ReactNode;
   color?: string;
+  hidden?: boolean;
   hoverBackground?: string;
   onClickCallback: () => void;
   overrideStyles?: React.CSSProperties;
@@ -27,6 +28,7 @@ const DEFAULT_STYLES: React.CSSProperties = {
 export const Button = memo(function Button({
   children,
   color,
+  hidden,
   hoverBackground,
   onClickCallback,
   overrideStyles: extraStyles,
@@ -74,6 +76,7 @@ export const Button = memo(function Button({
 
   return (
     <button
+      hidden={hidden}
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
