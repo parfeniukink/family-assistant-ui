@@ -32,7 +32,6 @@ import type {
   TokensResponse,
   NewsItem,
   NewsItemDetail,
-  NewsGroup,
   NewsGroupItem,
   NewsGroupsResponse,
   JobTypeAction,

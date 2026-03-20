@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo } from "react";
-import { Card } from "src/components";
 import { useIdentity } from "src/context/IdentityContext";
 import { TOKENS } from "src/styles/tokens";
 
