@@ -48,27 +48,15 @@ export type AnalyticsFiltersQueryParams = {
 
 export type AnalyticsPeriod = "current-month" | "previous-month" | string;
 
-export type AiAgentStat = {
-  agent: string;
-  calls: number;
-  total_s: number;
-  avg_s: number;
-  errors: number;
-};
-
-export type AiPipelineRun = {
-  id: number;
+export type PipelineCostSummary = {
   pipelineName: string;
-  traceId: string;
-  agentStats: AiAgentStat[];
-  totalCalls: number;
-  totalErrors: number;
-  wallTimeS: number;
-  estimatedCost: number;
-  userId: number | null;
-  createdAt: string;
+  totalCost: number;
+  totalRuns: number;
+  percentage: number;
 };
 
 export type AiAnalyticsResponse = {
-  result: AiPipelineRun[];
+  result: PipelineCostSummary[];
+  startDate: string;
+  endDate: string;
 };

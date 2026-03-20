@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
+import { Card } from "src/components";
 import { useIdentity } from "src/context/IdentityContext";
 import { TOKENS } from "src/styles/tokens";
 
@@ -250,7 +251,6 @@ export default function NewsSection() {
         textAlign: "left",
       }}
     >
-      <h2>Settings</h2>
       <div
         style={{
           display: "flex",
@@ -260,7 +260,7 @@ export default function NewsSection() {
         }}
       >
         <label className="label-items">
-          <span>GC RETENTION DAYS</span>
+          <span>Garbage Collector Retention Days</span>
           <input
             type="text"
             inputMode="numeric"
@@ -285,7 +285,7 @@ export default function NewsSection() {
           />
         </label>
         <label className="label-items">
-          <span>ANALYZE PREFERENCES</span>
+          <span>Analyze Preferences?</span>
           <input
             type="checkbox"
             checked={analyzePreferences}
@@ -299,9 +299,8 @@ export default function NewsSection() {
         </label>
       </div>
 
-      <h2>Prompts</h2>
 
-      <h3 style={{ textAlign: "right" }}>NEWS Filter Prompt</h3>
+      <h4 style={{}}>Filter</h4>
       <textarea
         value={filterPrompt}
         onChange={(e) => setFilterPrompt(e.target.value)}
@@ -330,7 +329,7 @@ export default function NewsSection() {
           marginTop: "1rem",
         }}
       >
-        <h3 style={{ margin: 0 }}>NEWS Preference Profile</h3>
+        <h4 style={{ margin: 0 }}>Preferences</h4>
         {parsed && (
           <button
             onClick={() => setEditingRaw(!editingRaw)}
