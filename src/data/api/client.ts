@@ -7,6 +7,7 @@ import type {
   ErrorResponse,
 } from "src/infrastructure/generic";
 import type {
+  Notification,
   CostCategory,
   CostCreateRequestBody,
   CostShortcutCreateRequestBody,
@@ -29,6 +30,16 @@ import type {
   User,
   TokensRequestBody,
   TokensResponse,
+  NewsItem,
+  NewsItemDetail,
+  NewsGroup,
+  NewsGroupItem,
+  NewsGroupsResponse,
+  JobTypeAction,
+  Job,
+  JobCreateRequestBody,
+  JobUpdateRequestBody,
+  AiAnalyticsResponse,
 } from "../types";
 import {
   getAccessToken,
@@ -158,9 +169,13 @@ export async function apiCall<T>(
 
   // Handle Validation Errors
   if ([400, 422].includes(response.status)) {
-    const jsonError = (await response.json()) as ErrorResponse;
-    for (const error of jsonError.result) {
-      toast.error(error.message);
+    const rawError = await response.json();
+    if (rawError.result) {
+      for (const error of (rawError as ErrorResponse).result) {
+        toast.error(error.message);
+      }
+    } else if (rawError.message) {
+      toast.error(rawError.message);
     }
     throw new Error("Client Error");
   }
@@ -184,6 +199,13 @@ export async function apiCall<T>(
       toast.error("Error parsing API Response");
     }
     throw new Error("Server Error");
+  }
+
+  // Invalidate GET cache after successful mutations
+  if (method !== "GET") {
+    const basePath = "/" + url.replace(/^\//, "").split("/")[0];
+    cache.delete(url);
+    if (basePath !== url) cache.delete(basePath);
   }
 
   // Success Cases
@@ -216,9 +238,13 @@ async function handleErrorResponse<T>(
   }
 
   if ([400, 422].includes(response.status)) {
-    const jsonError = (await response.json()) as ErrorResponse;
-    for (const error of jsonError.result) {
-      toast.error(error.message);
+    const rawError = await response.json();
+    if (rawError.result) {
+      for (const error of (rawError as ErrorResponse).result) {
+        toast.error(error.message);
+      }
+    } else if (rawError.message) {
+      toast.error(rawError.message);
     }
     throw new Error("Client Error");
   }
@@ -473,6 +499,16 @@ export async function notificationsList(): Promise<Notification[]> {
   return response.result;
 }
 
+export async function notificationsCount(): Promise<number> {
+  const response = await apiCall<Response<number>>("/notifications/count");
+  return response.result;
+}
+
+export function invalidateNotificationsCache(): void {
+  cache.delete("/notifications");
+  cache.delete("/notifications/count");
+}
+
 // ─────────────────────────────────────────────────────────
 // ANALYTICS
 // ─────────────────────────────────────────────────────────
@@ -511,4 +547,148 @@ export async function configurationUpdate(
     "PATCH",
     requestBody,
   );
+}
+
+// ─────────────────────────────────────────────────────────
+// NEWS
+// ─────────────────────────────────────────────────────────
+export async function newsList({
+  context = 0,
+  limit = 10,
+}: {
+  context?: number;
+  limit?: number;
+}): Promise<PaginatedResponse<NewsItem>> {
+  return await apiCall<PaginatedResponse<NewsItem>>(
+    `/news?context=${context}&limit=${limit}`,
+  );
+}
+
+export async function newsGroupsList({
+  startDate,
+  endDate,
+  bookmarked,
+  reaction,
+  commented,
+}: {
+  startDate?: string;
+  endDate?: string;
+  bookmarked?: boolean;
+  reaction?: string;
+  commented?: boolean;
+}): Promise<NewsGroupsResponse> {
+  const params: string[] = [];
+  if (startDate != null) params.push(`startDate=${startDate}`);
+  if (endDate != null) params.push(`endDate=${endDate}`);
+  if (bookmarked != null) params.push(`bookmarked=${bookmarked}`);
+  if (reaction != null) params.push(`reaction=${encodeURIComponent(reaction)}`);
+  if (commented != null) params.push(`commented=${commented}`);
+  const qs = params.length > 0 ? `?${params.join("&")}` : "";
+  return await apiCall<NewsGroupsResponse>(`/news/groups${qs}`);
+}
+
+export async function newsReactionOptions(): Promise<ResponseMulti<string>> {
+  return await apiCall<ResponseMulti<string>>("/news/reactions");
+}
+
+export async function newsItemGet(itemId: number): Promise<NewsItemDetail> {
+  return await apiCall<NewsItemDetail>(`/news/${itemId}`);
+}
+
+export async function newsItemDelete(itemId: number): Promise<void> {
+  await apiCall<void>(`/news/${itemId}`, "DELETE");
+}
+
+export async function newsItemBookmark(
+  itemId: number,
+): Promise<NewsGroupItem> {
+  return await apiCall<NewsGroupItem>(
+    `/news/${itemId}/bookmark`,
+    "POST",
+  );
+}
+
+export async function newsItemReact(
+  itemId: number,
+  reaction: string | null,
+): Promise<NewsGroupItem> {
+  return await apiCall<NewsGroupItem>(
+    `/news/${itemId}/react`,
+    "POST",
+    { reaction },
+  );
+}
+
+export async function newsItemFeedback(
+  itemId: number,
+  humanFeedback: string | null,
+): Promise<NewsItemDetail> {
+  return await apiCall<NewsItemDetail>(
+    `/news/${itemId}/feedback`,
+    "PATCH",
+    { humanFeedback },
+  );
+}
+
+export async function newsItemExtend(
+  itemId: number,
+  mode: "microscope" | "telescope",
+): Promise<void> {
+  await apiCall<void>(
+    `/news/${itemId}/extend/${mode}`,
+    "POST",
+  );
+}
+
+export async function addManualArticle(url: string): Promise<void> {
+  await apiCall<void>("/news/manual", "POST", { url });
+}
+
+// ─────────────────────────────────────────────────────────
+// JOBS
+// ─────────────────────────────────────────────────────────
+export async function jobActionsList(): Promise<ResponseMulti<JobTypeAction>> {
+  return await apiCall<ResponseMulti<JobTypeAction>>("/jobs/actions");
+}
+
+export async function jobsList(): Promise<ResponseMulti<Job>> {
+  return await apiCall<ResponseMulti<Job>>("/jobs");
+}
+
+export async function jobCreate(
+  requestBody: JobCreateRequestBody,
+): Promise<void> {
+  await apiCall<void>("/jobs", "POST", requestBody);
+}
+
+export async function jobUpdate(
+  jobId: number,
+  requestBody: JobUpdateRequestBody,
+): Promise<void> {
+  await apiCall<void>(`/jobs/${jobId}`, "PATCH", requestBody);
+}
+
+export async function jobDelete(jobId: number): Promise<void> {
+  await apiCall<void>(`/jobs/${jobId}`, "DELETE");
+}
+
+export async function jobRun(jobId: number): Promise<void> {
+  await apiCall<void>(`/jobs/${jobId}/run`, "POST");
+}
+
+// ─────────────────────────────────────────────────────────
+// AI ANALYTICS
+// ─────────────────────────────────────────────────────────
+export async function fetchAiAnalytics({
+  startDate,
+  endDate,
+}: {
+  startDate?: string;
+  endDate?: string;
+}): Promise<AiAnalyticsResponse> {
+  const params: string[] = [];
+  if (startDate != null) params.push(`startDate=${startDate}`);
+  if (endDate != null) params.push(`endDate=${endDate}`);
+  const qs = params.length > 0 ? `?${params.join("&")}` : "";
+  return await apiCall<AiAnalyticsResponse>(`/analytics/ai${qs}`);
 }

@@ -47,3 +47,16 @@ export type AnalyticsFiltersQueryParams = {
 };
 
 export type AnalyticsPeriod = "current-month" | "previous-month" | string;
+
+export type PipelineCostSummary = {
+  pipelineName: string;
+  totalCost: number;
+  totalRuns: number;
+  percentage: number;
+};
+
+export type AiAnalyticsResponse = {
+  result: PipelineCostSummary[];
+  startDate: string;
+  endDate: string;
+};

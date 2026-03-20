@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { useMobile } from "src/context";
 import { TOKENS } from "src/styles/tokens";
@@ -28,16 +27,9 @@ export function Navbar() {
           : {}
       }
     >
-      <Link to="/finances">{!isMobile ? "FINANCES" : "💰"}</Link>
+      <Link to="/finances">{!isMobile ? "RESOURCES" : "💰"}</Link>
+      <Link to="/news">{!isMobile ? "INFORMATION" : "📰"}</Link>
       <Link to="/insights">{!isMobile ? "INSIGHTS" : "💡"}</Link>
-      <Link
-        to="#"
-        onClick={() => {
-          toast("'News' page it not ready yet");
-        }}
-      >
-        {!isMobile ? "NEWS" : "📰"}
-      </Link>
       <Link to="/settings">{!isMobile ? "SETTINGS" : "🔧"}</Link>
     </nav>
   );
