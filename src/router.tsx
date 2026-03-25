@@ -9,7 +9,7 @@ const FinancesDashboard = React.lazy(
   () => import("./pages/finances/Dashboard"),
 );
 const Assets = React.lazy(() => import("./pages/finances/Assets"));
-const Cash = React.lazy(() => import("./pages/finances/Assets")); // TODO: Change to Cash
+const Cash = React.lazy(() => import("./pages/finances/Cash"));
 const Insights = React.lazy(() => import("./pages/insights/Page"));
 
 const Transactions = React.lazy(

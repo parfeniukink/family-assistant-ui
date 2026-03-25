@@ -38,12 +38,23 @@ type JsonSchemaProperty = {
   title?: string;
   default?: unknown;
   enum?: unknown[];
+  anyOf?: { type?: string }[];
 };
 
 type JsonSchema = {
   properties?: Record<string, JsonSchemaProperty>;
   required?: string[];
 };
+
+/** Resolve the effective type from a property, handling anyOf (Optional). */
+function resolveType(prop: JsonSchemaProperty): string | undefined {
+  if (prop.type) return prop.type;
+  if (prop.anyOf) {
+    const nonNull = prop.anyOf.find((v) => v.type !== "null");
+    return nonNull?.type;
+  }
+  return undefined;
+}
 
 function SchemaForm({
   schema,
@@ -61,8 +72,9 @@ function SchemaForm({
     <>
       {Object.entries(properties).map(([key, prop]) => {
         const label = prop.title ?? key;
+        const effectiveType = resolveType(prop);
 
-        if (prop.type === "string" && prop.enum) {
+        if (effectiveType === "string" && prop.enum) {
           return (
             <Dropdown
               key={key}
@@ -81,7 +93,7 @@ function SchemaForm({
           );
         }
 
-        if (prop.type === "boolean") {
+        if (effectiveType === "boolean") {
           return (
             <Dropdown
               key={key}
@@ -97,11 +109,16 @@ function SchemaForm({
           );
         }
 
+        const placeholder =
+          effectiveType === "object"
+            ? `${label} (JSON, e.g. {"key": "value"})`
+            : label;
+
         return (
           <TextInput
             key={key}
             value={values[key] ?? ""}
-            placeholder={label}
+            placeholder={placeholder}
             onChangeCallback={(e) =>
               onChange({ ...values, [key]: e.target.value })
             }
@@ -127,12 +144,19 @@ function coerceParams(
       result[key] = raw;
       continue;
     }
-    if (prop.type === "integer") {
+    const effectiveType = resolveType(prop);
+    if (effectiveType === "integer") {
       result[key] = parseInt(raw, 10);
-    } else if (prop.type === "number") {
+    } else if (effectiveType === "number") {
       result[key] = parseFloat(raw);
-    } else if (prop.type === "boolean") {
+    } else if (effectiveType === "boolean") {
       result[key] = raw === "true";
+    } else if (effectiveType === "object") {
+      try {
+        result[key] = JSON.parse(raw);
+      } catch {
+        result[key] = raw;
+      }
     } else {
       result[key] = raw;
     }

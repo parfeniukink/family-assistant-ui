@@ -52,6 +52,9 @@ nav {
   color: var(--link);
 }
 
+button {
+  font-family: inherit;
+}
 button:hover {
   transform: translate(1px, 1px);
 }

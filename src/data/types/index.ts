@@ -1,4 +1,6 @@
 export * from "./analytics";
+export * from "./assets";
+export * from "./cash";
 export * from "./currency";
 export * from "./identity";
 export * from "./jobs";
