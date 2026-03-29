@@ -309,6 +309,7 @@ export async function transactionsList({
   pattern = null,
   startDate = null,
   endDate = null,
+  minValue = null,
   context = 0,
   limit = 15,
 }: {
@@ -320,6 +321,7 @@ export async function transactionsList({
   startDate?: string | null;
   endDate?: string | null;
   operation?: OperationType | null;
+  minValue?: number | null;
   context?: number;
   limit?: number;
 }): Promise<PaginatedResponse<Transaction>> {
@@ -336,6 +338,7 @@ export async function transactionsList({
   if (startDate != null) urlParticles.push(`&startDate=${startDate}`);
   if (endDate != null) urlParticles.push(`&endDate=${endDate}`);
   if (pattern != null) urlParticles.push(`&pattern=${pattern}`);
+  if (minValue != null) urlParticles.push(`&minValue=${minValue}`);
 
   const url = urlParticles.join("");
 

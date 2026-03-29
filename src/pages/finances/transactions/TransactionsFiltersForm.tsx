@@ -1,4 +1,4 @@
-import { Card, Button } from "src/components";
+import { Card, Button, DecimalInput } from "src/components";
 import { useState } from "react";
 import { useCurrencies, useMobile, useTransactions } from "src/context";
 import { Dropdown } from "src/components";
@@ -22,6 +22,8 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
     currencyId || 0,
   );
   const [selectedOnlyMine, setSelectedOnlyMine] = useState<boolean>(false);
+  const [selectedOperation, setSelectedOperation] = useState<string>("");
+  const [selectedMinValue, setSelectedMinValue] = useState<string>("");
 
   return (
     <Card
@@ -76,6 +78,44 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
           className="checkbox"
         />
       </div>
+      {/* Operation Type Selector */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
+          flexDirection: isMobile ? "row" : "column",
+          gap: TOKENS.SPACE_1,
+        }}
+      >
+        <b>type</b>
+        <Dropdown
+          value={selectedOperation}
+          onChangeCallback={(e) => setSelectedOperation(e.target.value)}
+        >
+          <option value="">all</option>
+          <option value="cost">cost</option>
+          <option value="income">income</option>
+          <option value="exchange">exchange</option>
+        </Dropdown>
+      </div>
+      {/* Min Value Filter */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "start",
+          flexDirection: isMobile ? "row" : "column",
+          gap: TOKENS.SPACE_1,
+        }}
+      >
+        <b>min value</b>
+        <DecimalInput
+          value={selectedMinValue}
+          placeholder="0"
+          onChangeCallback={(e) => setSelectedMinValue(e.target.value)}
+        />
+      </div>
       {/* Action Buttons */}
       <div
         style={{
@@ -89,6 +129,8 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
             fetchTransactions({
               onlyMine: selectedOnlyMine,
               currencyId: selectedCurrencyId || null,
+              operation: selectedOperation || null,
+              minValue: selectedMinValue ? Number(selectedMinValue) : null,
             });
           }}
           overrideStyles={
