@@ -7,7 +7,7 @@ import { Card, Container } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 import { useMobile } from "src/context";
 
-type SettingsTab = "resources" | "information";
+type SettingsTab = "resources" | "news";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<SettingsTab>(
@@ -61,11 +61,11 @@ export default function Page() {
             RESOURCES
           </button>
           <button
-            style={tabStyle("information")}
-            onClick={() => handleTabChange("information")}
+            style={tabStyle("news")}
+            onClick={() => handleTabChange("news")}
             type="button"
           >
-            INFORMATION
+            NEWS
           </button>
         </div>
 
@@ -79,7 +79,7 @@ export default function Page() {
               <FinancesSection />
             </Card>
           ))}
-        {activeTab === "information" && (
+        {activeTab === "news" && (
           <>
             {isMobile ? (
               <div>

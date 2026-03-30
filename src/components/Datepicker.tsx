@@ -7,12 +7,14 @@ type DatepickerProps = {
   date?: string;
   setDateCallback: CallableFunction;
   disabled?: boolean;
+  showShortcuts?: boolean;
 };
 
 export function Datepicker({
   date,
   setDateCallback,
   disabled = false,
+  showShortcuts = true,
 }: DatepickerProps) {
   const { isMobile } = useMobile();
 
@@ -64,41 +66,43 @@ export function Datepicker({
         className="datepicker"
         disabled={disabled}
       />
-      <div
-        style={{
-          display: "flex",
-          gap: "10px",
-        }}
-      >
-        <Button
-          color="blue"
-          overrideStyles={styles}
-          onClickCallback={() => daysFromToday(0)}
+      {showShortcuts && (
+        <div
+          style={{
+            display: "flex",
+            gap: "10px",
+          }}
         >
-          today
-        </Button>
-        <Button
-          color="blue"
-          overrideStyles={styles}
-          onClickCallback={() => daysFromToday(1)}
-        >
-          -1
-        </Button>
-        <Button
-          color="blue"
-          overrideStyles={styles}
-          onClickCallback={() => daysFromToday(2)}
-        >
-          -2
-        </Button>
-        <Button
-          color="blue"
-          overrideStyles={styles}
-          onClickCallback={() => daysFromToday(3)}
-        >
-          -3
-        </Button>
-      </div>
+          <Button
+            color="blue"
+            overrideStyles={styles}
+            onClickCallback={() => daysFromToday(0)}
+          >
+            today
+          </Button>
+          <Button
+            color="blue"
+            overrideStyles={styles}
+            onClickCallback={() => daysFromToday(1)}
+          >
+            -1
+          </Button>
+          <Button
+            color="blue"
+            overrideStyles={styles}
+            onClickCallback={() => daysFromToday(2)}
+          >
+            -2
+          </Button>
+          <Button
+            color="blue"
+            overrideStyles={styles}
+            onClickCallback={() => daysFromToday(3)}
+          >
+            -3
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

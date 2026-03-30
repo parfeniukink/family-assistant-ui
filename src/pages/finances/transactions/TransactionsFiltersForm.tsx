@@ -1,15 +1,11 @@
-import { Card, Button, DecimalInput } from "src/components";
-import { useState } from "react";
+import { Card, Button, DecimalInput, Datepicker, TextInput } from "src/components";
+import { useSearchParams } from "react-router-dom";
 import { useCurrencies, useMobile, useTransactions } from "src/context";
 import { Dropdown } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 import toast from "react-hot-toast";
 
-type FormProps = {
-  currencyId?: number;
-};
-
-export default function TransactionsFiltersForm({ currencyId }: FormProps) {
+export default function TransactionsFiltersForm() {
   // Context
   const { currencies } = useCurrencies();
   const { isMobile } = useMobile();
@@ -17,40 +13,72 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
   const { fetchNextTransactions, fetchTransactions, transactionsLeft } =
     useTransactions();
 
-  // State
-  const [selectedCurrencyId, setSelectedCurrencyId] = useState<number>(
-    currencyId || 0,
-  );
-  const [selectedOnlyMine, setSelectedOnlyMine] = useState<boolean>(false);
-  const [selectedOperation, setSelectedOperation] = useState<string>("");
-  const [selectedMinValue, setSelectedMinValue] = useState<string>("");
+  // URL search params as single source of truth
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const selectedCurrencyId = searchParams.get("currencyId") || "";
+  const selectedOnlyMine = searchParams.get("onlyMine") === "true";
+  const selectedOperation = searchParams.get("operation") || "";
+  const selectedMinValue = searchParams.get("minValue") || "";
+  const selectedPattern = searchParams.get("pattern") || "";
+  const selectedStartDate = searchParams.get("startDate") || "";
+  const selectedEndDate = searchParams.get("endDate") || "";
+
+  function updateParam(key: string, value: string) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value) {
+        next.set(key, value);
+      } else {
+        next.delete(key);
+      }
+      return next;
+    });
+  }
+
+  function applyFilters() {
+    fetchTransactions({
+      onlyMine: selectedOnlyMine,
+      currencyId: selectedCurrencyId ? Number(selectedCurrencyId) : null,
+      operation: selectedOperation || null,
+      minValue: selectedMinValue ? Number(selectedMinValue) : null,
+      pattern: selectedPattern || null,
+      startDate: selectedStartDate || null,
+      endDate: selectedEndDate || null,
+    });
+  }
+
+  const filterGroupStyle: React.CSSProperties = {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "start",
+    flexDirection: isMobile ? "row" : "column",
+    gap: "4px",
+  };
+
+  const buttonStyle = {
+    minWidth: isMobile ? "100px" : "100px",
+    minHeight: isMobile ? "50px" : "40px",
+  };
 
   return (
     <Card
       style={{
-        flexDirection: isMobile ? "column" : "row",
+        flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
+        flexWrap: "wrap",
+        gap: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_2,
       }}
     >
-      {/* Currency Selector*/}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-          flexDirection: isMobile ? "row" : "column",
-          gap: TOKENS.SPACE_1,
-        }}
-      >
+      {/* Currency */}
+      <div style={filterGroupStyle}>
         <b>currency</b>
         <Dropdown
-          value={String(selectedCurrencyId) || ""}
-          onChangeCallback={(e) =>
-            setSelectedCurrencyId(Number(e.target.value) || 0)
-          }
+          value={selectedCurrencyId}
+          onChangeCallback={(e) => updateParam("currencyId", e.target.value)}
         >
-          <option value={0}>all</option>
+          <option value="">all</option>
           {currencies.map((item) => (
             <option value={item.id} key={item.id}>
               {item.sign} {item.name}
@@ -58,40 +86,24 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
           ))}
         </Dropdown>
       </div>
-      {/* Currency Selector*/}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: isMobile ? "row" : "column",
-          gap: TOKENS.SPACE_1,
-          alignItems: "center",
-          justifyContent: "start",
-        }}
-      >
+      {/* Only Mine */}
+      <div style={filterGroupStyle}>
         <b>only mine</b>
         <input
           type="checkbox"
           checked={selectedOnlyMine}
-          onChange={(e) => {
-            setSelectedOnlyMine(e.target.checked);
-          }}
+          onChange={(e) =>
+            updateParam("onlyMine", e.target.checked ? "true" : "")
+          }
           className="checkbox"
         />
       </div>
-      {/* Operation Type Selector */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-          flexDirection: isMobile ? "row" : "column",
-          gap: TOKENS.SPACE_1,
-        }}
-      >
+      {/* Type */}
+      <div style={filterGroupStyle}>
         <b>type</b>
         <Dropdown
           value={selectedOperation}
-          onChangeCallback={(e) => setSelectedOperation(e.target.value)}
+          onChangeCallback={(e) => updateParam("operation", e.target.value)}
         >
           <option value="">all</option>
           <option value="cost">cost</option>
@@ -99,55 +111,62 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
           <option value="exchange">exchange</option>
         </Dropdown>
       </div>
-      {/* Min Value Filter */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "start",
-          flexDirection: isMobile ? "row" : "column",
-          gap: TOKENS.SPACE_1,
-        }}
-      >
+      {/* Min Value */}
+      <div style={filterGroupStyle}>
         <b>min value</b>
         <DecimalInput
           value={selectedMinValue}
           placeholder="0"
-          onChangeCallback={(e) => setSelectedMinValue(e.target.value)}
+          onChangeCallback={(e) => updateParam("minValue", e.target.value)}
         />
       </div>
-      {/* Action Buttons */}
+      {/* Pattern */}
+      <div style={filterGroupStyle}>
+        <b>pattern</b>
+        <TextInput
+          value={selectedPattern}
+          placeholder="search"
+          onChangeCallback={(e) => updateParam("pattern", e.target.value)}
+        />
+      </div>
+      {/* Dates */}
+      <div style={filterGroupStyle}>
+        <b>dates</b>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+          }}
+        >
+          <Datepicker
+            date={selectedStartDate}
+            setDateCallback={(value: string) =>
+              updateParam("startDate", value)
+            }
+            showShortcuts={false}
+          />
+          <span style={{ color: TOKENS.GRAY }}>&mdash;</span>
+          <Datepicker
+            date={selectedEndDate}
+            setDateCallback={(value: string) => updateParam("endDate", value)}
+            showShortcuts={false}
+          />
+        </div>
+      </div>
+      {/* Buttons */}
       <div
         style={{
           display: "flex",
-          flexDirection: isMobile ? "row" : "column",
-          gap: TOKENS.SPACE_1,
+          gap: "8px",
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "center",
         }}
       >
-        <Button
-          onClickCallback={() => {
-            fetchTransactions({
-              onlyMine: selectedOnlyMine,
-              currencyId: selectedCurrencyId || null,
-              operation: selectedOperation || null,
-              minValue: selectedMinValue ? Number(selectedMinValue) : null,
-            });
-          }}
-          overrideStyles={
-            isMobile
-              ? {
-                  minWidth: "100px",
-                  minHeight: "50px",
-                }
-              : {
-                  minWidth: "200px",
-                  minHeight: "40px",
-                }
-          }
-        >
+        <Button onClickCallback={applyFilters} overrideStyles={buttonStyle}>
           Filter
         </Button>
-
         <Button
           onClickCallback={() => {
             if (transactionsLeft) {
@@ -156,34 +175,9 @@ export default function TransactionsFiltersForm({ currencyId }: FormProps) {
               toast("No more transactions");
             }
           }}
-          overrideStyles={
-            isMobile
-              ? {
-                  minWidth: "100px",
-                  minHeight: "50px",
-                }
-              : {
-                  minWidth: "200px",
-                  minHeight: "40px",
-                }
-          }
+          overrideStyles={buttonStyle}
         >
-          <p
-            style={{
-              margin: 0,
-            }}
-          >
-            Load
-          </p>
-          <p
-            style={{
-              margin: "1px 0",
-              fontStyle: "italic",
-              color: TOKENS.GRAY,
-            }}
-          >
-            {`(${transactionsLeft})`}
-          </p>
+          {`Load (${transactionsLeft})`}
         </Button>
       </div>
     </Card>

@@ -1,5 +1,5 @@
 import { Link, useSearchParams } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import type { OperationType } from "src/data/types";
 import {
   prettyMoney,
@@ -11,30 +11,29 @@ import TransactionsFiltersForm from "./TransactionsFiltersForm";
 import { Container, Card } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 
-// TODO: Get transactions from `useTransactions()`
 export default function Page() {
-  // URL Params
   const { transactions, fetchTransactions, retrieveUrlFromTransaction } =
     useTransactions();
   const [searchParams] = useSearchParams();
 
-  const operation = searchParams.get("operation");
-  const currencyId = searchParams.get("currencyId");
-  const costCategoryId = searchParams.get("costCategoryId");
-  const startDate = searchParams.get("startDate");
-  const endDate = searchParams.get("endDate");
-  const period = searchParams.get("period");
-  const pattern = searchParams.get("pattern");
-
   // Context
   const { isMobile } = useMobile();
 
-  // State
-  const [onlyMine, _] = useState<boolean>(false);
-
+  // Fetch transactions on mount and when search params change via Filter button
+  // The form writes to URL search params; this effect reads them on initial load
   useEffect(() => {
+    const operation = searchParams.get("operation");
+    const currencyId = searchParams.get("currencyId");
+    const costCategoryId = searchParams.get("costCategoryId");
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
+    const period = searchParams.get("period");
+    const pattern = searchParams.get("pattern");
+    const onlyMine = searchParams.get("onlyMine");
+    const minValue = searchParams.get("minValue");
+
     fetchTransactions({
-      onlyMine: onlyMine,
+      onlyMine: onlyMine === "true",
       operation: operation ? (operation as OperationType) : null,
       currencyId: currencyId ? Number(currencyId) : null,
       costCategoryId: costCategoryId ? Number(costCategoryId) : null,
@@ -42,6 +41,7 @@ export default function Page() {
       endDate: endDate,
       period: period,
       pattern: pattern,
+      minValue: minValue ? Number(minValue) : null,
     });
   }, []);
 
@@ -87,7 +87,7 @@ export default function Page() {
 
   return (
     <Container>
-      <TransactionsFiltersForm currencyId={Number(currencyId) || 0} />
+      <TransactionsFiltersForm />
       {/* Outer grid similar to shortcuts-section */}
       <div
         style={{
