@@ -234,7 +234,7 @@ export default function Page() {
 
       {assets.length === 0 && !showAddForm && (
         <Card>
-          <p style={{ color: TOKENS.GRAY, textAlign: "center" }}>
+          <p style={{ color: TOKENS.INK_FADED, textAlign: "center" }}>
             No assets yet. Add your first asset to start tracking.
           </p>
           <div style={{ maxWidth: "200px", margin: "0 auto" }}>
@@ -463,7 +463,7 @@ function AssetCard({
             style={{
               background: "none",
               border: "none",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_FADED,
               cursor: "pointer",
               fontSize: "1rem",
               padding: "4px",
@@ -490,18 +490,18 @@ function AssetCard({
                   display: "flex",
                   gap: "8px",
                   padding: "4px 0",
-                  borderBottom: `1px solid ${TOKENS.BG_LIGHTER}`,
+                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <span
                   style={{
-                    color: TOKENS.GRAY,
-                    fontSize: "0.9rem",
+                    color: TOKENS.INK_FADED,
+                    fontSize: "1rem",
                   }}
                 >
                   {field.key}:
                 </span>
-                <span style={{ fontSize: "0.9rem" }}>
+                <span style={{ fontSize: "1rem" }}>
                   {field.value}
                 </span>
               </div>
@@ -519,8 +519,8 @@ function AssetCard({
           >
             <span
               style={{
-                fontSize: "0.85rem",
-                color: TOKENS.GRAY,
+                fontSize: "1rem",
+                color: TOKENS.INK_FADED,
                 fontWeight: "bold",
               }}
             >
@@ -537,7 +537,7 @@ function AssetCard({
                   border: "none",
                   color: TOKENS.LINK,
                   cursor: "pointer",
-                  fontSize: "0.9rem",
+                  fontSize: "1rem",
                   padding: "4px 0",
                   textDecoration: "underline",
                   textAlign: "left",
@@ -582,8 +582,8 @@ function AssetCard({
         >
           <span
             style={{
-              fontSize: "0.85rem",
-              color: TOKENS.GRAY,
+              fontSize: "1rem",
+              color: TOKENS.INK_FADED,
               fontWeight: "bold",
             }}
           >
@@ -626,7 +626,7 @@ function AssetCard({
                         handleFieldSave(field)
                       }
                       overrideStyles={{
-                        fontSize: "0.8rem",
+                        fontSize: "1rem",
                         padding: "2px 6px",
                       }}
                     >
@@ -639,7 +639,7 @@ function AssetCard({
                         setEditingFieldId(null)
                       }
                       overrideStyles={{
-                        fontSize: "0.8rem",
+                        fontSize: "1rem",
                         padding: "2px 6px",
                         background: TOKENS.BG_LIGHTER,
                       }}
@@ -657,19 +657,19 @@ function AssetCard({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "4px 0",
-                  borderBottom: `1px solid ${TOKENS.BG_LIGHTER}`,
+                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <div style={{ display: "flex", gap: "8px" }}>
                   <span
                     style={{
-                      color: TOKENS.GRAY,
-                      fontSize: "0.9rem",
+                      color: TOKENS.INK_FADED,
+                      fontSize: "1rem",
                     }}
                   >
                     {field.key}:
                   </span>
-                  <span style={{ fontSize: "0.9rem" }}>
+                  <span style={{ fontSize: "1rem" }}>
                     {field.value}
                   </span>
                 </div>
@@ -683,10 +683,10 @@ function AssetCard({
                     style={{
                       background: "none",
                       border: "none",
-                      color: TOKENS.GRAY,
+                      color: TOKENS.INK_FADED,
                       cursor: "pointer",
-                      fontSize: "0.85rem",
-                      padding: "2px",
+                      fontSize: "1rem",
+                      padding: "4px 6px",
                     }}
                     title="Edit field"
                     type="button"
@@ -700,8 +700,8 @@ function AssetCard({
                       border: "none",
                       color: TOKENS.ACCENT_RED,
                       cursor: "pointer",
-                      fontSize: "0.85rem",
-                      padding: "2px",
+                      fontSize: "1rem",
+                      padding: "4px 6px",
                     }}
                     title="Delete field"
                     type="button"
@@ -744,7 +744,7 @@ function AssetCard({
                 color="green"
                 onClickCallback={handleAddFieldSubmit}
                 overrideStyles={{
-                  fontSize: "0.85rem",
+                  fontSize: "1rem",
                   padding: "4px 8px",
                 }}
               >
@@ -759,7 +759,7 @@ function AssetCard({
                   setNewFieldValue("");
                 }}
                 overrideStyles={{
-                  fontSize: "0.85rem",
+                  fontSize: "1rem",
                   padding: "4px 8px",
                   background: TOKENS.BG_LIGHTER,
                 }}
@@ -770,11 +770,11 @@ function AssetCard({
           </div>
         </div>
       ) : (
-        <div style={{ width: "120px", height: "32px" }}>
+        <div style={{ width: "150px", height: "44px" }}>
           <Button
             onClickCallback={() => setShowAddField(true)}
             overrideStyles={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               padding: "4px 8px",
               background: TOKENS.BG_LIGHTER,
             }}
@@ -796,8 +796,8 @@ function AssetCard({
           <>
             <span
               style={{
-                fontSize: "0.85rem",
-                color: TOKENS.GRAY,
+                fontSize: "1rem",
+                color: TOKENS.INK_FADED,
                 fontWeight: "bold",
               }}
             >
@@ -811,7 +811,7 @@ function AssetCard({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "4px 0",
-                  borderBottom: `1px solid ${TOKENS.BG_LIGHTER}`,
+                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <button
@@ -823,7 +823,7 @@ function AssetCard({
                     border: "none",
                     color: TOKENS.LINK,
                     cursor: "pointer",
-                    fontSize: "0.9rem",
+                    fontSize: "1rem",
                     padding: 0,
                     textDecoration: "underline",
                     textAlign: "left",
@@ -844,8 +844,8 @@ function AssetCard({
                     border: "none",
                     color: TOKENS.ACCENT_RED,
                     cursor: "pointer",
-                    fontSize: "0.85rem",
-                    padding: "2px",
+                    fontSize: "1rem",
+                    padding: "4px 6px",
                     flexShrink: 0,
                   }}
                   title="Delete document"
@@ -865,13 +865,13 @@ function AssetCard({
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        <div style={{ width: "160px", height: "32px" }}>
+        <div style={{ width: "200px", height: "44px" }}>
           <Button
             onClickCallback={() =>
               fileInputRef.current?.click()
             }
             overrideStyles={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               padding: "4px 12px",
               background: TOKENS.BG_LIGHTER,
               whiteSpace: "nowrap",
@@ -889,7 +889,7 @@ function AssetCard({
           gap: "8px",
           marginTop: "auto",
           paddingTop: "8px",
-          borderTop: `1px solid ${TOKENS.BG_LIGHTER}`,
+          borderTop: "1px dotted rgba(26, 18, 10, 0.25)",
           justifyContent: "center",
         }}
       >
@@ -898,7 +898,7 @@ function AssetCard({
             color="green"
             onClickCallback={handleSave}
             overrideStyles={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               padding: "4px 12px",
             }}
           >
@@ -910,7 +910,7 @@ function AssetCard({
             color="red"
             onClickCallback={onDeleteStart}
             overrideStyles={{
-              fontSize: "0.85rem",
+              fontSize: "1rem",
               padding: "4px 12px",
             }}
           >
@@ -932,7 +932,7 @@ function AssetCard({
           <span
             style={{
               color: TOKENS.ACCENT_RED,
-              fontSize: "0.9rem",
+              fontSize: "1rem",
             }}
           >
             Delete this asset?
@@ -942,7 +942,7 @@ function AssetCard({
               color="red"
               onClickCallback={onDeleteConfirm}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
               }}
             >
@@ -953,7 +953,7 @@ function AssetCard({
             <Button
               onClickCallback={onDeleteCancel}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
                 background: TOKENS.BG_LIGHTER,
               }}

@@ -201,7 +201,7 @@ export default function Page() {
 
       {cards.length === 0 && !showAddForm && (
         <Card>
-          <p style={{ color: TOKENS.GRAY, textAlign: "center" }}>
+          <p style={{ color: TOKENS.INK_FADED, textAlign: "center" }}>
             No cash cards yet. Add your first currency to start
             tracking.
           </p>
@@ -375,7 +375,7 @@ function CashCard({
               style={{
                 background: "none",
                 border: "none",
-                color: TOKENS.GRAY,
+                color: TOKENS.INK_FADED,
                 cursor: "pointer",
                 fontSize: "1rem",
                 padding: "4px",
@@ -438,8 +438,8 @@ function CashCard({
         >
           <span
             style={{
-              color: TOKENS.GRAY,
-              fontSize: "0.85rem",
+              color: TOKENS.INK_FADED,
+              fontSize: "1rem",
               flexShrink: 0,
             }}
           >
@@ -457,8 +457,8 @@ function CashCard({
         <div
           style={{
             textAlign: "center",
-            color: TOKENS.GRAY,
-            fontSize: "0.85rem",
+            color: TOKENS.INK_FADED,
+            fontSize: "1rem",
           }}
         >
           step: {prettyMoney(card.step)} {card.currency.sign}
@@ -480,7 +480,7 @@ function CashCard({
               color="green"
               onClickCallback={onEditSave}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
               }}
             >
@@ -491,7 +491,7 @@ function CashCard({
             <Button
               onClickCallback={onEditCancel}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
                 background: TOKENS.BG_LIGHTER,
               }}
@@ -557,7 +557,7 @@ function CashCard({
           <span
             style={{
               color: TOKENS.ACCENT_RED,
-              fontSize: "0.9rem",
+              fontSize: "1rem",
             }}
           >
             Delete this card?
@@ -567,7 +567,7 @@ function CashCard({
               color="red"
               onClickCallback={onDeleteConfirm}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
               }}
             >
@@ -578,7 +578,7 @@ function CashCard({
             <Button
               onClickCallback={onDeleteCancel}
               overrideStyles={{
-                fontSize: "0.85rem",
+                fontSize: "1rem",
                 padding: "4px 8px",
                 background: TOKENS.BG_LIGHTER,
               }}

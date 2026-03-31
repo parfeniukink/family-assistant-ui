@@ -15,12 +15,8 @@ export default function Page() {
   const { transactions, fetchTransactions, retrieveUrlFromTransaction } =
     useTransactions();
   const [searchParams] = useSearchParams();
-
-  // Context
   const { isMobile } = useMobile();
 
-  // Fetch transactions on mount and when search params change via Filter button
-  // The form writes to URL search params; this effect reads them on initial load
   useEffect(() => {
     const operation = searchParams.get("operation");
     const currencyId = searchParams.get("currencyId");
@@ -45,15 +41,12 @@ export default function Page() {
     });
   }, []);
 
-  // Derived State
   const groupedTransactions = useMemo(() => {
     return groupTransactionsByDate(transactions);
   }, [transactions]);
 
-  // Pre-compute per-currency totals for each date group (eliminates O(n²) complexity)
   const groupedWithTotals = useMemo(() => {
     return Object.entries(groupedTransactions).map(([date, transactions]) => {
-      // Single pass through transactions to compute totals per currency
       const totals = new Map<
         string,
         { totalIncome: number; totalCost: number }
@@ -83,130 +76,146 @@ export default function Page() {
     });
   }, [groupedTransactions]);
 
-  // returns the DETAIL URL, based on the TRANSACTION
-
   return (
     <Container>
       <TransactionsFiltersForm />
-      {/* Outer grid similar to shortcuts-section */}
+
       <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
-          gap: TOKENS.SPACE_2,
-        }}
+        style={
+          isMobile
+            ? { display: "flex", flexDirection: "column", gap: TOKENS.SPACE_1 }
+            : {
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: TOKENS.SPACE_1,
+                alignItems: "start",
+              }
+        }
       >
         {groupedWithTotals.map(
-          ({ date, transactions, incomeAndCostByCurrency }) => {
-            return (
-              <Card
-                style={
-                  isMobile
-                    ? {
-                        background: TOKENS.BG_LIGHTER,
-                        padding: "10px",
-                        width: "100%",
-                      }
-                    : {
-                        background: TOKENS.BG_LIGHTER,
-                        padding: "10px",
-                      }
-                }
+          ({ date, transactions, incomeAndCostByCurrency }) => (
+            <Card
+              key={date}
+              style={{
+                width: "100%",
+                padding: isMobile ? "10px" : TOKENS.SPACE_2,
+                textAlign: "left",
+              }}
+            >
+              {/* Date header with daily totals */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  marginBottom: "0.5rem",
+                }}
               >
-                <div
-                  key={date}
+                <h3
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    fontSize: "1rem",
-                    gap: TOKENS.SPACE_1,
-                    minWidth: "250px",
+                    margin: 0,
+                    fontSize: "1.1rem",
+                    fontWeight: 700,
+                    color: TOKENS.INK,
                   }}
                 >
-                  <h3
-                    style={{
-                      margin: 0,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    {date}
-                    {incomeAndCostByCurrency.map(
-                      ({ currency, totalIncome, totalCost }) => (
-                        <span
-                          key={currency}
-                          style={{
-                            display: "flex",
-                            gap: "0.5rem",
-                            fontSize: "0.85rem",
-                          }}
-                        >
-                          {totalIncome > 0 && (
-                            <span style={{ color: "var(--accent-green)" }}>
-                              ▲ {currency} {prettyMoney(totalIncome)}
-                            </span>
-                          )}
-                          {totalCost > 0 && (
-                            <span style={{ color: "var(--accent-red)" }}>
-                              ▼ {currency} {prettyMoney(totalCost)}
-                            </span>
-                          )}
-                        </span>
-                      ),
-                    )}
-                  </h3>
+                  {date}
+                </h3>
+                <div style={{ display: "flex", gap: "1rem" }}>
+                  {incomeAndCostByCurrency.map(
+                    ({ currency, totalIncome, totalCost }) => (
+                      <span
+                        key={currency}
+                        style={{
+                          display: "flex",
+                          gap: "0.75rem",
+                          fontSize: "0.9rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {totalIncome > 0 && (
+                          <span style={{ color: TOKENS.ACCENT_GREEN }}>
+                            &#x25B2; {currency} {prettyMoney(totalIncome)}
+                          </span>
+                        )}
+                        {totalCost > 0 && (
+                          <span style={{ color: TOKENS.ACCENT_RED }}>
+                            &#x25BC; {currency} {prettyMoney(totalCost)}
+                          </span>
+                        )}
+                      </span>
+                    ),
+                  )}
+                </div>
+              </div>
 
+              {/* Transaction rows */}
+              {transactions.map((item) => (
+                <Link key={item.id} to={retrieveUrlFromTransaction(item)} style={{ display: "block" }}>
                   <div
                     style={{
-                      fontSize: "0.95rem",
                       display: "flex",
-                      flexDirection: "column",
-                      gap: isMobile ? "7px" : "",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "0.4rem 0",
+                      borderBottom: "1px dotted rgba(26, 18, 10, 0.15)",
+                      fontSize: "1rem",
+                      color:
+                        item.operation === "income"
+                          ? TOKENS.ACCENT_GREEN
+                          : item.operation === "exchange"
+                            ? TOKENS.ACCENT_BLUE
+                            : TOKENS.INK,
+                      fontWeight: item.operation === "income" ? 700 : 400,
                     }}
                   >
-                    {transactions.map((item) => (
-                      <Link key={item.id} to={retrieveUrlFromTransaction(item)}>
-                        <div
-                          style={
-                            item.operation !== "income"
-                              ? {
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  color: item.operation === "exchange" ? "#1456b8" : "#1a120a",
-                                }
-                              : {
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  color: "#1a7a00",
-                                  fontWeight: "bold",
-                                }
-                          }
-                        >
-                          <div style={{ marginRight: TOKENS.SPACE_3 }}>
-                            {operationSign(item)} {item.name}
-                          </div>
-                          <div style={{ display: "flex", gap: TOKENS.SPACE_1 }}>
-                            <div>
-                              {item.currency} {prettyMoney(item.value)}
-                            </div>
-                            <div style={{ color: TOKENS.GRAY }}>
-                              {item.user}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      {operationSign(item)} {item.name}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "0.75rem",
+                        flexShrink: 0,
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>
+                        {item.currency} {prettyMoney(item.value)}
+                      </span>
+                      <span
+                        style={{
+                          color: TOKENS.INK_FADED,
+                          fontSize: "0.9rem",
+                          minWidth: "2rem",
+                          textAlign: "right",
+                        }}
+                      >
+                        {item.user}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            );
-          },
+                </Link>
+              ))}
+            </Card>
+          ),
         )}
       </div>
+
+      {groupedWithTotals.length === 0 && (
+        <div
+          style={{
+            textAlign: "center",
+            padding: TOKENS.SPACE_2,
+            color: TOKENS.INK_FADED,
+            fontStyle: "italic",
+          }}
+        >
+          ~ No transactions ~
+        </div>
+      )}
+
       {isMobile && <br />}
       {isMobile && <br />}
     </Container>

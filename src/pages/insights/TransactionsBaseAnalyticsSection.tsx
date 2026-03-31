@@ -14,30 +14,26 @@ const STYLES: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
   },
   costs: {
-    padding: "0.25rem 0.5rem",
+    padding: "0.4rem 0.5rem",
     color: "#cc1a1a",
     fontWeight: 600,
-    borderRadius: TOKENS.RADIUS,
-    marginBottom: "0.2rem",
+    borderBottom: "1px dotted rgba(26, 18, 10, 0.2)",
   },
   incomes: {
-    padding: "0.25rem 0.5rem",
+    padding: "0.4rem 0.5rem",
     color: "#1a7a00",
     fontWeight: 600,
-    borderRadius: TOKENS.RADIUS,
-    marginBottom: "0.2rem",
+    borderBottom: "1px dotted rgba(26, 18, 10, 0.2)",
   },
   exchange: {
-    padding: "0.25rem 0.5rem",
+    padding: "0.4rem 0.5rem",
     color: "#1456b8",
     fontWeight: 600,
-    borderRadius: TOKENS.RADIUS,
-    marginBottom: "0.2rem",
+    borderBottom: "1px dotted rgba(26, 18, 10, 0.2)",
   },
   flexBox: {
-    padding: "0.25rem 0.5rem",
-    marginBottom: "0.2rem",
-    borderRadius: TOKENS.RADIUS,
+    padding: "0.4rem 0.5rem",
+    borderBottom: "1px dotted rgba(26, 18, 10, 0.2)",
   },
   ratioGood: {
     background: "rgba(26, 122, 0, 0.18)",
@@ -231,6 +227,8 @@ export default function Component({
                         style={{
                           display: "flex",
                           justifyContent: "space-between",
+                          padding: "0.3rem 0",
+                          borderBottom: "1px dotted rgba(26, 18, 10, 0.2)",
                         }}
                       >
                         <p style={{ margin: 0, padding: 0 }}>

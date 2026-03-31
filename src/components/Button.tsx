@@ -45,13 +45,7 @@ export const Button = memo(function Button({
   const handleMouseDown = useCallback(() => setActive(true), []);
   const handleMouseUp = useCallback(() => setActive(false), []);
 
-  let transform = "translate(0, 0)";
-
-  if (isActive) {
-    transform = "translateY(0)";
-  } else if (isHovered) {
-    transform = "translateY(-1px)";
-  }
+  const transform = "translate(0, 0)";
 
   // Set button border + text color
   let borderColor = "rgba(26, 18, 10, 0.7)";
