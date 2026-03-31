@@ -35,15 +35,9 @@ export const Button = memo(function Button({
   overrideStyles: extraStyles,
 }: ButtonProps) {
   const [isHovered, setHovered] = useState(false);
-  const [isActive, setActive] = useState(false);
 
   const handleMouseEnter = useCallback(() => setHovered(true), []);
-  const handleMouseLeave = useCallback(() => {
-    setHovered(false);
-    setActive(false);
-  }, []);
-  const handleMouseDown = useCallback(() => setActive(true), []);
-  const handleMouseUp = useCallback(() => setActive(false), []);
+  const handleMouseLeave = useCallback(() => setHovered(false), []);
 
   const transform = "translate(0, 0)";
 
@@ -85,8 +79,6 @@ export const Button = memo(function Button({
       style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onMouseDown={handleMouseDown}
       onClick={onClickCallback}
       type="button"
     >

@@ -21,7 +21,6 @@ function AnalyticsFilters({
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   onCustomSearch: () => void;
 }) {
-  const { isMobile } = useMobile();
   return (
     <div
       style={{
