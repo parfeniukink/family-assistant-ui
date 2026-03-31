@@ -49,8 +49,9 @@ export function Datepicker({
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              alignItems: "center",
+              alignItems: "stretch",
               gap: TOKENS.SPACE_2,
+              width: "100%",
             }
           : {
               display: "flex",
