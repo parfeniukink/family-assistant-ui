@@ -8,14 +8,14 @@
   --gray: #4a3a20;
   --link: #352008;
 
-  --bg-blue: rgba(20, 86, 184, 0.18);
-  --bg-red: rgba(204, 26, 26, 0.18);
-  --bg-green: rgba(26, 122, 0, 0.18);
+  --bg-blue: rgba(74, 106, 138, 0.15);
+  --bg-red: rgba(138, 74, 74, 0.15);
+  --bg-green: rgba(74, 122, 74, 0.15);
   --bg-yellow: rgba(139, 119, 80, 0.18);
 
-  --accent-blue: #1456b8;
-  --accent-red: #cc1a1a;
-  --accent-green: #1a7a00;
+  --accent-blue: #4a6a8a;
+  --accent-red: #8a4a4a;
+  --accent-green: #4a7a4a;
 
   /* Ink tones */
   --ink: #1a120a;
@@ -26,12 +26,22 @@
   --border: 3px solid rgba(26, 18, 10, 0.5);
   --border-heavy: 1.5px solid rgba(26, 18, 10, 0.7);
   --shadow: inset 0 0 30px rgba(139, 119, 80, 0.05);
-
   --radius: 4px;
-  --space-1: 1rem;
-  --space-2: 2rem;
+
+  /* Spacing */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
   --space-3: 1.5rem;
-  --space-5: 2rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+
+  /* Font sizes */
+  --font-xs: 0.8rem;
+  --font-sm: 0.9rem;
+  --font-base: 1rem;
+  --font-lg: 1.15rem;
+  --font-xl: 1.3rem;
+  --font-2xl: 1.5rem;
 
   /* Sizes */
   --section-md-width: 35%;

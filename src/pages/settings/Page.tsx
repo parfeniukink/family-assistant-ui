@@ -36,15 +36,7 @@ export default function Page() {
   return (
     <>
       <Container>
-        {isMobile ? (
-          <div>
-            <IdentityActions />
-          </div>
-        ) : (
-          <Card>
-            <IdentityActions />
-          </Card>
-        )}
+        <IdentityActions />
 
         <div
           style={{
@@ -77,7 +69,7 @@ export default function Page() {
               <FinancesSection />
             </div>
           ) : (
-            <Card>
+            <Card style={{ border: "none" }}>
               <FinancesSection />
             </Card>
           ))}
@@ -88,17 +80,18 @@ export default function Page() {
                 <NewsSection />
               </div>
             ) : (
-              <Card>
+              <Card style={{ border: "none" }}>
                 <NewsSection />
               </Card>
             )}
-            <div style={{ marginTop: "1.5rem" }}>
+            <div style={{ marginTop: "3rem" }}>
+              <h3 style={{ marginBottom: "1rem" }}>JOBS</h3>
               {isMobile ? (
                 <div>
                   <JobsSection />
                 </div>
               ) : (
-                <Card>
+                <Card style={{ border: "none" }}>
                   <JobsSection />
                 </Card>
               )}

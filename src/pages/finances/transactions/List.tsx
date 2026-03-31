@@ -83,11 +83,11 @@ export default function Page() {
       <div
         style={
           isMobile
-            ? { display: "flex", flexDirection: "column", gap: TOKENS.SPACE_1 }
+            ? { display: "flex", flexDirection: "column", gap: TOKENS.SPACE_2 }
             : {
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
-                gap: TOKENS.SPACE_1,
+                gap: TOKENS.SPACE_2,
                 alignItems: "start",
               }
         }
@@ -99,6 +99,7 @@ export default function Page() {
               style={{
                 width: "100%",
                 padding: isMobile ? "10px" : TOKENS.SPACE_2,
+                gap: TOKENS.SPACE_1,
                 textAlign: "left",
               }}
             >
@@ -109,7 +110,6 @@ export default function Page() {
                   justifyContent: "space-between",
                   alignItems: "center",
                   flexWrap: "wrap",
-                  marginBottom: "0.5rem",
                 }}
               >
                 <h3
@@ -122,14 +122,13 @@ export default function Page() {
                 >
                   {date}
                 </h3>
-                <div style={{ display: "flex", gap: "1rem" }}>
+                <div style={{ display: "flex" }}>
                   {incomeAndCostByCurrency.map(
                     ({ currency, totalIncome, totalCost }) => (
                       <span
                         key={currency}
                         style={{
                           display: "flex",
-                          gap: "0.75rem",
                           fontSize: "0.9rem",
                           fontWeight: 600,
                         }}
@@ -152,15 +151,19 @@ export default function Page() {
 
               {/* Transaction rows */}
               {transactions.map((item) => (
-                <Link key={item.id} to={retrieveUrlFromTransaction(item)} style={{ display: "block" }}>
+                <Link
+                  key={item.id}
+                  to={retrieveUrlFromTransaction(item)}
+                  style={{ display: "block" }}
+                >
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
                       padding: "0.4rem 0",
-                      borderBottom: "1px dotted rgba(26, 18, 10, 0.15)",
-                      fontSize: "1rem",
+                      borderBottom: "1px solid rgba(26, 18, 10, 0.15)",
+                      fontSize: "0.8rem",
                       color:
                         item.operation === "income"
                           ? TOKENS.ACCENT_GREEN
@@ -207,7 +210,7 @@ export default function Page() {
         <div
           style={{
             textAlign: "center",
-            padding: TOKENS.SPACE_2,
+            padding: TOKENS.SPACE_4,
             color: TOKENS.INK_FADED,
             fontStyle: "italic",
           }}

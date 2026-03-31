@@ -220,7 +220,7 @@ export function CostShortcutsSection() {
 
   return (
     <>
-      <Card>
+      <Card style={{ border: "none" }}>
         {/* Header: datepicker + edit toggle */}
         <div
           style={{
@@ -228,7 +228,7 @@ export function CostShortcutsSection() {
             justifyContent: "space-between",
             alignItems: "center",
             flexWrap: "wrap",
-            gap: TOKENS.SPACE_1,
+            gap: TOKENS.SPACE_2,
           }}
         >
           {!editMode && (
@@ -259,7 +259,7 @@ export function CostShortcutsSection() {
             gridTemplateColumns: isMobile
               ? "repeat(2, 1fr)"
               : "repeat(auto-fit, minmax(140px, 1fr))",
-            gap: TOKENS.SPACE_1,
+            gap: TOKENS.SPACE_2,
           }}
         >
           {items.map((item, idx) =>
@@ -332,7 +332,7 @@ export function CostShortcutsSection() {
                 key={item.id}
                 onClickCallback={() => onShortcutClick(item)}
                 color="darkslategrey"
-                hoverBackground="rgba(204, 26, 26, 0.18)"
+                hoverBackground="rgba(138, 74, 74, 0.18)"
                 overrideStyles={{
                   fontSize: "0.9rem",
                 }}
@@ -394,11 +394,11 @@ export function CostShortcutsSection() {
               backgroundPosition: "center",
               border: TOKENS.BORDER_HEAVY,
               padding: isMobile
-                ? TOKENS.SPACE_2
-                : `${TOKENS.SPACE_3} ${TOKENS.SPACE_5}`,
+                ? TOKENS.SPACE_4
+                : `${TOKENS.SPACE_3} ${TOKENS.SPACE_4}`,
               borderRadius: TOKENS.RADIUS,
               boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
-              gap: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_3,
+              gap: isMobile ? TOKENS.SPACE_2 : TOKENS.SPACE_3,
             }}
           >
             <div style={{ textAlign: "center" }}>
@@ -478,7 +478,7 @@ export function CostShortcutsSection() {
               border: TOKENS.BORDER_HEAVY,
               display: "flex",
               flexDirection: "column",
-              gap: TOKENS.SPACE_2,
+              gap: TOKENS.SPACE_4,
             }}
           >
             <h3 style={{ margin: 0, textAlign: "center" }}>Create Shortcut</h3>

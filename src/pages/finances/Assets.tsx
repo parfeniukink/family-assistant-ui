@@ -255,7 +255,7 @@ export default function Page() {
           gridTemplateColumns: isMobile
             ? "1fr"
             : "repeat(auto-fill, minmax(420px, 1fr))",
-          gap: TOKENS.SPACE_2,
+          gap: TOKENS.SPACE_4,
         }}
       >
         {assets.map((asset) => (
@@ -444,7 +444,7 @@ function AssetCard({
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
         <div
@@ -490,7 +490,7 @@ function AssetCard({
                   display: "flex",
                   gap: "8px",
                   padding: "4px 0",
-                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
+                  borderBottom: "1px solid rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <span
@@ -521,7 +521,7 @@ function AssetCard({
               style={{
                 fontSize: "1rem",
                 color: TOKENS.INK_FADED,
-                fontWeight: "bold",
+                fontWeight: 700,
               }}
             >
               Documents
@@ -559,7 +559,7 @@ function AssetCard({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: TOKENS.SPACE_1,
+        gap: TOKENS.SPACE_2,
       }}
     >
       {/* Editable name */}
@@ -584,7 +584,7 @@ function AssetCard({
             style={{
               fontSize: "1rem",
               color: TOKENS.INK_FADED,
-              fontWeight: "bold",
+              fontWeight: 700,
             }}
           >
             Fields
@@ -657,7 +657,7 @@ function AssetCard({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "4px 0",
-                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
+                  borderBottom: "1px solid rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <div style={{ display: "flex", gap: "8px" }}>
@@ -798,7 +798,7 @@ function AssetCard({
               style={{
                 fontSize: "1rem",
                 color: TOKENS.INK_FADED,
-                fontWeight: "bold",
+                fontWeight: 700,
               }}
             >
               Documents
@@ -811,7 +811,7 @@ function AssetCard({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "4px 0",
-                  borderBottom: "1px dotted rgba(26, 18, 10, 0.25)",
+                  borderBottom: "1px solid rgba(26, 18, 10, 0.25)",
                 }}
               >
                 <button
@@ -889,7 +889,7 @@ function AssetCard({
           gap: "8px",
           marginTop: "auto",
           paddingTop: "8px",
-          borderTop: "1px dotted rgba(26, 18, 10, 0.25)",
+          borderTop: "1px solid rgba(26, 18, 10, 0.25)",
           justifyContent: "center",
         }}
       >
@@ -990,7 +990,7 @@ function AddAssetForm({
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
         <TextInput

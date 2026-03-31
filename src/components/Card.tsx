@@ -13,9 +13,9 @@ export function Card({ children, style }: CardProps) {
     border: TOKENS.BORDER,
     boxShadow: TOKENS.SHADOW,
     borderRadius: TOKENS.RADIUS,
-    padding: TOKENS.SPACE_2,
+    padding: TOKENS.SPACE_4,
     background: TOKENS.BG_LIGHTER,
-    gap: TOKENS.SPACE_1,
+    gap: TOKENS.SPACE_2,
   };
 
   return (

@@ -30,7 +30,7 @@ function AnalyticsFilters({
         alignItems: "center",
         textAlign: "center",
         justifyContent: "end",
-        gap: TOKENS.SPACE_2,
+        gap: TOKENS.SPACE_4,
         border: TOKENS.BORDER,
         boxShadow: TOKENS.SHADOW,
         borderRadius: TOKENS.RADIUS,
@@ -156,12 +156,12 @@ export default function Component() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              gap: TOKENS.SPACE_2,
+              gap: TOKENS.SPACE_4,
             }
           : {
               display: "grid",
               gridTemplateColumns: "1fr 1fr",
-              gap: TOKENS.SPACE_2,
+              gap: TOKENS.SPACE_4,
             }
       }
     >

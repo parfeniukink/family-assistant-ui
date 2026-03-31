@@ -281,7 +281,7 @@ export default function JobsSection() {
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: TOKENS.SPACE_1,
+        gap: TOKENS.SPACE_2,
       }}
     >
       {jobs.map((job) => (
@@ -532,7 +532,7 @@ export default function JobsSection() {
           />
         )}
 
-        <div style={{ height: "50px", width: "100%", maxWidth: "340px", alignSelf: "center" }}>
+        <div style={{ height: "50px", width: "100%", maxWidth: isMobile ? "100%" : "340px", alignSelf: "center" }}>
           <Button onClickCallback={handleAdd} overrideStyles={{ fontSize: "1.1rem", fontWeight: 600 }}>ADD JOB</Button>
         </div>
 

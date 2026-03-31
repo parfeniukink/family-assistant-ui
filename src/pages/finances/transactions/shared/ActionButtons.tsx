@@ -15,14 +15,14 @@ export function ActionButtons({
   greenText,
 }: ActionButtonsProps) {
   return (
-    <div style={{ display: "flex", gap: TOKENS.SPACE_1 }}>
+    <div style={{ display: "flex", gap: TOKENS.SPACE_2 }}>
       <Button
         color="red"
         onClickCallback={redCallback}
         overrideStyles={{
           minHeight: "75px",
-          fontSize: "large",
-          fontWeight: "bold",
+          fontSize: "1.15rem",
+          fontWeight: 700,
         }}
       >
         {redText}
@@ -32,8 +32,8 @@ export function ActionButtons({
         onClickCallback={greenCallback}
         overrideStyles={{
           minHeight: "75px",
-          fontSize: "large",
-          fontWeight: "bold",
+          fontSize: "1.15rem",
+          fontWeight: 700,
         }}
       >
         {greenText}

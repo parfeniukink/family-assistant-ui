@@ -33,7 +33,7 @@ export function App() {
             position: position,
             removeDelay: 1000,
             style: {
-              background: "rgba(26, 122, 0, 0.2)",
+              background: "rgba(74, 122, 74, 0.2)",
               border: `1.5px solid ${TOKENS.ACCENT_GREEN}`,
               color: TOKENS.ACCENT_GREEN,
             },
@@ -43,7 +43,7 @@ export function App() {
             position: position,
             removeDelay: 1000,
             style: {
-              background: "rgba(204, 26, 26, 0.2)",
+              background: "rgba(138, 74, 74, 0.2)",
               border: `1.5px solid ${TOKENS.ACCENT_RED}`,
               color: TOKENS.ACCENT_RED,
             },

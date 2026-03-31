@@ -28,14 +28,14 @@ export function NotificationModal() {
           border: TOKENS.BORDER_HEAVY,
           borderRadius: TOKENS.RADIUS,
           boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
-          padding: TOKENS.SPACE_2,
+          padding: TOKENS.SPACE_4,
           width: "90%",
           maxWidth: "420px",
           maxHeight: "70vh",
           overflowY: "auto",
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
         <div
@@ -63,7 +63,7 @@ export function NotificationModal() {
         </div>
 
         {notifications.length === 0 ? (
-          <p style={{ color: TOKENS.INK_GHOST, textAlign: "center", margin: TOKENS.SPACE_1, fontStyle: "italic" }}>
+          <p style={{ color: TOKENS.INK_GHOST, textAlign: "center", margin: TOKENS.SPACE_2, fontStyle: "italic" }}>
             No notifications
           </p>
         ) : (

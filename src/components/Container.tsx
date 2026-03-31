@@ -11,7 +11,7 @@ export function Container({ children }: { children: React.ReactNode }) {
       style={{
         display: "flex",
         flexDirection: "column",
-        padding: isMobile ? "15px" : `${TOKENS.SPACE_1} 5%`,
+        padding: isMobile ? "15px" : `${TOKENS.SPACE_2} 5%`,
         gap: TOKENS.SPACE_3,
       }}
     >
@@ -21,7 +21,7 @@ export function Container({ children }: { children: React.ReactNode }) {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_2,
+          gap: TOKENS.SPACE_4,
         }}
       >
         {children}

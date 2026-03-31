@@ -1181,7 +1181,7 @@ export default function Page() {
                         style={{
                           fontSize: "0.85rem",
                           color: TOKENS.INK,
-                          fontWeight: "bold",
+                          fontWeight: 700,
                         }}
                       >
                         {formatDateHeading(group.date)}
@@ -1261,7 +1261,7 @@ export default function Page() {
                       style={{
                         fontSize: "0.8rem",
                         color: TOKENS.INK,
-                        fontWeight: "bold",
+                        fontWeight: 700,
                         whiteSpace: "nowrap",
                       }}
                     >

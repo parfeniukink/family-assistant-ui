@@ -1,40 +1,26 @@
-import { Button, NoData } from "src/components";
-import { useIdentity, useMobile } from "src/context";
+import { NoData } from "src/components";
+import { useIdentity } from "src/context";
+import { TOKENS } from "src/styles/tokens";
 
 export default function Component() {
-  // Context
   const { user, signOut } = useIdentity();
-  const { isMobile } = useMobile();
 
   return !user ? (
     <NoData />
   ) : (
-    // Space between items once more action buttons are added
-    <div
-      style={
-        isMobile
-          ? {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "start",
-              alignItems: "center",
-            }
-          : { display: "flex", justifyContent: "space-between" }
-      }
-    >
-      <h2>Welcome, {user.name}</h2>
-      <Button
-        color="red"
-        onClickCallback={signOut}
-        overrideStyles={{
-          height: "75px",
-          width: "200px",
-          fontSize: "large",
-          fontWeight: "bold",
+    <p style={{ margin: "2rem", fontSize: "1.15rem" }}>
+      Welcome, <strong>{user.name}</strong>.{" "}
+      <span
+        onClick={signOut}
+        style={{
+          color: TOKENS.ACCENT_RED,
+          cursor: "pointer",
+          fontWeight: 600,
         }}
+        className="equity-link"
       >
-        SIGN OUT
-      </Button>
-    </div>
+        Sign out
+      </span>
+    </p>
   );
 }

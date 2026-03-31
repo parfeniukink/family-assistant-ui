@@ -71,7 +71,7 @@ export default function Authentication() {
         alignItems: "center",
         gap: "24px",
         margin: isMobile ? "30% 5% 0 5%" : "10% 30% 0 30%",
-        padding: isMobile ? TOKENS.SPACE_2 : TOKENS.SPACE_3,
+        padding: isMobile ? TOKENS.SPACE_4 : TOKENS.SPACE_3,
       }}
     >
       <h2 style={{ margin: 0, fontSize: "2rem" }}>Sign In</h2>

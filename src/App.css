@@ -4,10 +4,9 @@
   padding: 0;
   text-align: center;
   font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-  background-image: url("/textures/parchment.jpg");
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
+  background-image: url("/textures/parchment-seamless.jpg");
+  background-size: 800px;
+  background-repeat: repeat;
   min-height: 100vh;
   position: relative;
 }

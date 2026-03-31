@@ -213,7 +213,7 @@ export default function ShortcutsReorderSection() {
             border: TOKENS.BORDER_HEAVY,
             display: "flex",
             flexDirection: "column",
-            gap: TOKENS.SPACE_2,
+            gap: TOKENS.SPACE_4,
           }}
         >
           <h3 style={{ margin: 0, textAlign: "center" }}>Create Shortcut</h3>
@@ -278,7 +278,7 @@ export default function ShortcutsReorderSection() {
               onClickCallback={handleCreateShortcut}
               overrideStyles={{
                 height: "75px",
-                fontSize: "large",
+                fontSize: "1.15rem",
               }}
             >
               {creating ? "Saving…" : "Save"}
@@ -314,7 +314,7 @@ export default function ShortcutsReorderSection() {
                   gridTemplateColumns: isMobile
                     ? "repeat(1, 1fr)"
                     : "repeat(auto-fit, minmax(240px, 1fr))",
-                  gap: TOKENS.SPACE_1,
+                  gap: TOKENS.SPACE_2,
                 }
               : {
                   listStyle: "none",
@@ -322,7 +322,7 @@ export default function ShortcutsReorderSection() {
                   justifyContent: "space-around",
                   alignItems: "center",
                   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-                  gap: TOKENS.SPACE_1,
+                  gap: TOKENS.SPACE_2,
                 }
           }
         >
@@ -356,7 +356,7 @@ export default function ShortcutsReorderSection() {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  gap: TOKENS.SPACE_2,
+                  gap: TOKENS.SPACE_4,
                   fontSize: "0.9rem",
                 }}
               >

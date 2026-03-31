@@ -163,7 +163,7 @@ export default function Component() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
         {/* Default Currency */}
@@ -234,11 +234,15 @@ export default function Component() {
       <div
         style={
           isMobile
-            ? {}
+            ? {
+                display: "flex",
+                flexDirection: "column",
+                gap: TOKENS.SPACE_4,
+              }
             : {
                 display: "flex",
                 justifyContent: "start",
-                gap: TOKENS.SPACE_3,
+                gap: TOKENS.SPACE_5,
               }
         }
       >
@@ -246,10 +250,10 @@ export default function Component() {
           style={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "flex-start",
             gap: TOKENS.SPACE_1,
-            margin: "0.5rem",
-            fontWeight: "bold",
+            flex: 1,
+            fontWeight: 700,
           }}
         >
           <span>COST SNIPPETS</span>
@@ -266,7 +270,16 @@ export default function Component() {
             rows={10}
           />
         </label>
-        <label className="settings__label-items">
+        <label
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            gap: TOKENS.SPACE_1,
+            flex: 1,
+            fontWeight: 700,
+          }}
+        >
           <span>INCOME SNIPPETS</span>
           <textarea
             value={incomeSnippetsEdit}

@@ -223,7 +223,7 @@ export default function Page() {
           gridTemplateColumns: isMobile
             ? "1fr"
             : "repeat(auto-fill, minmax(420px, 1fr))",
-          gap: TOKENS.SPACE_2,
+          gap: TOKENS.SPACE_4,
         }}
       >
         {cards.map((card) => (
@@ -353,7 +353,7 @@ function CashCard({
       style={{
         display: "flex",
         flexDirection: "column",
-        gap: TOKENS.SPACE_1,
+        gap: TOKENS.SPACE_2,
         minHeight: "220px",
       }}
     >
@@ -419,7 +419,7 @@ function CashCard({
         <span
           style={{
             fontSize: "1.4rem",
-            fontWeight: "bold",
+            fontWeight: 700,
             textAlign: "center",
           }}
         >
@@ -506,7 +506,7 @@ function CashCard({
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: TOKENS.SPACE_2,
+            gap: TOKENS.SPACE_4,
             marginTop: "auto",
           }}
         >
@@ -516,7 +516,7 @@ function CashCard({
               onClickCallback={onDecrement}
               overrideStyles={{
                 fontSize: "1.2rem",
-                fontWeight: "bold",
+                fontWeight: 700,
                 opacity: decrementDisabled ? 0.4 : 1,
                 pointerEvents: decrementDisabled
                   ? "none"
@@ -533,7 +533,7 @@ function CashCard({
               onClickCallback={onIncrement}
               overrideStyles={{
                 fontSize: "1.2rem",
-                fontWeight: "bold",
+                fontWeight: 700,
                 padding: "4px 16px",
               }}
             >
@@ -619,7 +619,7 @@ function AddCashForm({
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: TOKENS.SPACE_1,
+          gap: TOKENS.SPACE_2,
         }}
       >
         <Dropdown

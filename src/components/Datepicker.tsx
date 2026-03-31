@@ -21,7 +21,8 @@ export function Datepicker({
   const styles = {
     fontSize: "0.9rem",
     fontWeight: 300,
-    padding: "5px 20px",
+    padding: "0 16px",
+    minHeight: "2.5rem",
     boxShadow: "none",
     cursor: "pointer",
     transform: "none",
@@ -49,13 +50,13 @@ export function Datepicker({
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              gap: TOKENS.SPACE_1,
+              gap: TOKENS.SPACE_2,
             }
           : {
               display: "flex",
               justifyContent: "center",
-              alignItems: "center",
-              gap: TOKENS.SPACE_1,
+              alignItems: "stretch",
+              gap: TOKENS.SPACE_2,
             }
       }
     >
