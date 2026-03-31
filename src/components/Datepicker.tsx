@@ -71,8 +71,10 @@ export function Datepicker({
       {showShortcuts && (
         <div
           style={{
-            display: "flex",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)",
             gap: "10px",
+            width: isMobile ? "100%" : "auto",
           }}
         >
           <Button

@@ -1,5 +1,6 @@
 import React, { useState, useCallback, memo } from "react";
 import { TOKENS } from "../styles/tokens";
+import { SketchBorder } from "./SketchBorder";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -11,8 +12,9 @@ type ButtonProps = {
 };
 
 const DEFAULT_STYLES: React.CSSProperties = {
+  position: "relative",
   fontFamily: "inherit",
-  border: TOKENS.BORDER,
+  border: "none",
   borderRadius: TOKENS.RADIUS,
   color: TOKENS.INK_LIGHT,
   background: "transparent",
@@ -67,7 +69,7 @@ export const Button = memo(function Button({
   const style: React.CSSProperties = {
     ...DEFAULT_STYLES,
     ...extraStyles,
-    border: `3px solid ${borderColor}`,
+    border: "none",
     color: textColor,
     transform,
     ...hoverStyles,
@@ -82,7 +84,8 @@ export const Button = memo(function Button({
       onClick={onClickCallback}
       type="button"
     >
-      {children}
+      <SketchBorder stroke={borderColor} strokeWidth={3} />
+      <span style={{ position: "relative" }}>{children}</span>
     </button>
   );
 });

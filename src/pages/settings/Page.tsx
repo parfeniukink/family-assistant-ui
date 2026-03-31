@@ -3,7 +3,7 @@ import IdentityActions from "./IdentityActions";
 import FinancesSection from "./Finances";
 import NewsSection from "./News";
 import JobsSection from "./Jobs";
-import { Card, Container } from "src/components";
+import { Card, Container, SketchBorder } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 import { useMobile } from "src/context";
 
@@ -21,6 +21,7 @@ export default function Page() {
   const { isMobile } = useMobile();
 
   const tabStyle = (tab: SettingsTab): React.CSSProperties => ({
+    position: "relative",
     padding: "0.5rem 1.5rem",
     cursor: "pointer",
     fontFamily: "inherit",
@@ -29,13 +30,14 @@ export default function Page() {
     background: activeTab === tab ? "rgba(26, 18, 10, 0.12)" : "transparent",
     color: activeTab === tab ? TOKENS.INK : TOKENS.INK_FADED,
     fontWeight: activeTab === tab ? 700 : 400,
-    border: activeTab === tab ? TOKENS.BORDER_HEAVY : TOKENS.BORDER,
+    border: "none",
     borderRadius: TOKENS.RADIUS,
   });
 
   return (
     <>
       <Container>
+        <div style={{ fontSize: "1.1rem" }}>
         <IdentityActions />
 
         <div
@@ -52,14 +54,16 @@ export default function Page() {
             onClick={() => handleTabChange("resources")}
             type="button"
           >
-            RESOURCES
+            <SketchBorder stroke={activeTab === "resources" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
+            <span style={{ position: "relative" }}>RESOURCES</span>
           </button>
           <button
             style={tabStyle("news")}
             onClick={() => handleTabChange("news")}
             type="button"
           >
-            NEWS
+            <SketchBorder stroke={activeTab === "news" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
+            <span style={{ position: "relative" }}>NEWS</span>
           </button>
         </div>
 
@@ -98,6 +102,7 @@ export default function Page() {
             </div>
           </>
         )}
+      </div>
       </Container>
       <div>
         <br />

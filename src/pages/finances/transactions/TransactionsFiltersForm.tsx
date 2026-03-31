@@ -87,18 +87,13 @@ export default function TransactionsFiltersForm() {
               <option value="exchange">exchange</option>
             </Dropdown>
           </div>
-          <div style={{ ...CELL, background: "transparent", gridColumn: "1 / -1" }}>
-            <div style={{ display: "flex", gap: "0.5rem", alignItems: "end" }}>
-              <div style={{ flex: 1 }}>
-                <span style={LABEL}>from</span>
-                <input type="date" className="datepicker" style={{ width: "100%", fontSize: "0.85rem" }} value={selectedStartDate} onChange={(e) => updateParam("startDate", e.target.value)} />
-              </div>
-              <span style={{ color: TOKENS.INK_FADED, paddingBottom: "0.5rem" }}>&mdash;</span>
-              <div style={{ flex: 1 }}>
-                <span style={LABEL}>to</span>
-                <input type="date" className="datepicker" style={{ width: "100%", fontSize: "0.85rem" }} value={selectedEndDate} onChange={(e) => updateParam("endDate", e.target.value)} />
-              </div>
-            </div>
+          <div style={{ ...CELL, background: "transparent" }}>
+            <span style={LABEL}>from</span>
+            <input type="date" className="datepicker" style={{ width: "100%" }} value={selectedStartDate} onChange={(e) => updateParam("startDate", e.target.value)} />
+          </div>
+          <div style={{ ...CELL, background: "transparent" }}>
+            <span style={LABEL}>to</span>
+            <input type="date" className="datepicker" style={{ width: "100%" }} value={selectedEndDate} onChange={(e) => updateParam("endDate", e.target.value)} />
           </div>
           <div style={{ ...CELL, background: "transparent", gridColumn: "1 / -1" }}>
             <span style={LABEL}>pattern</span>

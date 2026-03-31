@@ -5,11 +5,31 @@ import { Toaster } from "react-hot-toast";
 import { TOKENS } from "./styles/tokens.ts";
 
 export function App() {
-  const isMobile = window.innerWidth < 600;
-  const position = isMobile ? "top-center" : "bottom-right";
+  const position = "top-center";
 
   return (
     <>
+      <svg style={{ position: "absolute", width: 0, height: 0 }}>
+        <defs>
+          <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence
+              type="turbulence"
+              baseFrequency="0.03"
+              numOctaves={4}
+              seed={2}
+              result="noise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="noise"
+              scale={2.5}
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
       <React.Suspense fallback={<div className="page-loading">Loading…</div>}>
         <RouterProvider router={router} />
       </React.Suspense>

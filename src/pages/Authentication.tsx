@@ -38,11 +38,11 @@ export default function Authentication() {
 
   async function handleSubmit(): Promise<void> {
     if (!username.trim()) {
-      toast.error("Enter username");
+      toast.error("Who are you?");
       return;
     }
     if (!password) {
-      toast.error("Enter password");
+      toast.error("Passphrase");
       return;
     }
 
@@ -64,13 +64,22 @@ export default function Authentication() {
   }
 
   return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        padding: isMobile ? "0 5%" : "0 30%",
+      }}
+    >
     <Card
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "24px",
-        margin: isMobile ? "30% 5% 0 5%" : "10% 30% 0 30%",
+        width: "100%",
         padding: isMobile ? TOKENS.SPACE_4 : TOKENS.SPACE_3,
       }}
     >
@@ -78,7 +87,7 @@ export default function Authentication() {
 
       <input
         type="text"
-        placeholder="Username"
+        placeholder="Who?"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -97,7 +106,7 @@ export default function Authentication() {
 
       <input
         type="password"
-        placeholder="Password"
+        placeholder="Passphrase..."
         value={password}
         onChange={(e) => setPassword(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -126,5 +135,6 @@ export default function Authentication() {
         {isSubmitting ? "Signing in..." : "Sign In"}
       </Button>
     </Card>
+    </div>
   );
 }

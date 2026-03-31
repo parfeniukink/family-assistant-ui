@@ -1,6 +1,17 @@
 @import "./tokens.css";
 
 /* ───────────────────────────────────────────────────────── */
+/* Sketch border animations */
+/* ───────────────────────────────────────────────────────── */
+@keyframes drawBorder {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeContent {
+  to { opacity: 1; }
+}
+
+/* ───────────────────────────────────────────────────────── */
 /* Core Tags */
 /* ───────────────────────────────────────────────────────── */
 * {
@@ -19,6 +30,9 @@ body {
 }
 
 /* Headings */
+h1, h2, h3, h4 {
+  font-family: "IM Fell DW Pica SC", serif;
+}
 h1 {
   font-size: var(--font-2xl);
   font-weight: 700;
@@ -60,6 +74,7 @@ hr::after {
   content: "";
   padding: 0 4px;
 }
+
 
 /* Links */
 a {
@@ -233,6 +248,7 @@ span {
 .transaction__items_group {
   display: flex;
   justify-content: space-between;
+  align-items: stretch; /* snippets button matches input height */
   gap: var(--space-1);
 }
 

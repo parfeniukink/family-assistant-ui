@@ -112,7 +112,6 @@ export default function Component({
           ? {
               width: "100%",
               padding: "10px",
-              border: "none",
             }
           : {
               display: "flex",
@@ -120,7 +119,6 @@ export default function Component({
               width: "100%",
               margin: 0,
               padding: TOKENS.SPACE_2,
-              border: "none",
             }
       }
     >

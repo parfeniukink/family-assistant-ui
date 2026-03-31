@@ -225,9 +225,9 @@ export function CostShortcutsSection() {
         <div
           style={{
             display: "flex",
+            flexDirection: isMobile ? "column" : "row",
             justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
+            alignItems: isMobile ? "stretch" : "center",
             gap: TOKENS.SPACE_2,
           }}
         >
@@ -421,8 +421,8 @@ export function CostShortcutsSection() {
               style={{ height: "75px", fontSize: "1.2rem" }}
             />
             <Button
-              color="darkslategrey"
-              hoverBackground="indianred"
+              color="red"
+              hoverBackground="rgba(138, 74, 74, 0.18)"
               onClickCallback={() => {
                 if (
                   userValue != null &&

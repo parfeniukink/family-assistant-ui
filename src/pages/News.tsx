@@ -575,6 +575,7 @@ function SourceCard({
           padding: "0.75rem 1rem",
           gap: "0.4rem",
           boxShadow: "none",
+          border: "none",
           textAlign: "left",
         }}
       >

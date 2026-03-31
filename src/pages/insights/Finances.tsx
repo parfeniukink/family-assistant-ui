@@ -4,7 +4,7 @@ import {
   fetchBasicAnalyticsFiltered,
 } from "src/data/api/client";
 import type { TransactionsBasicAnalyticsResponse } from "src/data/types/analytics";
-import { Button } from "src/components";
+import { Button, SketchBorder } from "src/components";
 import TransactionsBaseAnalyticsSection from "./TransactionsBaseAnalyticsSection";
 import { TOKENS } from "src/styles/tokens";
 import toast from "react-hot-toast";
@@ -24,13 +24,14 @@ function AnalyticsFilters({
   return (
     <div
       style={{
+        position: "relative",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
         justifyContent: "end",
         gap: TOKENS.SPACE_4,
-        border: TOKENS.BORDER,
+        border: "none",
         boxShadow: TOKENS.SHADOW,
         borderRadius: TOKENS.RADIUS,
         marginRight: "",
@@ -38,6 +39,7 @@ function AnalyticsFilters({
         padding: "20px",
       }}
     >
+      <SketchBorder />
       <h4 style={{ margin: 0 }}>DATES ... RANGE</h4>
       <div style={{ display: "flex", flexDirection: "row" }}>
         <input

@@ -101,7 +101,7 @@ export default function Page() {
                 padding: isMobile ? "10px" : TOKENS.SPACE_2,
                 gap: TOKENS.SPACE_1,
                 textAlign: "left",
-                border: isMobile ? "none" : undefined,
+                border: "none",
               }}
             >
               {/* Date header with daily totals */}

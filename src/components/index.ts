@@ -7,4 +7,5 @@ export * from "./Dropdown";
 export * from "./NoData";
 export * from "./TextInput";
 export * from "./Button";
+export * from "./SketchBorder";
 export * from "./Navbar";
