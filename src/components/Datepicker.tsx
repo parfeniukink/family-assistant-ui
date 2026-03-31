@@ -19,7 +19,7 @@ export function Datepicker({
   const { isMobile } = useMobile();
 
   const styles = {
-    fontSize: "small",
+    fontSize: "0.9rem",
     fontWeight: 300,
     padding: "5px 20px",
     boxShadow: "none",
@@ -74,28 +74,28 @@ export function Datepicker({
           }}
         >
           <Button
-            color="blue"
+            color="darkslategrey"
             overrideStyles={styles}
             onClickCallback={() => daysFromToday(0)}
           >
             today
           </Button>
           <Button
-            color="blue"
+            color="darkslategrey"
             overrideStyles={styles}
             onClickCallback={() => daysFromToday(1)}
           >
             -1
           </Button>
           <Button
-            color="blue"
+            color="darkslategrey"
             overrideStyles={styles}
             onClickCallback={() => daysFromToday(2)}
           >
             -2
           </Button>
           <Button
-            color="blue"
+            color="darkslategrey"
             overrideStyles={styles}
             onClickCallback={() => daysFromToday(3)}
           >

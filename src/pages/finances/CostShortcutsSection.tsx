@@ -83,13 +83,13 @@ export function CostShortcutsSection() {
                 color="darkslategrey"
                 hoverBackground="indianred"
                 overrideStyles={{
-                  fontSize: "small",
+                  fontSize: "0.9rem",
                 }}
               >
-                <p style={{ marginBottom: 0, fontSize: "medium" }}>
+                <p style={{ marginBottom: 0, fontSize: "1rem" }}>
                   {item.name}
                 </p>
-                <p style={{ fontSize: "small", margin: 0 }}>
+                <p style={{ fontSize: "0.9rem", margin: 0 }}>
                   {item.category.name}
                 </p>
                 <p>{item.value ? `${item.value} ${item.currency.sign}` : ""}</p>
@@ -107,7 +107,7 @@ export function CostShortcutsSection() {
               zIndex: 9999,
               width: "100vw",
               height: "100vh",
-              background: TOKENS.BG,
+              background: "rgba(59, 46, 26, 0.85)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -119,19 +119,21 @@ export function CostShortcutsSection() {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                background: TOKENS.BG_LIGHTER,
-                border: TOKENS.BORDER,
+                backgroundImage: "url('/textures/parchment.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                border: TOKENS.BORDER_HEAVY,
                 padding: isMobile
                   ? TOKENS.SPACE_2
                   : `${TOKENS.SPACE_3} ${TOKENS.SPACE_5}`,
                 borderRadius: TOKENS.RADIUS,
-                boxShadow: TOKENS.SHADOW,
+                boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
                 gap: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_3,
               }}
             >
               <div style={{ textAlign: "center" }}>
                 <h1>{activeShortcut.name}</h1>
-                <div style={{ color: "#888" }}>
+                <div style={{ color: "#5a4020" }}>
                   {activeShortcut.category.name}
                   {activeShortcut.currency
                     ? ` (${activeShortcut.currency.sign})`

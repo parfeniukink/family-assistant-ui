@@ -20,8 +20,11 @@ export function App() {
           position: position,
           removeDelay: 1000,
           style: {
-            background: TOKENS.BG_YELLOW,
-            color: TOKENS.WHITE,
+            background: "rgba(139, 119, 80, 0.15)",
+            border: `1.5px solid ${TOKENS.INK_FADED}`,
+            color: TOKENS.INK,
+            borderRadius: TOKENS.RADIUS,
+            fontFamily: "inherit",
             zIndex: 10000,
           },
 
@@ -30,7 +33,9 @@ export function App() {
             position: position,
             removeDelay: 1000,
             style: {
-              background: TOKENS.BG_GREEN,
+              background: "rgba(26, 122, 0, 0.2)",
+              border: `1.5px solid ${TOKENS.ACCENT_GREEN}`,
+              color: TOKENS.ACCENT_GREEN,
             },
           },
           error: {
@@ -38,7 +43,9 @@ export function App() {
             position: position,
             removeDelay: 1000,
             style: {
-              background: TOKENS.BG_RED,
+              background: "rgba(204, 26, 26, 0.2)",
+              border: `1.5px solid ${TOKENS.ACCENT_RED}`,
+              color: TOKENS.ACCENT_RED,
             },
           },
         }}

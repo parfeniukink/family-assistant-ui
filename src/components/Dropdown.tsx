@@ -13,11 +13,11 @@ export function Dropdown({ children, value, onChangeCallback }: DropdownProps) {
       onChange={onChangeCallback}
       style={{
         fontFamily: "inherit",
-        color: TOKENS.WHITE,
+        color: TOKENS.INK,
         border: TOKENS.BORDER,
         borderRadius: TOKENS.RADIUS,
-        background: "none",
-        fontSize: "16px",
+        background: "transparent",
+        fontSize: "1rem",
       }}
     >
       {children}

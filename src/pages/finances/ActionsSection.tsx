@@ -9,7 +9,7 @@ export function ActionsSection() {
 
   const defaultButtonStyles: React.CSSProperties = {
     minHeight: "4rem",
-    fontSize: "medium",
+    fontSize: "1rem",
     fontWeight: 700,
     padding: `${TOKENS.SPACE_1} ${TOKENS.SPACE_2}`,
   };

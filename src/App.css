@@ -1,17 +1,12 @@
-@font-face {
-  font-family: "ComicSans";
-  src:
-    url("/fonts/ComicSansBold.ttf") format("truetype"),
-    url("/fonts/ComicSans.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0;
   text-align: center;
-  font-family: "ComicSans", "sans-serif";
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  background-image: url("/textures/parchment.jpg");
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  min-height: 100vh;
 }

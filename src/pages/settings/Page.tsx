@@ -25,9 +25,11 @@ export default function Page() {
     cursor: "pointer",
     fontFamily: "inherit",
     fontSize: "0.9rem",
-    background: activeTab === tab ? TOKENS.BLACK : "transparent",
-    color: activeTab === tab ? TOKENS.WHITE : TOKENS.GRAY,
-    border: TOKENS.BORDER,
+    letterSpacing: "0.08em",
+    background: activeTab === tab ? "rgba(26, 18, 10, 0.12)" : "transparent",
+    color: activeTab === tab ? TOKENS.INK : TOKENS.INK_FADED,
+    fontWeight: activeTab === tab ? 700 : 400,
+    border: activeTab === tab ? TOKENS.BORDER_HEAVY : TOKENS.BORDER,
     borderRadius: TOKENS.RADIUS,
   });
 

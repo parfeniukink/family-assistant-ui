@@ -120,7 +120,7 @@ export default function Page() {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    fontSize: "medium",
+                    fontSize: "1rem",
                     gap: TOKENS.SPACE_1,
                     minWidth: "250px",
                   }}
@@ -142,7 +142,7 @@ export default function Page() {
                           style={{
                             display: "flex",
                             gap: "0.5rem",
-                            fontSize: "x-small",
+                            fontSize: "0.85rem",
                           }}
                         >
                           {totalIncome > 0 && (
@@ -162,7 +162,7 @@ export default function Page() {
 
                   <div
                     style={{
-                      fontSize: "small",
+                      fontSize: "0.95rem",
                       display: "flex",
                       flexDirection: "column",
                       gap: isMobile ? "7px" : "",
@@ -176,11 +176,12 @@ export default function Page() {
                               ? {
                                   display: "flex",
                                   justifyContent: "space-between",
+                                  color: item.operation === "exchange" ? "#1456b8" : "#1a120a",
                                 }
                               : {
                                   display: "flex",
                                   justifyContent: "space-between",
-                                  color: TOKENS.ACCENT_GREEN,
+                                  color: "#1a7a00",
                                   fontWeight: "bold",
                                 }
                           }

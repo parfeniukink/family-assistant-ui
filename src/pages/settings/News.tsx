@@ -43,7 +43,7 @@ const tagStyle = (bg: string): React.CSSProperties => ({
   padding: "0.25rem 0.6rem",
   borderRadius: "4px",
   background: bg,
-  color: TOKENS.WHITE,
+  color: TOKENS.INK,
 });
 
 function ProfilePreview({ profile }: { profile: ParsedProfile }) {
@@ -77,9 +77,9 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
             <div key={label}>
               <span
                 style={{
-                  fontSize: "0.7rem",
+                  fontSize: "0.9rem",
                   fontWeight: "bold",
-                  color: TOKENS.GRAY,
+                  color: TOKENS.INK_FADED,
                   letterSpacing: "0.05em",
                   marginBottom: "0.4rem",
                   display: "block",
@@ -108,9 +108,9 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
         <div>
           <span
             style={{
-              fontSize: "0.7rem",
+              fontSize: "0.9rem",
               fontWeight: "bold",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_FADED,
               letterSpacing: "0.05em",
               marginBottom: "0.4rem",
               display: "block",
@@ -130,10 +130,10 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
                 key={i}
                 style={{
                   fontSize: "0.8rem",
-                  color: TOKENS.WHITE,
+                  color: TOKENS.INK,
                   padding: "0.3rem 0.5rem",
                   borderRadius: "4px",
-                  background: TOKENS.BLACK,
+                  background: TOKENS.INK,
                 }}
               >
                 <span style={{ opacity: 0.5 }}>&times;</span>{" "}
@@ -141,8 +141,8 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
                 {d.deleted_at && (
                   <span
                     style={{
-                      color: TOKENS.GRAY,
-                      fontSize: "0.7rem",
+                      color: TOKENS.INK_FADED,
+                      fontSize: "0.9rem",
                       marginLeft: "0.4rem",
                     }}
                   >
@@ -152,7 +152,7 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
                 {d.feedback && (
                   <span
                     style={{
-                      color: TOKENS.GRAY,
+                      color: TOKENS.INK_FADED,
                       fontStyle: "italic",
                       marginLeft: "0.5rem",
                     }}
@@ -169,7 +169,7 @@ function ProfilePreview({ profile }: { profile: ParsedProfile }) {
       {profile.skip.length === 0 &&
         profile.high_priority.length === 0 &&
         profile.recently_deleted.length === 0 && (
-          <span style={{ fontSize: "0.8rem", color: TOKENS.GRAY }}>
+          <span style={{ fontSize: "0.8rem", color: TOKENS.INK_FADED }}>
             No rules yet. React to articles to generate preferences.
           </span>
         )}
@@ -279,7 +279,7 @@ export default function NewsSection() {
               background: "transparent",
               maxWidth: "200px",
               height: "50px",
-              fontSize: "medium",
+              fontSize: "1rem",
             }}
           />
         </label>
@@ -311,7 +311,7 @@ export default function NewsSection() {
           padding: "0.75rem",
           fontFamily: "inherit",
           fontSize: "0.9rem",
-          color: TOKENS.WHITE,
+          color: TOKENS.INK,
           background: "transparent",
           border: TOKENS.BORDER,
           borderRadius: TOKENS.RADIUS,
@@ -333,10 +333,10 @@ export default function NewsSection() {
           <button
             onClick={() => setEditingRaw(!editingRaw)}
             style={{
-              fontSize: "0.75rem",
+              fontSize: "0.9rem",
               padding: "0.25rem 0.6rem",
-              background: editingRaw ? TOKENS.BLACK : "transparent",
-              color: TOKENS.GRAY,
+              background: editingRaw ? TOKENS.INK : "transparent",
+              color: TOKENS.INK_FADED,
               border: TOKENS.BORDER,
               borderRadius: TOKENS.RADIUS,
               cursor: "pointer",
@@ -350,8 +350,8 @@ export default function NewsSection() {
       <span
         style={{
           display: "block",
-          fontSize: "0.75rem",
-          color: TOKENS.GRAY,
+          fontSize: "0.9rem",
+          color: TOKENS.INK_FADED,
           marginBottom: "0.5rem",
           textAlign: "right",
         }}
@@ -373,7 +373,7 @@ export default function NewsSection() {
             padding: "0.75rem",
             fontFamily: "inherit",
             fontSize: "0.9rem",
-            color: TOKENS.WHITE,
+            color: TOKENS.INK,
             background: "transparent",
             border: TOKENS.BORDER,
             borderRadius: TOKENS.RADIUS,

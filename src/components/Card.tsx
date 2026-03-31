@@ -14,7 +14,7 @@ export function Card({ children, style }: CardProps) {
     boxShadow: TOKENS.SHADOW,
     borderRadius: TOKENS.RADIUS,
     padding: TOKENS.SPACE_2,
-    background: TOKENS.BG,
+    background: TOKENS.BG_LIGHTER,
     gap: TOKENS.SPACE_1,
   };
 

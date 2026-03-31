@@ -28,7 +28,8 @@ export function renderMarkdown(text: string): ReactNode[] {
         <span
           key={key++}
           style={{
-            color: TOKENS.WHITE,
+            color: TOKENS.INK,
+            fontWeight: 700,
             fontStyle: "italic",
           }}
         >
@@ -38,7 +39,7 @@ export function renderMarkdown(text: string): ReactNode[] {
     } else if (match[3]) {
       // **bold**
       result.push(
-        <span key={key++} style={{ color: TOKENS.WHITE }}>
+        <span key={key++} style={{ color: TOKENS.INK, fontWeight: 700 }}>
           {match[3]}
         </span>
       );

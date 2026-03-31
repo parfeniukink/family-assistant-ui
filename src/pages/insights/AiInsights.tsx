@@ -13,14 +13,14 @@ function defaultRange(): { start: string; end: string } {
 }
 
 const BAR_COLORS = [
-  TOKENS.ACCENT,
-  TOKENS.ACCENT_BLUE,
-  TOKENS.ACCENT_GREEN,
-  TOKENS.ACCENT_RED,
-  TOKENS.BG_YELLOW,
-  TOKENS.BG_BLUE,
-  TOKENS.BG_GREEN,
-  TOKENS.BG_RED,
+  "#6b4c8a",
+  "#2a5599",
+  "#3a7a20",
+  "#b33030",
+  "#5a4020",
+  "#352008",
+  "#1a120a",
+  "#7a6844",
 ];
 
 export default function AiInsights() {
@@ -60,7 +60,7 @@ export default function AiInsights() {
     padding: "0.4rem 0.6rem",
     fontFamily: "inherit",
     fontSize: "0.85rem",
-    color: TOKENS.WHITE,
+    color: TOKENS.INK,
     background: "transparent",
     border: TOKENS.BORDER,
     borderRadius: TOKENS.RADIUS,
@@ -113,19 +113,19 @@ export default function AiInsights() {
               marginBottom: "1.5rem",
               flexWrap: "wrap",
               fontSize: "0.85rem",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_FADED,
             }}
           >
             <span>
               Pipelines:{" "}
-              <b style={{ color: TOKENS.WHITE }}>{pipelines.length}</b>
+              <b style={{ color: TOKENS.INK }}>{pipelines.length}</b>
             </span>
             <span>
-              Total runs: <b style={{ color: TOKENS.WHITE }}>{totalRuns}</b>
+              Total runs: <b style={{ color: TOKENS.INK }}>{totalRuns}</b>
             </span>
             <span>
               Total cost:{" "}
-              <b style={{ color: TOKENS.WHITE }}>${totalCost.toFixed(4)}</b>
+              <b style={{ color: TOKENS.INK }}>${totalCost.toFixed(4)}</b>
             </span>
           </div>
 
@@ -149,8 +149,8 @@ export default function AiInsights() {
                     fontSize: "0.8rem",
                   }}
                 >
-                  <span style={{ color: TOKENS.WHITE }}>{p.pipelineName}</span>
-                  <span style={{ color: TOKENS.GRAY }}>
+                  <span style={{ color: TOKENS.INK }}>{p.pipelineName}</span>
+                  <span style={{ color: TOKENS.INK_FADED }}>
                     ${p.totalCost.toFixed(4)} · {p.totalRuns} runs ·{" "}
                     {p.percentage.toFixed(1)}%
                   </span>
@@ -160,7 +160,7 @@ export default function AiInsights() {
                   style={{
                     width: "100%",
                     height: "1.25rem",
-                    background: TOKENS.BLACK,
+                    background: "rgba(26, 18, 10, 0.15)",
                     borderRadius: TOKENS.RADIUS,
                     overflow: "hidden",
                   }}

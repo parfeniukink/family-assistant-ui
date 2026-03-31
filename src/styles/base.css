@@ -20,7 +20,7 @@ body {
 
 hr {
   border: none;
-  border-top: 1px solid;
+  border-top: 1px solid rgba(26, 18, 10, 0.3);
   overflow: visible;
   text-align: center;
   height: 0px;
@@ -33,38 +33,39 @@ hr::after {
 
 /* Links */
 a {
-  color: var(--white);
+  color: var(--ink-light);
   text-decoration: none;
+  transition: color 0.12s;
 }
 a:hover {
-  color: var(--link);
+  color: var(--ink);
   text-decoration: none;
 }
 
 nav {
   border: var(--border);
-  box-shadow: var(--shadow);
   border-radius: var(--radius);
   padding: var(--space-1);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  color: var(--link);
+  color: var(--ink-light);
+  background: var(--bg-lighter);
 }
 
 button {
   font-family: inherit;
 }
 button:hover {
-  transform: translate(1px, 1px);
+  transform: translateY(-1px);
 }
 button:active {
-  transform: translate(2px, 2px);
+  transform: translateY(0);
 }
 
 input {
   font-family: inherit;
-  color: var(--white);
+  color: var(--ink);
   background: transparent;
   border: var(--border);
   border-radius: var(--radius);
@@ -72,12 +73,16 @@ input {
   padding: 0 1rem;
   width: 100%;
   cursor: pointer;
+  transition: border-color 0.15s;
 }
 input:focus {
   outline: none;
+  border-color: var(--ink-light);
+  box-shadow: 0 0 0 2px rgba(26, 18, 10, 0.1);
 }
 input::placeholder {
-  color: var(--gray);
+  color: var(--ink-ghost);
+  font-style: italic;
   opacity: 1;
 }
 
@@ -89,12 +94,13 @@ select {
 }
 select:focus {
   outline: none;
+  border-color: var(--ink-light);
 }
 
 textarea {
   font-family: inherit;
   font-size: medium;
-  color: var(--white);
+  color: var(--ink);
   background: transparent;
   border: var(--border);
   border-radius: var(--radius);
@@ -107,11 +113,12 @@ textarea {
 }
 
 textarea::placeholder {
-  color: var(--gray);
+  color: var(--ink-ghost);
+  font-style: italic;
   opacity: 1;
 }
 
-/* Colorful classes (aka Tailwind) */
+/* Colorful classes */
 .text-green {
   color: var(--accent-green);
 }
@@ -134,11 +141,11 @@ textarea::placeholder {
   justify-content: space-between;
   align-items: center;
   gap: var(--space-1);
-  color: var(--white);
+  color: var(--ink);
   text-align: left;
 }
 span {
-  color: var(--white);
+  color: var(--ink);
 }
 
 /* Dropdown Button */
@@ -163,19 +170,23 @@ span {
 /* Date Picker */
 .datepicker {
   font-family: inherit;
-  color: white;
+  color: var(--ink);
   outline: none;
-  font-size: medium;
+  font-size: 1rem;
   background: transparent;
   border: var(--border);
   padding: 0.5rem;
   border-radius: var(--radius);
+  transition: border-color 0.15s;
+}
+.datepicker:focus {
+  border-color: var(--ink-light);
 }
 
 /* Checkbox */
 .checkbox {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   accent-color: var(--accent-green);
   cursor: pointer;
 }

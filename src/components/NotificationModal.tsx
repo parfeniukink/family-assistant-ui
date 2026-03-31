@@ -12,7 +12,7 @@ export function NotificationModal() {
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0, 0, 0, 0.6)",
+        background: "rgba(59, 46, 26, 0.85)",
         zIndex: 2000,
         display: "flex",
         alignItems: "center",
@@ -22,10 +22,12 @@ export function NotificationModal() {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: TOKENS.BG_LIGHTER,
-          border: TOKENS.BORDER,
+          backgroundImage: "url('/textures/parchment.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          border: TOKENS.BORDER_HEAVY,
           borderRadius: TOKENS.RADIUS,
-          boxShadow: TOKENS.SHADOW,
+          boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
           padding: TOKENS.SPACE_2,
           width: "90%",
           maxWidth: "420px",
@@ -43,13 +45,13 @@ export function NotificationModal() {
             alignItems: "center",
           }}
         >
-          <h3 style={{ margin: 0, color: TOKENS.WHITE }}>Notifications</h3>
+          <h3 style={{ margin: 0, color: TOKENS.INK }}>Notifications</h3>
           <button
             onClick={closeNotifications}
             style={{
               background: "none",
               border: "none",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_FADED,
               fontSize: "1.5rem",
               cursor: "pointer",
               padding: 0,
@@ -61,7 +63,7 @@ export function NotificationModal() {
         </div>
 
         {notifications.length === 0 ? (
-          <p style={{ color: TOKENS.GRAY, textAlign: "center", margin: TOKENS.SPACE_1 }}>
+          <p style={{ color: TOKENS.INK_GHOST, textAlign: "center", margin: TOKENS.SPACE_1, fontStyle: "italic" }}>
             No notifications
           </p>
         ) : (
@@ -69,7 +71,7 @@ export function NotificationModal() {
             <div
               key={i}
               style={{
-                background: TOKENS.BG,
+                background: TOKENS.BG_LIGHTER,
                 border: TOKENS.BORDER,
                 borderRadius: TOKENS.RADIUS,
                 padding: "12px",
@@ -79,7 +81,7 @@ export function NotificationModal() {
               }}
             >
               <span style={{ fontSize: "1.4rem" }}>{n.level}</span>
-              <span style={{ color: TOKENS.WHITE }}>{n.message}</span>
+              <span style={{ color: TOKENS.INK }}>{n.message}</span>
             </div>
           ))
         )}

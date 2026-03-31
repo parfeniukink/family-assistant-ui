@@ -18,7 +18,7 @@ export function DecimalInput({
       value={value}
       onChange={onChangeCallback}
       style={{
-        fontSize: "16px",
+        fontSize: "1rem",
       }}
     />
   );

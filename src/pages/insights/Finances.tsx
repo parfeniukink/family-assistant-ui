@@ -34,7 +34,7 @@ function AnalyticsFilters({
         border: TOKENS.BORDER,
         boxShadow: TOKENS.SHADOW,
         borderRadius: TOKENS.RADIUS,
-        marginRight: isMobile ? "" : TOKENS.SPACE_2,
+        marginRight: "",
         width: "100%",
         padding: "20px",
       }}
@@ -66,7 +66,7 @@ function AnalyticsFilters({
       <div className="">
         <h4 style={{ margin: 0, textAlign: "center" }}>PATTERN</h4>
         <input
-          style={{ fontSize: "16px", width: "100%" }}
+          style={{ fontSize: "1rem", width: "100%" }}
           type="text"
           value={filters.pattern || ""}
           placeholder="search pattern"
@@ -150,12 +150,20 @@ export default function Component() {
   // Layout is flex if desktop, col otherwise; naive check
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: isMobile ? "column" : "row",
-        alignItems: isMobile ? "center" : "flex-start",
-        gap: TOKENS.SPACE_2,
-      }}
+      style={
+        isMobile
+          ? {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: TOKENS.SPACE_2,
+            }
+          : {
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: TOKENS.SPACE_2,
+            }
+      }
     >
       {/* Current month */}
       {currentMonthAnalytics && (

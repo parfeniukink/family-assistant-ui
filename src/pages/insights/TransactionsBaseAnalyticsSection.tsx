@@ -15,19 +15,22 @@ const STYLES: { [key: string]: React.CSSProperties } = {
   },
   costs: {
     padding: "0.25rem 0.5rem",
-    color: "#d68f97",
+    color: "#cc1a1a",
+    fontWeight: 600,
     borderRadius: TOKENS.RADIUS,
     marginBottom: "0.2rem",
   },
   incomes: {
     padding: "0.25rem 0.5rem",
-    color: "#caf492",
+    color: "#1a7a00",
+    fontWeight: 600,
     borderRadius: TOKENS.RADIUS,
     marginBottom: "0.2rem",
   },
   exchange: {
     padding: "0.25rem 0.5rem",
-    color: "#9bdce8",
+    color: "#1456b8",
+    fontWeight: 600,
     borderRadius: TOKENS.RADIUS,
     marginBottom: "0.2rem",
   },
@@ -37,12 +40,16 @@ const STYLES: { [key: string]: React.CSSProperties } = {
     borderRadius: TOKENS.RADIUS,
   },
   ratioGood: {
-    background: TOKENS.BG_GREEN,
-    color: TOKENS.WHITE,
+    background: "rgba(26, 122, 0, 0.18)",
+    borderLeft: "4px solid #1a7a00",
+    color: "#1a120a",
+    fontWeight: 700,
   },
   ratioBad: {
-    background: TOKENS.BG_RED,
-    color: TOKENS.WHITE,
+    background: "rgba(204, 26, 26, 0.18)",
+    borderLeft: "4px solid #cc1a1a",
+    color: "#1a120a",
+    fontWeight: 700,
   },
 };
 
@@ -108,8 +115,7 @@ export default function Component({
           : {
               display: "flex",
               flexDirection: "column",
-              minWidth: 400,
-              maxWidth: 700,
+              width: "100%",
               margin: 0,
               padding: TOKENS.SPACE_1,
             }
@@ -136,7 +142,7 @@ export default function Component({
               margin: 0,
             }}
           >
-            <h1 style={{ margin: 0, fontSize: "medium" }}>
+            <h1 style={{ margin: 0, fontSize: "1rem" }}>
               [ {item.currency.name} ]
             </h1>
             <hr
@@ -146,7 +152,7 @@ export default function Component({
                 margin: "0 0 1rem 0",
               }}
             />
-            <div style={{ fontSize: "x-small" }}>
+            <div style={{ fontSize: "0.9rem" }}>
               {/* Costs */}
               <Link
                 key="costs"
@@ -159,7 +165,7 @@ export default function Component({
                     ...(item.costs.total ? STYLES.costs : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: "#d68f97" }}>COSTS:</p>
+                  <p style={{ margin: 0, color: "#cc1a1a" }}>COSTS:</p>
                   <p style={{ margin: 0 }}>
                     {`${prettyMoney(item.costs.total)} ${item.currency.sign}`}
                   </p>
@@ -176,7 +182,7 @@ export default function Component({
                     ...(item.incomes.total ? STYLES.incomes : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: "#caf492" }}>INCOMES:</p>
+                  <p style={{ margin: 0, color: "#1a7a00" }}>INCOMES:</p>
                   <p style={{ margin: 0 }}>
                     {`${prettyMoney(item.incomes.total)} ${item.currency.sign}`}
                   </p>
@@ -193,7 +199,7 @@ export default function Component({
                     ...(item.fromExchanges ? STYLES.exchange : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: "#9bdce8" }}>
+                  <p style={{ margin: 0, color: "#1456b8" }}>
                     CURRENCY EXCHANGE:
                   </p>
                   {item.fromExchanges > 0 ? (
@@ -232,7 +238,7 @@ export default function Component({
                           <span
                             style={{
                               color: TOKENS.GRAY,
-                              fontSize: "x-small",
+                              fontSize: "0.85rem",
                               marginLeft: "5px",
                             }}
                           >

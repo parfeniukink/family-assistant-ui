@@ -6,7 +6,7 @@ import {
   useMobile,
 } from "src/context";
 import { TOKENS } from "src/styles/tokens";
-import ShortcutsReorderSection from "./ShortcutsReorderSection";
+
 import { Dropdown } from "src/components";
 
 export default function Component() {
@@ -212,7 +212,7 @@ export default function Component() {
               background: "transparent",
               maxWidth: "200px",
               height: "50px",
-              fontSize: "medium",
+              fontSize: "1rem",
             }}
           />
         </label>
@@ -262,7 +262,7 @@ export default function Component() {
                 handleCostSnippetsBlurOrEnter(e);
               }
             }}
-            placeholder="Add snippets, one per line"
+            placeholder="One snippet per line"
             rows={10}
           />
         </label>
@@ -277,12 +277,11 @@ export default function Component() {
                 handleIncomeSnippetsBlurOrEnter(e);
               }
             }}
-            placeholder="Add snippets, one per line"
+            placeholder="One snippet per line"
             rows={10}
           />
         </label>
       </div>
-      <ShortcutsReorderSection />
     </div>
   );
 }

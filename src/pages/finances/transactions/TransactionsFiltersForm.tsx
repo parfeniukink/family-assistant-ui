@@ -48,137 +48,145 @@ export default function TransactionsFiltersForm() {
     });
   }
 
-  const filterGroupStyle: React.CSSProperties = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-    flexDirection: isMobile ? "row" : "column",
-    gap: "4px",
-  };
-
-  const buttonStyle = {
-    minWidth: isMobile ? "100px" : "100px",
-    minHeight: isMobile ? "50px" : "40px",
+  const labelStyle: React.CSSProperties = {
+    fontSize: "0.85rem",
+    fontWeight: 700,
+    letterSpacing: "0.06em",
+    color: TOKENS.INK_LIGHT,
+    marginBottom: "4px",
   };
 
   return (
     <Card
       style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_2,
+        gap: TOKENS.SPACE_1,
+        padding: isMobile ? TOKENS.SPACE_1 : TOKENS.SPACE_2,
       }}
     >
-      {/* Currency */}
-      <div style={filterGroupStyle}>
-        <b>currency</b>
-        <Dropdown
-          value={selectedCurrencyId}
-          onChangeCallback={(e) => updateParam("currencyId", e.target.value)}
-        >
-          <option value="">all</option>
-          {currencies.map((item) => (
-            <option value={item.id} key={item.id}>
-              {item.sign} {item.name}
-            </option>
-          ))}
-        </Dropdown>
-      </div>
-      {/* Only Mine */}
-      <div style={filterGroupStyle}>
-        <b>only mine</b>
-        <input
-          type="checkbox"
-          checked={selectedOnlyMine}
-          onChange={(e) =>
-            updateParam("onlyMine", e.target.checked ? "true" : "")
-          }
-          className="checkbox"
-        />
-      </div>
-      {/* Type */}
-      <div style={filterGroupStyle}>
-        <b>type</b>
-        <Dropdown
-          value={selectedOperation}
-          onChangeCallback={(e) => updateParam("operation", e.target.value)}
-        >
-          <option value="">all</option>
-          <option value="cost">cost</option>
-          <option value="income">income</option>
-          <option value="exchange">exchange</option>
-        </Dropdown>
-      </div>
-      {/* Min Value */}
-      <div style={filterGroupStyle}>
-        <b>min value</b>
-        <DecimalInput
-          value={selectedMinValue}
-          placeholder="0"
-          onChangeCallback={(e) => updateParam("minValue", e.target.value)}
-        />
-      </div>
-      {/* Pattern */}
-      <div style={filterGroupStyle}>
-        <b>pattern</b>
-        <TextInput
-          value={selectedPattern}
-          placeholder="search"
-          onChangeCallback={(e) => updateParam("pattern", e.target.value)}
-        />
-      </div>
-      {/* Dates */}
-      <div style={filterGroupStyle}>
-        <b>dates</b>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-          }}
-        >
-          <Datepicker
-            date={selectedStartDate}
-            setDateCallback={(value: string) =>
-              updateParam("startDate", value)
-            }
-            showShortcuts={false}
+      {/* Row 1: Main filters */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr 1fr" : "1fr 1fr 1fr auto",
+          gap: TOKENS.SPACE_1,
+          alignItems: "end",
+        }}
+      >
+        <div>
+          <div style={labelStyle}>currency</div>
+          <Dropdown
+            value={selectedCurrencyId}
+            onChangeCallback={(e) => updateParam("currencyId", e.target.value)}
+          >
+            <option value="">all</option>
+            {currencies.map((item) => (
+              <option value={item.id} key={item.id}>
+                {item.sign} {item.name}
+              </option>
+            ))}
+          </Dropdown>
+        </div>
+        <div>
+          <div style={labelStyle}>type</div>
+          <Dropdown
+            value={selectedOperation}
+            onChangeCallback={(e) => updateParam("operation", e.target.value)}
+          >
+            <option value="">all</option>
+            <option value="cost">cost</option>
+            <option value="income">income</option>
+            <option value="exchange">exchange</option>
+          </Dropdown>
+        </div>
+        <div>
+          <div style={labelStyle}>pattern</div>
+          <TextInput
+            value={selectedPattern}
+            placeholder="search"
+            onChangeCallback={(e) => updateParam("pattern", e.target.value)}
           />
-          <span style={{ color: TOKENS.GRAY }}>&mdash;</span>
-          <Datepicker
-            date={selectedEndDate}
-            setDateCallback={(value: string) => updateParam("endDate", value)}
-            showShortcuts={false}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <div style={labelStyle}>only mine</div>
+          <input
+            type="checkbox"
+            checked={selectedOnlyMine}
+            onChange={(e) =>
+              updateParam("onlyMine", e.target.checked ? "true" : "")
+            }
+            className="checkbox"
           />
         </div>
       </div>
-      {/* Buttons */}
+
+      {/* Row 2: Dates, min value, and action buttons */}
       <div
         style={{
-          display: "flex",
-          gap: "8px",
-          alignItems: "center",
-          width: "100%",
-          justifyContent: "center",
+          display: "grid",
+          gridTemplateColumns: isMobile ? "1fr" : "auto 1fr auto",
+          gap: TOKENS.SPACE_1,
+          alignItems: "end",
         }}
       >
-        <Button onClickCallback={applyFilters} overrideStyles={buttonStyle}>
-          Filter
-        </Button>
-        <Button
-          onClickCallback={() => {
-            if (transactionsLeft) {
-              fetchNextTransactions();
-            } else {
-              toast("No more transactions");
-            }
+        <div>
+          <div style={labelStyle}>dates</div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            <Datepicker
+              date={selectedStartDate}
+              setDateCallback={(value: string) =>
+                updateParam("startDate", value)
+              }
+              showShortcuts={false}
+            />
+            <span style={{ color: TOKENS.INK_FADED }}>&mdash;</span>
+            <Datepicker
+              date={selectedEndDate}
+              setDateCallback={(value: string) => updateParam("endDate", value)}
+              showShortcuts={false}
+            />
+          </div>
+        </div>
+        <div>
+          <div style={labelStyle}>min value</div>
+          <DecimalInput
+            value={selectedMinValue}
+            placeholder="0"
+            onChangeCallback={(e) => updateParam("minValue", e.target.value)}
+          />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            alignItems: "end",
           }}
-          overrideStyles={buttonStyle}
         >
-          {`Load (${transactionsLeft})`}
-        </Button>
+          <div style={{ height: "44px", minWidth: "100px" }}>
+            <Button onClickCallback={applyFilters} overrideStyles={{ fontSize: "1rem", fontWeight: 600 }}>
+              Filter
+            </Button>
+          </div>
+          <div style={{ height: "44px", minWidth: "120px" }}>
+            <Button
+              onClickCallback={() => {
+                if (transactionsLeft) {
+                  fetchNextTransactions();
+                } else {
+                  toast("No more transactions");
+                }
+              }}
+              overrideStyles={{ fontSize: "1rem" }}
+            >
+              {`Load (${transactionsLeft})`}
+            </Button>
+          </div>
+        </div>
       </div>
     </Card>
   );

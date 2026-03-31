@@ -318,11 +318,11 @@ export default function JobsSection() {
                 <strong>{job.name}</strong>
                 <span
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.9rem",
                     padding: "0.15rem 0.4rem",
                     borderRadius: "4px",
                     background: TOKENS.BG_BLUE,
-                    color: TOKENS.WHITE,
+                    color: TOKENS.INK,
                   }}
                 >
                   {actions.find((a) => a.jobType === job.jobType)?.label ?? job.jobType}
@@ -354,11 +354,11 @@ export default function JobsSection() {
                 <strong>{job.name}</strong>
                 <span
                   style={{
-                    fontSize: "0.75rem",
+                    fontSize: "0.9rem",
                     padding: "0.15rem 0.4rem",
                     borderRadius: "4px",
                     background: TOKENS.BG_BLUE,
-                    color: TOKENS.WHITE,
+                    color: TOKENS.INK,
                   }}
                 >
                   {actions.find((a) => a.jobType === job.jobType)?.label ?? job.jobType}
@@ -378,8 +378,8 @@ export default function JobsSection() {
               <div
                 className="job-card-stats"
                 style={{
-                  fontSize: "0.8rem",
-                  color: TOKENS.GRAY,
+                  fontSize: "0.9rem",
+                  color: TOKENS.INK_FADED,
                   marginTop: "0.25rem",
                   textAlign: "left",
                   whiteSpace: "nowrap",
@@ -428,7 +428,7 @@ export default function JobsSection() {
                   color={job.isActive ? "#9c6700" : "green"}
                   onClickCallback={() => handleToggle(job)}
                   overrideStyles={{
-                    fontSize: "0.8rem",
+                    fontSize: "0.9rem",
                     padding: "0.25rem",
                   }}
                 >
@@ -441,7 +441,7 @@ export default function JobsSection() {
                   color="green"
                   onClickCallback={() => handleRun(job.id)}
                   overrideStyles={{
-                    fontSize: "0.8rem",
+                    fontSize: "0.9rem",
                     padding: "0.25rem",
                   }}
                 >
@@ -454,7 +454,7 @@ export default function JobsSection() {
                   color="transparent"
                   onClickCallback={() => handleDelete(job.id)}
                   overrideStyles={{
-                    fontSize: "0.8rem",
+                    fontSize: "0.9rem",
                     padding: "0.25rem",
                   }}
                 >
@@ -532,15 +532,15 @@ export default function JobsSection() {
           />
         )}
 
-        <div style={{ height: "40px", width: "100%", maxWidth: "340px", alignSelf: "center" }}>
-          <Button onClickCallback={handleAdd}>ADD JOB</Button>
+        <div style={{ height: "50px", width: "100%", maxWidth: "340px", alignSelf: "center" }}>
+          <Button onClickCallback={handleAdd} overrideStyles={{ fontSize: "1.1rem", fontWeight: 600 }}>ADD JOB</Button>
         </div>
 
         {selected && (
           <div
             style={{
-              fontSize: "0.8rem",
-              color: TOKENS.GRAY,
+              fontSize: "0.9rem",
+              color: TOKENS.INK_FADED,
               lineHeight: 1.5,
             }}
           >

@@ -109,7 +109,7 @@ function IconBtn({
         fontSize: size,
         padding: "0.25rem",
         lineHeight: 1,
-        opacity: disabled ? 0.3 : active ? 1 : hovered ? 0.9 : 0.5,
+        opacity: disabled ? 0.3 : active ? 1 : hovered ? 1 : 0.8,
         filter: active ? "none" : "grayscale(80%)",
         transition: "opacity 0.15s, filter 0.15s",
       }}
@@ -193,9 +193,12 @@ function PreviewModal({
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: TOKENS.BG_LIGHTER,
-          border: TOKENS.BORDER,
+          backgroundImage: "url('/textures/parchment.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          border: TOKENS.BORDER_HEAVY,
           borderRadius: TOKENS.RADIUS,
+          boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
           padding: isMobile ? "0.75rem" : "2rem",
           maxWidth: isMobile ? "600px" : "1100px",
           width: "100%",
@@ -205,6 +208,7 @@ function PreviewModal({
           flexDirection: "column",
           gap: "1.25rem",
           textAlign: "left",
+          fontSize: "1rem",
         }}
       >
         {/* Header */}
@@ -220,7 +224,8 @@ function PreviewModal({
             style={{
               margin: 0,
               flex: 1,
-              color: hasReaction(item) ? TOKENS.WHITE : TOKENS.GRAY,
+              color: hasReaction(item) ? TOKENS.INK : TOKENS.INK_LIGHT,
+              opacity: item.reaction === "\uD83D\uDC40" ? 0.5 : 1,
             }}
           >
             {item.reaction && (
@@ -233,7 +238,7 @@ function PreviewModal({
             style={{
               background: "none",
               border: "none",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_LIGHT,
               cursor: "pointer",
               fontSize: "1.25rem",
               padding: 0,
@@ -249,21 +254,21 @@ function PreviewModal({
         <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
           <span
             style={{
-              fontSize: "0.7rem",
+              fontSize: "0.9rem",
               padding: "0.1rem 0.4rem",
               borderRadius: "4px",
               background: TOKENS.BG_BLUE,
-              color: TOKENS.WHITE,
+              color: TOKENS.INK,
             }}
           >
             {source}
           </span>
-          {item.bookmarked && <span style={{ fontSize: "0.75rem" }}>🔖</span>}
+          {item.bookmarked && <span style={{ fontSize: "0.9rem" }}>🔖</span>}
         </div>
 
         {/* Description */}
         {!detail ? (
-          <span style={{ color: TOKENS.GRAY, fontSize: "0.95rem" }}>
+          <span style={{ color: TOKENS.INK_LIGHT, fontSize: "0.95rem" }}>
             Loading...
           </span>
         ) : (
@@ -271,8 +276,8 @@ function PreviewModal({
             style={{
               margin: 0,
               paddingLeft: "1.2rem",
-              color: TOKENS.GRAY,
-              fontSize: "1rem",
+              color: TOKENS.INK_LIGHT,
+              fontSize: "1.5rem",
               lineHeight: 1.8,
               listStyleType: "disc",
             }}
@@ -289,15 +294,15 @@ function PreviewModal({
         {detail?.detailedDescription && (
           <div
             style={{
-              background: TOKENS.BG,
+              background: TOKENS.BG_LIGHTER,
               borderRadius: TOKENS.RADIUS,
               padding: "1rem",
-              fontSize: "0.95rem",
-              color: TOKENS.GRAY,
-              lineHeight: 1.7,
+              fontSize: "1.5rem",
+              color: TOKENS.INK_LIGHT,
+              lineHeight: 1.8,
             }}
           >
-            <strong style={{ color: TOKENS.WHITE, fontSize: "0.85rem" }}>
+            <strong style={{ color: TOKENS.INK, fontSize: "1.1rem" }}>
               Deep dive
             </strong>
             <ul style={{ margin: "0.35rem 0 0", paddingLeft: "1.2rem" }}>
@@ -310,15 +315,15 @@ function PreviewModal({
         {detail?.extendedDescription && (
           <div
             style={{
-              background: TOKENS.BG,
+              background: TOKENS.BG_LIGHTER,
               borderRadius: TOKENS.RADIUS,
               padding: "1rem",
-              fontSize: "0.95rem",
-              color: TOKENS.GRAY,
-              lineHeight: 1.7,
+              fontSize: "1.5rem",
+              color: TOKENS.INK_LIGHT,
+              lineHeight: 1.8,
             }}
           >
-            <strong style={{ color: TOKENS.WHITE, fontSize: "0.85rem" }}>
+            <strong style={{ color: TOKENS.INK, fontSize: "1.1rem" }}>
               Big picture
             </strong>
             <ul style={{ margin: "0.35rem 0 0", paddingLeft: "1.2rem" }}>
@@ -350,7 +355,7 @@ function PreviewModal({
                 }}
                 style={{
                   color: TOKENS.LINK,
-                  fontSize: "0.85rem",
+                  fontSize: "1.5rem",
                   fontStyle: "italic",
                 }}
               >
@@ -366,17 +371,17 @@ function PreviewModal({
         {detail?.humanFeedback && !feedbackOpen && (
           <div
             style={{
-              background: TOKENS.BG,
+              background: TOKENS.BG_LIGHTER,
               borderRadius: TOKENS.RADIUS,
               padding: "0.75rem",
               fontSize: "0.85rem",
-              color: TOKENS.GRAY,
+              color: TOKENS.INK_LIGHT,
               lineHeight: 1.6,
               cursor: "pointer",
             }}
             onClick={() => setFeedbackOpen(true)}
           >
-            <strong style={{ color: TOKENS.WHITE, fontSize: "0.75rem" }}>
+            <strong style={{ color: TOKENS.INK, fontSize: "0.9rem" }}>
               My notes
             </strong>
             <div style={{ marginTop: "0.35rem" }}>{detail.humanFeedback}</div>
@@ -398,8 +403,8 @@ function PreviewModal({
               rows={3}
               maxLength={5000}
               style={{
-                background: TOKENS.BG,
-                color: TOKENS.WHITE,
+                background: TOKENS.BG_LIGHTER,
+                color: TOKENS.INK,
                 border: TOKENS.BORDER,
                 borderRadius: TOKENS.RADIUS,
                 padding: "0.5rem",
@@ -414,7 +419,7 @@ function PreviewModal({
                 disabled={savingFeedback}
                 style={{
                   background: TOKENS.BG_BLUE,
-                  color: TOKENS.WHITE,
+                  color: TOKENS.INK,
                   border: "none",
                   borderRadius: TOKENS.RADIUS,
                   padding: "0.3rem 0.75rem",
@@ -433,7 +438,7 @@ function PreviewModal({
                   }}
                   style={{
                     background: "transparent",
-                    color: TOKENS.GRAY,
+                    color: TOKENS.INK_LIGHT,
                     border: TOKENS.BORDER,
                     borderRadius: TOKENS.RADIUS,
                     padding: "0.3rem 0.75rem",
@@ -451,7 +456,7 @@ function PreviewModal({
                 }}
                 style={{
                   background: "transparent",
-                  color: TOKENS.GRAY,
+                  color: TOKENS.INK_LIGHT,
                   border: "none",
                   fontSize: "0.8rem",
                   cursor: "pointer",
@@ -470,7 +475,7 @@ function PreviewModal({
             alignItems: "center",
             gap: "0.15rem",
             flexWrap: "wrap",
-            borderTop: `1px solid ${TOKENS.BLACK}`,
+            borderTop: `1px solid ${TOKENS.INK}`,
             paddingTop: "0.75rem",
           }}
         >
@@ -519,7 +524,6 @@ function PreviewModal({
               width: "1px",
               height: "1.4rem",
               background: TOKENS.GRAY,
-              opacity: 0.2,
               margin: "0 0.25rem",
               flexShrink: 0,
             }}
@@ -561,9 +565,7 @@ function SourceCard({
   const [hovered, setHovered] = useState<number | null>(null);
   const [expanded, setExpanded] = useState(false);
   const hiddenCount = block.items.length - PREVIEW_COUNT;
-  const visible = expanded
-    ? block.items
-    : block.items.slice(0, PREVIEW_COUNT);
+  const visible = expanded ? block.items : block.items.slice(0, PREVIEW_COUNT);
 
   return (
     <div>
@@ -578,11 +580,11 @@ function SourceCard({
       >
         <span
           style={{
-            fontSize: "0.7rem",
+            fontSize: "0.9rem",
             padding: "0.1rem 0.5rem",
             borderRadius: "4px",
             background: TOKENS.BG_BLUE,
-            color: TOKENS.WHITE,
+            color: TOKENS.INK,
             alignSelf: "flex-start",
             marginBottom: "0.25rem",
           }}
@@ -601,22 +603,22 @@ function SourceCard({
             }}
           >
             {!isMobile && (
-            <span
-              className="news-item-index"
-              style={{
-                fontSize: "0.75rem",
-                color: TOKENS.GRAY,
-                minWidth: "1.5rem",
-                textAlign: "right",
-                flexShrink: 0,
-              }}
-            >
-              {idx + 1}.
-            </span>
+              <span
+                className="news-item-index"
+                style={{
+                  fontSize: "0.9rem",
+                  color: TOKENS.INK_LIGHT,
+                  minWidth: "1.5rem",
+                  textAlign: "right",
+                  flexShrink: 0,
+                }}
+              >
+                {idx + 1}.
+              </span>
             )}
 
             {item.reaction && (
-              <span style={{ fontSize: "0.75rem", flexShrink: 0 }}>
+              <span style={{ fontSize: "0.9rem", flexShrink: 0 }}>
                 {item.reaction}
               </span>
             )}
@@ -628,8 +630,8 @@ function SourceCard({
               style={{
                 flex: 1,
                 minWidth: 0,
-                fontSize: isMobile ? "0.75rem" : "0.85rem",
-                color: hasReaction(item) ? TOKENS.WHITE : TOKENS.GRAY,
+                fontSize: isMobile ? "0.9rem" : "1rem",
+                color: hasReaction(item) ? TOKENS.INK : TOKENS.INK_LIGHT,
                 opacity: item.viewed && !hasReaction(item) ? 0.6 : 1,
                 cursor: "pointer",
                 overflow: isMobile ? undefined : "hidden",
@@ -657,7 +659,7 @@ function SourceCard({
               {item.hasDetailedDescription && (
                 <span
                   style={{
-                    fontSize: "0.65rem",
+                    fontSize: "0.85rem",
                     opacity: 0.7,
                     padding: "0.25rem",
                   }}
@@ -669,7 +671,7 @@ function SourceCard({
               {item.hasExtendedDescription && (
                 <span
                   style={{
-                    fontSize: "0.65rem",
+                    fontSize: "0.85rem",
                     opacity: 0.7,
                     padding: "0.25rem",
                   }}
@@ -681,7 +683,7 @@ function SourceCard({
               {item.hasHumanFeedback && (
                 <span
                   style={{
-                    fontSize: "0.65rem",
+                    fontSize: "0.85rem",
                     opacity: 0.7,
                     padding: "0.25rem",
                   }}
@@ -715,7 +717,7 @@ function SourceCard({
           <span
             onClick={() => setExpanded(true)}
             style={{
-              fontSize: "0.75rem",
+              fontSize: "0.9rem",
               color: TOKENS.LINK,
               cursor: "pointer",
             }}
@@ -727,7 +729,7 @@ function SourceCard({
           <span
             onClick={() => setExpanded(false)}
             style={{
-              fontSize: "0.75rem",
+              fontSize: "0.9rem",
               color: TOKENS.LINK,
               cursor: "pointer",
             }}
@@ -827,7 +829,13 @@ export default function Page() {
 
   function handleWindowDaysChange(days: number) {
     setWindowDays(days);
-    fetchWindow(endDate, days, filterBookmarked, filterReaction, filterCommented);
+    fetchWindow(
+      endDate,
+      days,
+      filterBookmarked,
+      filterReaction,
+      filterCommented,
+    );
   }
 
   function handleBookmarkedFilter(checked: boolean) {
@@ -842,7 +850,13 @@ export default function Page() {
 
   function handleReactionFilter(reaction: string | null) {
     setFilterReaction(reaction);
-    fetchWindow(endDate, windowDays, filterBookmarked, reaction, filterCommented);
+    fetchWindow(
+      endDate,
+      windowDays,
+      filterBookmarked,
+      reaction,
+      filterCommented,
+    );
   }
 
   /* ── Item actions ── */
@@ -976,11 +990,11 @@ export default function Page() {
         }}
         style={{
           background: TOKENS.BG_LIGHTER,
-          color: TOKENS.WHITE,
+          color: TOKENS.INK,
           border: TOKENS.BORDER,
           borderRadius: TOKENS.RADIUS,
           padding: "0.35rem 0.5rem",
-          fontSize: "0.75rem",
+          fontSize: "0.9rem",
           flex: isMobile ? 1 : undefined,
           width: isMobile ? undefined : "12rem",
           fontFamily: "inherit",
@@ -991,11 +1005,11 @@ export default function Page() {
         disabled={submittingUrl || !manualUrl.trim()}
         style={{
           background: submittingUrl ? TOKENS.GRAY : TOKENS.ACCENT,
-          color: TOKENS.WHITE,
+          color: TOKENS.INK,
           border: "none",
           borderRadius: TOKENS.RADIUS,
           padding: "0.35rem 0.6rem",
-          fontSize: "0.75rem",
+          fontSize: "0.9rem",
           cursor: submittingUrl ? "not-allowed" : "pointer",
           fontFamily: "inherit",
           whiteSpace: "nowrap",
@@ -1034,11 +1048,11 @@ export default function Page() {
               onChange={(e) => handleDateChange(e.target.value)}
               style={{
                 background: TOKENS.BG_LIGHTER,
-                color: TOKENS.WHITE,
+                color: TOKENS.INK,
                 border: TOKENS.BORDER,
                 borderRadius: TOKENS.RADIUS,
                 padding: "0.35rem 0.5rem",
-                fontSize: "0.75rem",
+                fontSize: "0.9rem",
                 cursor: "pointer",
                 colorScheme: "dark",
                 width: "auto",
@@ -1047,8 +1061,8 @@ export default function Page() {
             />
             <span
               style={{
-                fontSize: "0.7rem",
-                color: TOKENS.GRAY,
+                fontSize: "0.9rem",
+                color: TOKENS.INK_LIGHT,
                 flexShrink: 0,
                 minWidth: "2rem",
                 textAlign: "center",
@@ -1061,7 +1075,9 @@ export default function Page() {
               min={1}
               max={30}
               value={windowDays}
-              onChange={(e) => handleWindowDaysChange(parseInt(e.target.value, 10))}
+              onChange={(e) =>
+                handleWindowDaysChange(parseInt(e.target.value, 10))
+              }
               style={{
                 flex: 1,
                 accentColor: TOKENS.ACCENT,
@@ -1130,87 +1146,92 @@ export default function Page() {
           /* ── Mobile: day-by-day navigation ── */
           <div>
             {!loading && groups.length === 0 && <NoData />}
-            {groups.length > 0 && (() => {
-              const dayIndex = Math.min(
-                Math.max(0, mobileDay),
-                groups.length - 1,
-              );
-              const group = groups[dayIndex];
-              return (
-                <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      marginBottom: "0.75rem",
-                    }}
-                  >
-                    <button
-                      onClick={() => setMobileDay((d) => Math.max(0, d - 1))}
-                      disabled={dayIndex === 0}
+            {groups.length > 0 &&
+              (() => {
+                const dayIndex = Math.min(
+                  Math.max(0, mobileDay),
+                  groups.length - 1,
+                );
+                const group = groups[dayIndex];
+                return (
+                  <>
+                    <div
                       style={{
-                        background: "transparent",
-                        border: "none",
-                        color: dayIndex === 0 ? TOKENS.BLACK : TOKENS.WHITE,
-                        fontSize: "1.2rem",
-                        cursor: dayIndex === 0 ? "default" : "pointer",
-                        padding: "0.25rem 0.5rem",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                        marginBottom: "0.75rem",
                       }}
                     >
-                      ‹
-                    </button>
-                    <span
+                      <button
+                        onClick={() => setMobileDay((d) => Math.max(0, d - 1))}
+                        disabled={dayIndex === 0}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          color: dayIndex === 0 ? TOKENS.INK : TOKENS.INK,
+                          fontSize: "1.2rem",
+                          cursor: dayIndex === 0 ? "default" : "pointer",
+                          padding: "0.25rem 0.5rem",
+                        }}
+                      >
+                        ‹
+                      </button>
+                      <span
+                        style={{
+                          fontSize: "0.85rem",
+                          color: TOKENS.INK,
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {formatDateHeading(group.date)}
+                      </span>
+                      <button
+                        onClick={() =>
+                          setMobileDay((d) =>
+                            Math.min(groups.length - 1, d + 1),
+                          )
+                        }
+                        disabled={dayIndex >= groups.length - 1}
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          color:
+                            dayIndex >= groups.length - 1
+                              ? TOKENS.INK
+                              : TOKENS.INK,
+                          fontSize: "1.2rem",
+                          cursor:
+                            dayIndex >= groups.length - 1
+                              ? "default"
+                              : "pointer",
+                          padding: "0.25rem 0.5rem",
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+                    <div
                       style={{
-                        fontSize: "0.85rem",
-                        color: TOKENS.WHITE,
-                        fontWeight: "bold",
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.5rem",
                       }}
                     >
-                      {formatDateHeading(group.date)}
-                    </span>
-                    <button
-                      onClick={() =>
-                        setMobileDay((d) => Math.min(groups.length - 1, d + 1))
-                      }
-                      disabled={dayIndex >= groups.length - 1}
-                      style={{
-                        background: "transparent",
-                        border: "none",
-                        color:
-                          dayIndex >= groups.length - 1
-                            ? TOKENS.BLACK
-                            : TOKENS.WHITE,
-                        fontSize: "1.2rem",
-                        cursor:
-                          dayIndex >= groups.length - 1 ? "default" : "pointer",
-                        padding: "0.25rem 0.5rem",
-                      }}
-                    >
-                      ›
-                    </button>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: "0.5rem",
-                    }}
-                  >
-                    {group.blocks.map((block) => (
-                      <SourceCard
-                        key={block.source}
-                        block={block}
-                        onPreview={handlePreview}
-                        onBookmark={handleBookmark}
-                        onDelete={handleDelete}
-                        isMobile
-                      />
-                    ))}
-                  </div>
-                </>
-              );
-            })()}
+                      {group.blocks.map((block) => (
+                        <SourceCard
+                          key={block.source}
+                          block={block}
+                          onPreview={handlePreview}
+                          onBookmark={handleBookmark}
+                          onDelete={handleDelete}
+                          isMobile
+                        />
+                      ))}
+                    </div>
+                  </>
+                );
+              })()}
           </div>
         ) : (
           /* ── Desktop: all days ── */
@@ -1233,14 +1254,13 @@ export default function Page() {
                       display: "flex",
                       alignItems: "center",
                       gap: "0.75rem",
-                      margin:
-                        gi === 0 ? "0 0 0.75rem 0" : "2.5rem 0 0.75rem 0",
+                      margin: gi === 0 ? "0 0 0.75rem 0" : "2.5rem 0 0.75rem 0",
                     }}
                   >
                     <span
                       style={{
                         fontSize: "0.8rem",
-                        color: TOKENS.WHITE,
+                        color: TOKENS.INK,
                         fontWeight: "bold",
                         whiteSpace: "nowrap",
                       }}
@@ -1250,7 +1270,7 @@ export default function Page() {
                     <div
                       style={{
                         flex: 1,
-                        borderBottom: `1px solid ${TOKENS.BLACK}`,
+                        borderBottom: `1px solid ${TOKENS.INK}`,
                       }}
                     />
                   </div>
@@ -1283,9 +1303,7 @@ export default function Page() {
             .news-filter-label { display: none !important; }
           }
         `}</style>
-        {isMobile && (
-          <div style={{ marginTop: "1rem" }}>{manualUrlInput}</div>
-        )}
+        {isMobile && <div style={{ marginTop: "1rem" }}>{manualUrlInput}</div>}
         {isMobile && <div style={{ height: "90px" }} />}
       </Container>
 

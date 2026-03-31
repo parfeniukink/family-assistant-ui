@@ -19,7 +19,7 @@ export function TextInput({
       disabled={disabled}
       onChange={onChangeCallback}
       style={{
-        fontSize: "16px",
+        fontSize: "1rem",
         opacity: disabled ? 0.5 : 1,
       }}
     />

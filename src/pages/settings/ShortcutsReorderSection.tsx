@@ -192,7 +192,7 @@ export default function ShortcutsReorderSection() {
           zIndex: 999,
           width: "100vw",
           height: "100vh",
-          background: TOKENS.BG,
+          background: "rgba(26, 18, 10, 0.85)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -204,11 +204,13 @@ export default function ShortcutsReorderSection() {
           style={{
             minWidth: "350px",
             maxWidth: "80%",
-            background: TOKENS.BG_LIGHTER,
+            backgroundImage: "url('/textures/parchment.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
             borderRadius: TOKENS.RADIUS,
-            boxShadow: TOKENS.SHADOW,
+            boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
             padding: "32px",
-            border: TOKENS.BORDER,
+            border: TOKENS.BORDER_HEAVY,
             display: "flex",
             flexDirection: "column",
             gap: TOKENS.SPACE_2,
@@ -222,7 +224,7 @@ export default function ShortcutsReorderSection() {
             onChange={(e) => setNewName(e.target.value)}
             disabled={creating}
             autoFocus
-            style={{ height: "50px", fontSize: "medium" }}
+            style={{ height: "50px", fontSize: "1rem" }}
           />
           <input
             type="text"
@@ -232,7 +234,7 @@ export default function ShortcutsReorderSection() {
             value={newValue}
             onChange={(e) => setNewValue(e.target.value)}
             disabled={creating}
-            style={{ height: "50px", fontSize: "medium" }}
+            style={{ height: "50px", fontSize: "1rem" }}
           />
           <select
             value={newCurrencyId ?? ""}
@@ -240,8 +242,8 @@ export default function ShortcutsReorderSection() {
             disabled={creating}
             style={{
               height: "50px",
-              fontSize: "medium",
-              color: TOKENS.WHITE,
+              fontSize: "1rem",
+              color: TOKENS.INK,
               background: "transparent",
               border: TOKENS.BORDER,
             }}
@@ -258,8 +260,8 @@ export default function ShortcutsReorderSection() {
             disabled={creating}
             style={{
               height: "50px",
-              fontSize: "medium",
-              color: TOKENS.WHITE,
+              fontSize: "1rem",
+              color: TOKENS.INK,
               background: "transparent",
               border: TOKENS.BORDER,
             }}
@@ -355,7 +357,7 @@ export default function ShortcutsReorderSection() {
                   display: "flex",
                   justifyContent: "space-between",
                   gap: TOKENS.SPACE_2,
-                  fontSize: "small",
+                  fontSize: "0.9rem",
                 }}
               >
                 <div>
@@ -373,7 +375,7 @@ export default function ShortcutsReorderSection() {
                   overrideStyles={{
                     width: "25px",
                     boxShadow: "none",
-                    border: `2px solid ${TOKENS.BLACK}`,
+                    border: `2px solid ${TOKENS.INK}`,
                   }}
                 >
                   x

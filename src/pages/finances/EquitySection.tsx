@@ -34,6 +34,11 @@ export function EquitySection() {
               <Link
                 key={item.currency.id}
                 to={`/finances/transactions?currencyId=${item.currency.id}`}
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: 700,
+                  color: TOKENS.INK,
+                }}
               >
                 {user?.configuration.showEquity
                   ? `🏦 ${prettyMoney(item.amount)} ${item.currency.sign}`
@@ -47,13 +52,16 @@ export function EquitySection() {
             display: "flex",
             flexDirection: "column",
             gap: TOKENS.SPACE_2,
+            fontSize: "1.15rem",
+            fontWeight: 600,
           }}
         >
-          <Link to="/finances/assets">
+          <Link to="/finances/assets" style={{ color: TOKENS.INK_LIGHT }}>
             🏘️ assets
           </Link>
           <Link
             to="/finances/cash"
+            style={{ color: TOKENS.INK_LIGHT }}
           >
             💵 cash
           </Link>
@@ -63,6 +71,7 @@ export function EquitySection() {
               e.preventDefault();
               openNotifications();
             }}
+            style={{ color: TOKENS.INK_LIGHT }}
           >
             🔔 alerts
           </Link>

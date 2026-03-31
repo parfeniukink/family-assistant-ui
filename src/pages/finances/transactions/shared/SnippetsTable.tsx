@@ -59,12 +59,12 @@ export function SnippetsTable({
               color="none"
               hoverBackground={TOKENS.BG_RED}
               overrideStyles={{
-                border: `solid ${TOKENS.BLACK} 2px`,
+                border: TOKENS.BORDER,
                 boxShadow: "none",
                 padding: "5px 10px",
                 minWidth: "100px",
                 maxHeight: "75px",
-                fontSize: "x-small",
+                fontSize: "0.8rem",
               }}
               onClickCallback={() => {
                 onClickCallback(item);
