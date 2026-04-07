@@ -1,6 +1,11 @@
 .PHONY: run
 run:
-	pnpm run dev
+	pnpm run dev --port 3001
+
+.PHONY: preview
+preview:
+	pnpm run preview --port 3001
+
 
 .PHONY: docker_build
 docker_build:

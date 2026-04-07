@@ -150,12 +150,12 @@ export default function Page() {
 
         <div className="transaction__items_group">
           <TextInput
-            placeholder="name"
+            placeholder="Name"
             value={selectedName ?? ""}
             onChangeCallback={(e) => setName(e.target.value)}
           />
           <SnippetsTable
-            name="snippets"
+            name="Snippets"
             items={snippets}
             onClickCallback={(snippet) => setName(snippet)}
           />
@@ -163,7 +163,7 @@ export default function Page() {
 
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="value"
+            placeholder="Value"
             onChangeCallback={(event) => {
               setValue(event.target.value);
             }}
@@ -184,9 +184,9 @@ export default function Page() {
         </div>
 
         <ActionButtons
-          greenText="save"
+          greenText="Save"
           greenCallback={handleSave}
-          redText="reset"
+          redText="Reset"
           redCallback={handleReset}
         />
       </Card>

@@ -80,10 +80,10 @@ export default function Authentication() {
         alignItems: "center",
         gap: "24px",
         width: "100%",
-        padding: isMobile ? TOKENS.SPACE_4 : TOKENS.SPACE_3,
+        padding: isMobile ? TOKENS.SPACE_5: TOKENS.SPACE_5,
       }}
     >
-      <h2 style={{ margin: 0, fontSize: "2rem" }}>Sign In</h2>
+      <h2 style={{ margin: 0, fontSize: "2rem" }}>STOP!</h2>
 
       <input
         type="text"

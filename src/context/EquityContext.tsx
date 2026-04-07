@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import { equityList } from "../data/api/client";
 import type { Equity } from "../data/types";
 import { useIdentity } from "./IdentityContext";
@@ -14,25 +14,25 @@ export function EquityProvider({ children }: { children: React.ReactNode }) {
   const { user } = useIdentity();
   const [equities, setEquities] = useState<Equity[]>([]);
 
-  const fetchEquities = async () => {
+  const fetchEquities = useCallback(async () => {
     if (!user) return;
     const response = await equityList();
     setEquities(response.result);
-  };
+  }, [user]);
 
   useEffect(() => {
     if (user) {
       fetchEquities();
     }
-  }, [user]);
+  }, [user, fetchEquities]);
+
+  const value = useMemo(
+    () => ({ equities, refreshEquity: fetchEquities }),
+    [equities, fetchEquities],
+  );
 
   return (
-    <EquityContext.Provider
-      value={{
-        equities: equities,
-        refreshEquity: fetchEquities,
-      }}
-    >
+    <EquityContext.Provider value={value}>
       {children}
     </EquityContext.Provider>
   );

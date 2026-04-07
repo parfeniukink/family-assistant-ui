@@ -36,12 +36,12 @@
   --space-5: 3rem;
 
   /* Font sizes */
-  --font-xs: 0.8rem;
-  --font-sm: 0.9rem;
-  --font-base: 1rem;
-  --font-lg: 1.15rem;
-  --font-xl: 1.3rem;
-  --font-2xl: 1.5rem;
+  --font-xs: 0.95rem;
+  --font-sm: 1.05rem;
+  --font-base: 1.2rem;
+  --font-lg: 1.35rem;
+  --font-xl: 1.5rem;
+  --font-2xl: 1.75rem;
 
   /* Sizes */
   --section-md-width: 35%;

@@ -149,19 +149,19 @@ export default function IncomeEdit() {
         </Dropdown>
         <div className="transaction__items_group">
           <TextInput
-            placeholder="name"
+            placeholder="Name"
             value={selectedName ?? ""}
             onChangeCallback={(e) => setName(e.target.value)}
           />
           <SnippetsTable
-            name="snippets"
+            name="Snippets"
             items={snippets}
             onClickCallback={(snippet) => setName(snippet)}
           />
         </div>
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="value"
+            placeholder="Value"
             value={selectedValue ?? ""}
             onChangeCallback={(e) => setValue(e.target.value)}
           />
@@ -178,9 +178,9 @@ export default function IncomeEdit() {
         </div>
 
         <ActionButtons
-          greenText="save"
+          greenText="Save"
           greenCallback={handleSave}
-          redText="delete"
+          redText="Delete"
           redCallback={handleDelete}
         />
       </Card>

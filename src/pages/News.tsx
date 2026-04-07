@@ -193,7 +193,7 @@ function PreviewModal({
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundImage: "url('/textures/parchment.jpg')",
+          backgroundImage: "url('/textures/parchment.webp')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           border: TOKENS.BORDER_HEAVY,
@@ -581,7 +581,7 @@ function SourceCard({
       >
         <span
           style={{
-            fontSize: "0.9rem",
+            fontSize: "1.1rem",
             padding: "0.1rem 0.5rem",
             borderRadius: "4px",
             background: TOKENS.BG_BLUE,
@@ -607,7 +607,7 @@ function SourceCard({
               <span
                 className="news-item-index"
                 style={{
-                  fontSize: "0.9rem",
+                  fontSize: "1.1rem",
                   color: TOKENS.INK_LIGHT,
                   minWidth: "1.5rem",
                   textAlign: "right",
@@ -631,9 +631,9 @@ function SourceCard({
               style={{
                 flex: 1,
                 minWidth: 0,
-                fontSize: isMobile ? "0.9rem" : "1rem",
-                color: hasReaction(item) ? TOKENS.INK : TOKENS.INK_LIGHT,
-                opacity: item.viewed && !hasReaction(item) ? 0.6 : 1,
+                fontSize: isMobile ? "1.05rem" : "1.2rem",
+                color: hasReaction(item) ? TOKENS.INK : TOKENS.INK,
+                opacity: item.viewed && !hasReaction(item) ? 0.5 : 1,
                 cursor: "pointer",
                 overflow: isMobile ? undefined : "hidden",
                 textOverflow: isMobile ? undefined : "ellipsis",
@@ -1299,11 +1299,6 @@ export default function Page() {
           </div>
         )}
 
-        <style>{`
-          @media (max-width: 600px) {
-            .news-filter-label { display: none !important; }
-          }
-        `}</style>
         {isMobile && <div style={{ marginTop: "1rem" }}>{manualUrlInput}</div>}
         {isMobile && <div style={{ height: "90px" }} />}
       </Container>

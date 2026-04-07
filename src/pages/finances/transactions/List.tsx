@@ -130,7 +130,7 @@ export default function Page() {
                         key={currency}
                         style={{
                           display: "flex",
-                          fontSize: "0.9rem",
+                          fontSize: "1.1rem",
                           fontWeight: 600,
                         }}
                       >
@@ -164,14 +164,14 @@ export default function Page() {
                       alignItems: "center",
                       padding: "0.4rem 0",
                       borderBottom: "1px solid rgba(26, 18, 10, 0.15)",
-                      fontSize: "0.8rem",
+                      fontSize: "1.15rem",
                       color:
                         item.operation === "income"
                           ? TOKENS.ACCENT_GREEN
                           : item.operation === "exchange"
                             ? TOKENS.ACCENT_BLUE
-                            : TOKENS.INK,
-                      fontWeight: item.operation === "income" ? 700 : 400,
+                            : TOKENS.INK_FADED,
+                      fontWeight: item.operation === "income" ? 700 : 600,
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -191,7 +191,7 @@ export default function Page() {
                       <span
                         style={{
                           color: TOKENS.INK_FADED,
-                          fontSize: "0.9rem",
+                          fontSize: "1.05rem",
                           minWidth: "2rem",
                           textAlign: "right",
                         }}

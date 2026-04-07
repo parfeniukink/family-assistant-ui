@@ -36,12 +36,12 @@ export const TOKENS = {
   SPACE_5: "3rem",
 
   // Font sizes
-  FONT_XS: "0.8rem",
-  FONT_SM: "0.9rem",
-  FONT_BASE: "1rem",
-  FONT_LG: "1.15rem",
-  FONT_XL: "1.3rem",
-  FONT_2XL: "1.5rem",
+  FONT_XS: "0.95rem",
+  FONT_SM: "1.05rem",
+  FONT_BASE: "1.2rem",
+  FONT_LG: "1.35rem",
+  FONT_XL: "1.5rem",
+  FONT_2XL: "1.75rem",
 
   // Font weights
   WEIGHT_NORMAL: 400 as const,

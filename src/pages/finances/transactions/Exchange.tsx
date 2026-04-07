@@ -100,7 +100,7 @@ export default function ExchangeEdit() {
         <Datepicker date={selectedDate} setDateCallback={setDate} />
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="from value"
+            placeholder="From value"
             value={fromValue ?? ""}
             onChangeCallback={(e) => setFromValue(e.target.value)}
           />
@@ -118,7 +118,7 @@ export default function ExchangeEdit() {
         <div style={{ textAlign: "center", margin: "0.3rem 0" }}>↓</div>
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="to value"
+            placeholder="To value"
             value={toValue ?? ""}
             onChangeCallback={(e) => setToValue(e.target.value)}
           />
@@ -134,9 +134,9 @@ export default function ExchangeEdit() {
           </Dropdown>
         </div>
         <ActionButtons
-          greenText="save"
+          greenText="Save"
           greenCallback={handleSave}
-          redText="delete"
+          redText="Delete"
           redCallback={handleDelete}
         />
       </Card>

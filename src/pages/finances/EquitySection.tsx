@@ -110,8 +110,8 @@ export function EquitySection() {
             <span
               style={{
                 fontSize: TOKENS.FONT_SM,
-                fontWeight: 600,
-                color: TOKENS.INK_FADED,
+                fontWeight: 700,
+                color: TOKENS.INK_GHOST,
                 letterSpacing: "0.08em",
               }}
             >
@@ -120,7 +120,7 @@ export function EquitySection() {
             <Link
               to="/finances/transactions"
               className="equity-link"
-              style={{ color: TOKENS.INK_FADED, fontSize: TOKENS.FONT_XS }}
+              style={{ color: TOKENS.INK_FADED, fontSize: TOKENS.FONT_SM, fontWeight: 600 }}
             >
               view all
             </Link>
@@ -143,8 +143,8 @@ export function EquitySection() {
                       ? TOKENS.ACCENT_GREEN
                       : item.operation === "exchange"
                         ? TOKENS.ACCENT_BLUE
-                        : TOKENS.INK,
-                  fontWeight: item.operation === "income" ? 700 : 400,
+                        : TOKENS.INK_FADED,
+                  fontWeight: item.operation === "income" ? 700 : 600,
                 }}
               >
                 <span
@@ -261,7 +261,6 @@ export function EquitySection() {
         >
           ALERTS
         </Link>
-        <style>{`.equity-link:hover { text-decoration: underline !important; }`}</style>
       </div>
     </Card>
   );

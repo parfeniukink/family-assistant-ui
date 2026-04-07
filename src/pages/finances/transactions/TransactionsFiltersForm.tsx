@@ -10,6 +10,8 @@ const CELL: React.CSSProperties = {
   flexDirection: "column",
   gap: "4px",
   padding: "0.5rem 0.75rem",
+  minWidth: 0,
+  overflow: "hidden",
 };
 
 const LABEL: React.CSSProperties = {

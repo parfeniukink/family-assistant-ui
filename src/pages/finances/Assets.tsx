@@ -495,13 +495,14 @@ function AssetCard({
               >
                 <span
                   style={{
-                    color: TOKENS.INK_FADED,
-                    fontSize: "1rem",
+                    color: TOKENS.INK_GHOST,
+                    fontSize: "1.1rem",
+                    fontWeight: 600,
                   }}
                 >
                   {field.key}:
                 </span>
-                <span style={{ fontSize: "1rem" }}>
+                <span style={{ fontSize: "1.1rem", fontWeight: 500, color: TOKENS.INK_FADED }}>
                   {field.value}
                 </span>
               </div>
@@ -519,8 +520,8 @@ function AssetCard({
           >
             <span
               style={{
-                fontSize: "1rem",
-                color: TOKENS.INK_FADED,
+                fontSize: "1.1rem",
+                color: TOKENS.INK_GHOST,
                 fontWeight: 700,
               }}
             >
@@ -796,8 +797,8 @@ function AssetCard({
           <>
             <span
               style={{
-                fontSize: "1rem",
-                color: TOKENS.INK_FADED,
+                fontSize: "1.1rem",
+                color: TOKENS.INK_GHOST,
                 fontWeight: 700,
               }}
             >

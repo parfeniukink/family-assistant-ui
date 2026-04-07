@@ -4,9 +4,6 @@
   padding: 0;
   text-align: center;
   font-family: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
-  background-image: url("/textures/parchment-seamless.jpg");
-  background-size: 800px;
-  background-repeat: repeat;
   min-height: 100vh;
   position: relative;
 }

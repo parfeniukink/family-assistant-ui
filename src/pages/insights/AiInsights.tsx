@@ -59,7 +59,7 @@ export default function AiInsights() {
   const inputStyle = {
     padding: "0.4rem 0.6rem",
     fontFamily: "inherit",
-    fontSize: "0.85rem",
+    fontSize: "1.1rem",
     color: TOKENS.INK,
     background: "transparent",
     border: TOKENS.BORDER,
@@ -83,7 +83,7 @@ export default function AiInsights() {
           onChange={(e) => setStartDate(e.target.value)}
           style={inputStyle}
         />
-        <span style={{ color: TOKENS.GRAY, fontSize: "0.8rem" }}>—</span>
+        <span style={{ color: TOKENS.INK, fontSize: "1.1rem" }}>—</span>
         <input
           type="date"
           value={endDate}
@@ -112,8 +112,8 @@ export default function AiInsights() {
               justifyContent: "center",
               marginBottom: "1.5rem",
               flexWrap: "wrap",
-              fontSize: "0.85rem",
-              color: TOKENS.INK_FADED,
+              fontSize: "1.1rem",
+              color: TOKENS.INK,
             }}
           >
             <span>
@@ -146,11 +146,11 @@ export default function AiInsights() {
                     justifyContent: "space-between",
                     alignItems: "baseline",
                     marginBottom: "0.25rem",
-                    fontSize: "0.8rem",
+                    fontSize: "1.1rem",
                   }}
                 >
-                  <span style={{ color: TOKENS.INK }}>{p.pipelineName}</span>
-                  <span style={{ color: TOKENS.INK_FADED }}>
+                  <span style={{ color: TOKENS.INK, fontWeight: 600 }}>{p.pipelineName}</span>
+                  <span style={{ color: TOKENS.INK }}>
                     ${p.totalCost.toFixed(4)} · {p.totalRuns} runs ·{" "}
                     {p.percentage.toFixed(1)}%
                   </span>

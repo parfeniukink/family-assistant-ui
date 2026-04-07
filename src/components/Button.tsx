@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useCallback } from "react";
 import { TOKENS } from "../styles/tokens";
 import { SketchBorder } from "./SketchBorder";
 
@@ -28,7 +28,7 @@ const DEFAULT_STYLES: React.CSSProperties = {
   letterSpacing: "0.08em",
 };
 
-export const Button = memo(function Button({
+export function Button({
   children,
   color,
   hidden,
@@ -88,4 +88,4 @@ export const Button = memo(function Button({
       <span style={{ position: "relative" }}>{children}</span>
     </button>
   );
-});
+}

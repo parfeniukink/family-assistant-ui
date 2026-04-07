@@ -52,6 +52,8 @@ export function Datepicker({
               alignItems: "stretch",
               gap: TOKENS.SPACE_2,
               width: "100%",
+              minWidth: 0,
+              overflow: "hidden",
             }
           : {
               display: "flex",

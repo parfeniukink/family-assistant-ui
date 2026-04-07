@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import type { CostCategory } from "../data/types";
 import { costCategoriesList } from "../data/api/client";
 import { useIdentity } from "./IdentityContext";
@@ -25,12 +25,11 @@ export function CostCategoryProvider({
   });
   const [categoriesLoading, setLoading] = useState(categories.length === 0);
 
-  const fetchCategories = async () => {
+  const fetchCategories = useCallback(async () => {
     if (!user) return;
     setLoading(true);
     const response = await costCategoriesList();
     const rawCategories: CostCategory[] = response.result;
-    // Remove duplicates by id
     const uniqueCategories: CostCategory[] = Object.values(
       rawCategories.reduce(
         (acc, cat) => {
@@ -43,7 +42,7 @@ export function CostCategoryProvider({
     setCategories(uniqueCategories);
     localStorage.setItem("costCategories", JSON.stringify(uniqueCategories));
     setLoading(false);
-  };
+  }, [user]);
 
   useEffect(() => {
     if (user) {
@@ -51,12 +50,15 @@ export function CostCategoryProvider({
     } else {
       setCategories([]);
     }
-  }, [user]);
+  }, [user, fetchCategories]);
+
+  const value = useMemo(
+    () => ({ categories, categoriesLoading, refresh: fetchCategories }),
+    [categories, categoriesLoading, fetchCategories],
+  );
 
   return (
-    <CostCategoryContext.Provider
-      value={{ categories, categoriesLoading, refresh: fetchCategories }}
-    >
+    <CostCategoryContext.Provider value={value}>
       {children}
     </CostCategoryContext.Provider>
   );

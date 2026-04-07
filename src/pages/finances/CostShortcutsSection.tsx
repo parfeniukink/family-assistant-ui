@@ -295,7 +295,7 @@ export function CostShortcutsSection() {
                 }}
               >
                 <div>
-                  <p style={{ margin: 0, fontSize: "0.95rem" }}>
+                  <p style={{ margin: 0, fontSize: "1.1rem", fontWeight: 600 }}>
                     {item.name}{" "}
                     {item.value != null
                       ? `${item.value} ${item.currency.sign}`
@@ -304,7 +304,8 @@ export function CostShortcutsSection() {
                   <p
                     style={{
                       margin: 0,
-                      fontSize: "0.85rem",
+                      fontSize: "1rem",
+                      fontWeight: 500,
                       color: TOKENS.INK_FADED,
                     }}
                   >
@@ -334,13 +335,13 @@ export function CostShortcutsSection() {
                 color="darkslategrey"
                 hoverBackground="rgba(138, 74, 74, 0.18)"
                 overrideStyles={{
-                  fontSize: "0.9rem",
+                  fontSize: "1.15rem",
                 }}
               >
-                <p style={{ marginBottom: 0, fontSize: "1rem" }}>
+                <p style={{ marginBottom: 0, fontSize: "1.2rem", fontWeight: 600 }}>
                   {item.name}
                 </p>
-                <p style={{ fontSize: "0.9rem", margin: 0 }}>
+                <p style={{ fontSize: "1.1rem", fontWeight: 500, margin: 0 }}>
                   {item.category.name}
                 </p>
                 <p>
@@ -389,7 +390,7 @@ export function CostShortcutsSection() {
             style={{
               display: "flex",
               flexDirection: "column",
-              backgroundImage: "url('/textures/parchment.jpg')",
+              backgroundImage: "url('/textures/parchment.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: TOKENS.BORDER_HEAVY,
@@ -469,7 +470,7 @@ export function CostShortcutsSection() {
             style={{
               minWidth: "350px",
               maxWidth: "80%",
-              backgroundImage: "url('/textures/parchment.jpg')",
+              backgroundImage: "url('/textures/parchment.webp')",
               backgroundSize: "cover",
               backgroundPosition: "center",
               borderRadius: TOKENS.RADIUS,

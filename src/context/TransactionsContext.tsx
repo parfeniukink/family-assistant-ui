@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useCallback, useMemo, useRef } from "react";
 import type { Transaction } from "../data/types/transactions";
 import { transactionsList } from "src/data/api/client";
 
 type TransactionsContextState = {
   transactions: Transaction[];
-  fetchTransactions: (params?: Record<string, any>) => Promise<void>;
+  fetchTransactions: (params?: Record<string, unknown>) => Promise<void>;
   fetchNextTransactions: () => Promise<void>;
   retrieveUrlFromTransaction: (transaction: Transaction) => string;
   transactionsLeft: number;
@@ -33,44 +33,44 @@ export function TransactionsProvider({
   children: React.ReactNode;
 }) {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [contextValue, setContextValue] = useState<number>(0);
   const [transactionsLeft, setTransactionsLeft] = useState<number>(0);
-  const [lastFetchParams, setLastFetchParams] = useState<Record<string, any>>(
-    {},
-  );
+  const contextRef = useRef<number>(0);
+  const lastFetchParamsRef = useRef<Record<string, unknown>>({});
 
-  async function fetchTransactions(params?: Record<string, any>) {
-    // Get last N transactions
+  const fetchTransactions = useCallback(async (params?: Record<string, unknown>) => {
     const defaults = { limit: 50 };
     const mergedParams = { ...defaults, ...(params || {}) };
     const response = await transactionsList(mergedParams);
     setTransactions(response.result);
-    setContextValue(response.context); // new backend context value
+    contextRef.current = response.context;
     setTransactionsLeft(response.left);
-    setLastFetchParams(mergedParams);
-  }
+    lastFetchParamsRef.current = mergedParams;
+  }, []);
 
-  async function fetchNextTransactions() {
+  const fetchNextTransactions = useCallback(async () => {
     if (transactionsLeft <= 0) return;
 
-    const nextParams = { ...lastFetchParams, context: contextValue };
+    const nextParams = { ...lastFetchParamsRef.current, context: contextRef.current };
     const response = await transactionsList(nextParams);
 
     setTransactions((prev) => [...prev, ...response.result]);
-    setContextValue(response.context);
+    contextRef.current = response.context;
     setTransactionsLeft(response.left);
-  }
+  }, [transactionsLeft]);
+
+  const value = useMemo(
+    () => ({
+      transactions,
+      fetchTransactions,
+      fetchNextTransactions,
+      retrieveUrlFromTransaction,
+      transactionsLeft,
+    }),
+    [transactions, fetchTransactions, fetchNextTransactions, transactionsLeft],
+  );
 
   return (
-    <TransactionsContext.Provider
-      value={{
-        transactions,
-        fetchTransactions,
-        fetchNextTransactions,
-        retrieveUrlFromTransaction,
-        transactionsLeft,
-      }}
-    >
+    <TransactionsContext.Provider value={value}>
       {children}
     </TransactionsContext.Provider>
   );

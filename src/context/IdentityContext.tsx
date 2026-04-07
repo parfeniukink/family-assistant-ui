@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import type {
   User,
   ConfigurationPartialUpdateRequestBody,
@@ -111,59 +111,46 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
     }
   }, [user]);
 
-  async function updateConfig(
+  const updateConfig = useCallback(async (
     update: ConfigurationPartialUpdateRequestBody,
-  ): Promise<void> {
-    if (!user) throw new Error("No user found.");
+  ): Promise<void> => {
     const response = await configurationUpdate(update);
-    setUser({
-      ...user,
-      configuration: response.result.configuration,
+    setUser((prev) => {
+      if (!prev) throw new Error("No user found.");
+      return { ...prev, configuration: response.result.configuration };
     });
-  }
+  }, []);
 
-  async function signIn(username: string, password: string): Promise<boolean> {
+  const signIn = useCallback(async (username: string, password: string): Promise<boolean> => {
     try {
-      // Clear any outdated data from previous sessions
       localStorage.clear();
-
-      // Step 1: Login to get tokens
       const loginResponse = await apiLogin({ username, password });
       const { accessToken, refreshToken } = loginResponse.result;
-
-      // Step 2: Store tokens
       setTokens(accessToken, refreshToken);
-
-      // Step 3: Fetch user data
       const userResponse = await fetchCurrentUser();
       setUser(userResponse.result);
-
       toast.success("Signed in!");
       return true;
     } catch {
       setUser(null);
       clearTokens();
-      // Error toast is shown by apiCall for specific errors
       return false;
     }
-  }
+  }, []);
 
-  async function signOut(): Promise<void> {
+  const signOut = useCallback(async (): Promise<void> => {
     await logout();
     setUser(null);
     localStorage.removeItem("user");
-  }
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, isLoading, updateConfig, signIn, signOut }),
+    [user, isLoading, updateConfig, signIn, signOut],
+  );
 
   return (
-    <IdentityContext.Provider
-      value={{
-        user,
-        isLoading,
-        updateConfig,
-        signIn,
-        signOut,
-      }}
-    >
+    <IdentityContext.Provider value={value}>
       {children}
     </IdentityContext.Provider>
   );

@@ -12,27 +12,8 @@ export function SketchBorder({
   strokeWidth?: number;
 }) {
   return (
-    <svg
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-        pointerEvents: "none",
-      }}
-      preserveAspectRatio="none"
-    >
-      <rect
-        x="1"
-        y="1"
-        width="calc(100% - 2px)"
-        height="calc(100% - 2px)"
-        fill="none"
-        stroke={stroke}
-        strokeWidth={strokeWidth}
-        rx="2"
-        filter="url(#sketchy)"
-      />
+    <svg preserveAspectRatio="none">
+      <rect stroke={stroke} strokeWidth={strokeWidth} />
     </svg>
   );
 }

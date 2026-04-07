@@ -143,7 +143,7 @@ export default function Component({
               margin: 0,
             }}
           >
-            <h1 style={{ margin: 0, fontSize: "1rem" }}>
+            <h1 style={{ margin: 0, fontSize: "1.15rem", fontWeight: 700 }}>
               [ {item.currency.name} ]
             </h1>
             <hr
@@ -153,7 +153,7 @@ export default function Component({
                 margin: "0 0 1rem 0",
               }}
             />
-            <div style={{ fontSize: "0.85rem" }}>
+            <div style={{ fontSize: "1.1rem", fontWeight: 600 }}>
               {/* Costs */}
               <Link
                 key="costs"
@@ -240,8 +240,8 @@ export default function Component({
                           {category.name}
                           <span
                             style={{
-                              color: TOKENS.INK_LIGHT,
-                              fontSize: "0.85rem",
+                              color: TOKENS.INK,
+                              fontSize: "1rem",
                               marginLeft: "5px",
                             }}
                           >

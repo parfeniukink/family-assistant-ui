@@ -22,8 +22,10 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     return Object.values(unique);
   }, [equities]);
 
+  const value = useMemo(() => ({ currencies }), [currencies]);
+
   return (
-    <CurrencyContext.Provider value={{ currencies: currencies }}>
+    <CurrencyContext.Provider value={value}>
       {children}
     </CurrencyContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 type MobileContextType = {
   isMobile: boolean;
@@ -6,9 +6,7 @@ type MobileContextType = {
 
 const MobileContext = createContext<MobileContextType | undefined>(undefined);
 
-export const MobileProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function MobileProvider({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 600);
 
   useEffect(() => {
@@ -17,12 +15,14 @@ export const MobileProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const value = useMemo(() => ({ isMobile }), [isMobile]);
+
   return (
-    <MobileContext.Provider value={{ isMobile }}>
+    <MobileContext.Provider value={value}>
       {children}
     </MobileContext.Provider>
   );
-};
+}
 
 export function useMobile() {
   const ctx = useContext(MobileContext);

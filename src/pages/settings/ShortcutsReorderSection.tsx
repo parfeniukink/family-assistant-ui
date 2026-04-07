@@ -204,7 +204,7 @@ export default function ShortcutsReorderSection() {
           style={{
             minWidth: "350px",
             maxWidth: "80%",
-            backgroundImage: "url('/textures/parchment.jpg')",
+            backgroundImage: "url('/textures/parchment.webp')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             borderRadius: TOKENS.RADIUS,

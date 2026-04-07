@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
 import {
   costShortcutCreate,
   costShortcutDelete,
@@ -32,66 +32,69 @@ export function CostShortcutsProvider({
   const { user } = useIdentity();
   const [costShortcuts, setCostShortcuts] = useState<CostShortcut[]>([]);
 
-  const loadShortcuts = async () => {
+  const loadShortcuts = useCallback(async () => {
     if (!user) return;
     const response: ResponseMulti<CostShortcut> = await costShortcutsList();
     const sorted = response.result
       .slice()
       .sort((a, b) => (a.ui?.positionIndex ?? 0) - (b.ui?.positionIndex ?? 0));
     setCostShortcuts(sorted);
-  };
+  }, [user]);
 
-  const createShortcut = async (data: CostShortcutCreateRequestBody) => {
+  const createShortcut = useCallback(async (data: CostShortcutCreateRequestBody) => {
     try {
       const response = await costShortcutCreate(data);
-      // Optimistic update: add new shortcut to local state instead of refetching
       setCostShortcuts((prev) => [...prev, response.result]);
     } catch (error) {
-      // On error, reload to ensure consistency
       await loadShortcuts();
       throw error;
     }
-  };
+  }, [loadShortcuts]);
 
-  const removeShortcut = async (shortcutId: number) => {
-    // Optimistic update: remove from local state immediately
-    const previousShortcuts = costShortcuts;
-    setCostShortcuts((prev) => prev.filter((s) => s.id !== shortcutId));
+  const removeShortcut = useCallback(async (shortcutId: number) => {
+    setCostShortcuts((prev) => {
+      const filtered = prev.filter((s) => s.id !== shortcutId);
+      // Store previous state for rollback via closure over prev
+      return filtered;
+    });
 
     try {
       await costShortcutDelete(shortcutId);
     } catch (error) {
-      // On error, rollback to previous state
-      setCostShortcuts(previousShortcuts);
+      // On error, reload from server to ensure consistency
+      await loadShortcuts();
       throw error;
     }
-  };
+  }, [loadShortcuts]);
 
-  const updateShortcutsOrder = async (shortcuts: CostShortcut[]) => {
+  const updateShortcutsOrder = useCallback(async (shortcuts: CostShortcut[]) => {
     try {
       await updateCostShortcutsOrder(shortcuts);
       setCostShortcuts(shortcuts);
-    } catch (error) {
+    } catch {
       loadShortcuts();
     }
-  };
+  }, [loadShortcuts]);
 
   useEffect(() => {
     if (user) {
       loadShortcuts();
     }
-  }, [user]);
+  }, [user, loadShortcuts]);
+
+  const value = useMemo(
+    () => ({
+      costShortcuts,
+      createShortcut,
+      updateShortcutsOrder,
+      reloadShortcuts: loadShortcuts,
+      removeShortcut,
+    }),
+    [costShortcuts, createShortcut, updateShortcutsOrder, loadShortcuts, removeShortcut],
+  );
 
   return (
-    <CostShortcutsContext.Provider
-      value={{
-        costShortcuts: costShortcuts,
-        createShortcut,
-        updateShortcutsOrder,
-        reloadShortcuts: loadShortcuts,
-        removeShortcut,
-      }}
-    >
+    <CostShortcutsContext.Provider value={value}>
       {children}
     </CostShortcutsContext.Provider>
   );

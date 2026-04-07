@@ -16,15 +16,11 @@ export default defineConfig(({ mode }) => {
     preview: {
       allowedHosts: [env.VITE_ALLOWED_HOST],
     },
+    esbuild: {
+      drop: ["console", "debugger"],
+    },
     build: {
-      minify: "terser",
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ["console.log", "console.info", "console.debug"],
-        },
-      },
+      target: "es2022",
       rollupOptions: {
         output: {
           manualChunks: {

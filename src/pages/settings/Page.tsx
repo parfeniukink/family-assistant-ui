@@ -11,7 +11,8 @@ type SettingsTab = "resources" | "news";
 
 export default function Page() {
   const [activeTab, setActiveTab] = useState<SettingsTab>(
-    () => (sessionStorage.getItem("settings-tab") as SettingsTab) || "resources",
+    () =>
+      (sessionStorage.getItem("settings-tab") as SettingsTab) || "resources",
   );
 
   function handleTabChange(tab: SettingsTab) {
@@ -37,72 +38,86 @@ export default function Page() {
   return (
     <>
       <Container>
-        <div style={{ fontSize: "1.1rem" }}>
-        <IdentityActions />
+        <div className="settings-content" style={{ fontSize: "1.1rem" }}>
+          <IdentityActions />
 
-        <div
-          style={{
-            display: "flex",
-            flexDirection: isMobile ? "column" : "row",
-            gap: "0.5rem",
-            justifyContent: "center",
-            marginBottom: "1.5rem",
-          }}
-        >
-          <button
-            style={tabStyle("resources")}
-            onClick={() => handleTabChange("resources")}
-            type="button"
-          >
-            <SketchBorder stroke={activeTab === "resources" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
-            <span style={{ position: "relative" }}>RESOURCES</span>
-          </button>
-          <button
-            style={tabStyle("news")}
-            onClick={() => handleTabChange("news")}
-            type="button"
-          >
-            <SketchBorder stroke={activeTab === "news" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
-            <span style={{ position: "relative" }}>NEWS</span>
-          </button>
-        </div>
+          <br></br>
 
-        {activeTab === "resources" &&
-          (isMobile ? (
-            <div>
-              <FinancesSection />
-            </div>
-          ) : (
-            <Card style={{ border: "none" }}>
-              <FinancesSection />
-            </Card>
-          ))}
-        {activeTab === "news" && (
-          <>
-            {isMobile ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              gap: "0.5rem",
+              justifyContent: "center",
+              marginBottom: "1.5rem",
+            }}
+          >
+            <button
+              style={tabStyle("resources")}
+              onClick={() => handleTabChange("resources")}
+              type="button"
+            >
+              <SketchBorder
+                stroke={
+                  activeTab === "resources"
+                    ? "rgba(26, 18, 10, 0.7)"
+                    : "rgba(26, 18, 10, 0.5)"
+                }
+              />
+              <span style={{ position: "relative" }}>RESOURCES</span>
+            </button>
+            <button
+              style={tabStyle("news")}
+              onClick={() => handleTabChange("news")}
+              type="button"
+            >
+              <SketchBorder
+                stroke={
+                  activeTab === "news"
+                    ? "rgba(26, 18, 10, 0.7)"
+                    : "rgba(26, 18, 10, 0.5)"
+                }
+              />
+              <span style={{ position: "relative" }}>NEWS</span>
+            </button>
+          </div>
+
+          {activeTab === "resources" &&
+            (isMobile ? (
               <div>
-                <NewsSection />
+                <FinancesSection />
               </div>
             ) : (
               <Card style={{ border: "none" }}>
-                <NewsSection />
+                <FinancesSection />
               </Card>
-            )}
-            <div style={{ marginTop: "3rem" }}>
-              <h3 style={{ marginBottom: "1rem" }}>JOBS</h3>
+            ))}
+          {activeTab === "news" && (
+            <>
               {isMobile ? (
                 <div>
-                  <JobsSection />
+                  <NewsSection />
                 </div>
               ) : (
                 <Card style={{ border: "none" }}>
-                  <JobsSection />
+                  <NewsSection />
                 </Card>
               )}
-            </div>
-          </>
-        )}
-      </div>
+              <div style={{ marginTop: "3rem" }}>
+                <h3 style={{ marginBottom: "1rem" }}>JOBS</h3>
+                {isMobile ? (
+                  <div>
+                    <JobsSection />
+                  </div>
+                ) : (
+                  <Card style={{ border: "none" }}>
+                    <JobsSection />
+                  </Card>
+                )}
+              </div>
+            </>
+          )}
+        </div>
       </Container>
       <div>
         <br />

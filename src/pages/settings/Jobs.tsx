@@ -284,7 +284,7 @@ export default function JobsSection() {
         gap: TOKENS.SPACE_2,
       }}
     >
-      {jobs.map((job) => (
+      {jobs.map((job, idx) => (
           <div
             key={job.id}
             className="job-card"
@@ -293,9 +293,8 @@ export default function JobsSection() {
               alignItems: "center",
               justifyContent: "space-between",
               gap: "0.5rem",
-              padding: "0.5rem",
-              border: TOKENS.BORDER,
-              borderRadius: TOKENS.RADIUS,
+              padding: "0.5rem 0",
+              borderBottom: idx < jobs.length - 1 ? "1px solid rgba(26, 18, 10, 0.2)" : "none",
               opacity: job.isActive ? 1 : 0.5,
             }}
           >
@@ -465,26 +464,6 @@ export default function JobsSection() {
           </div>
       ))}
 
-      <style>{`
-        @media (max-width: 600px) {
-          .job-card {
-            flex-direction: column !important;
-            align-items: stretch !important;
-            gap: 0.5rem !important;
-          }
-          .job-card-name-mobile {
-            display: block !important;
-          }
-          .job-card-name-desktop {
-            display: none !important;
-          }
-          .job-card-stats {
-            white-space: normal !important;
-            overflow: visible !important;
-            font-size: 0.7rem !important;
-          }
-        }
-      `}</style>
 
       <div
         style={{

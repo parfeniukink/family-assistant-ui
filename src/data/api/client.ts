@@ -58,7 +58,73 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // In-memory cache for GET requests
 const cache = new Map<string, { data: unknown; timestamp: number }>();
-const CACHE_TTL = 60000; // 60 seconds
+
+// In-flight GET request deduplication
+const inFlight = new Map<string, Promise<unknown>>();
+
+// Per-endpoint TTL configuration (first matching prefix wins)
+const CACHE_TTL_CONFIG: ReadonlyArray<{ prefix: string; ttl: number }> = [
+  // Rarely changing reference data: 10 minutes
+  { prefix: "/transactions/costs/categories", ttl: 600_000 },
+  { prefix: "/jobs/actions", ttl: 600_000 },
+  // Moderately changing data: 5 minutes
+  { prefix: "/identity/users", ttl: 300_000 },
+  { prefix: "/transactions/costs/shortcuts", ttl: 300_000 },
+  { prefix: "/news", ttl: 300_000 },
+  { prefix: "/jobs", ttl: 300_000 },
+  // Frequently changing data: 30 seconds
+  { prefix: "/transactions", ttl: 30_000 },
+  { prefix: "/analytics", ttl: 30_000 },
+  { prefix: "/cash", ttl: 30_000 },
+  { prefix: "/assets", ttl: 30_000 },
+  { prefix: "/notifications", ttl: 30_000 },
+];
+
+const DEFAULT_CACHE_TTL = 60_000;
+
+function getTtlForUrl(url: string): number {
+  const path = url.split("?")[0];
+  for (const entry of CACHE_TTL_CONFIG) {
+    if (path.startsWith(entry.prefix)) {
+      return entry.ttl;
+    }
+  }
+  return DEFAULT_CACHE_TTL;
+}
+
+// Mutation-triggered cross-domain cache invalidation
+const CROSS_INVALIDATION: Record<string, readonly string[]> = {
+  "/transactions": ["/analytics/equity", "/analytics/transactions"],
+  "/cash": ["/analytics/equity"],
+  "/assets": ["/analytics/equity"],
+};
+
+function invalidateByPrefix(prefix: string): void {
+  for (const key of cache.keys()) {
+    if (key === prefix || key.startsWith(prefix + "?") || key.startsWith(prefix + "/")) {
+      cache.delete(key);
+    }
+  }
+}
+
+function invalidateCrossDomain(mutationUrl: string): void {
+  const pathWithoutQuery = mutationUrl.split("?")[0];
+  for (const [trigger, targets] of Object.entries(CROSS_INVALIDATION)) {
+    if (pathWithoutQuery.startsWith(trigger)) {
+      for (const target of targets) {
+        invalidateByPrefix(target);
+      }
+      break;
+    }
+  }
+}
+
+/** Invalidate all cached entries whose URL starts with any of the given prefixes. */
+export function invalidateCache(...prefixes: string[]): void {
+  for (const prefix of prefixes) {
+    invalidateByPrefix(prefix);
+  }
+}
 
 // Flag to prevent redirect loops
 let isRedirecting = false;
@@ -75,21 +141,41 @@ function redirectToLogin(): void {
   window.location.href = "/auth";
 }
 
-export async function apiCall<T>(
+export function apiCall<T>(
   url: string,
   method: string = "GET",
   body?: Record<string, unknown>,
   skipAuth: boolean = false,
 ): Promise<T> {
-  // Check cache for GET requests
+  // Check cache and deduplicate in-flight GET requests
   if (method === "GET") {
-    const cacheKey = url;
-    const cached = cache.get(cacheKey);
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-      return cached.data as T;
+    const cached = cache.get(url);
+    if (cached && Date.now() - cached.timestamp < getTtlForUrl(url)) {
+      return Promise.resolve(cached.data as T);
     }
+
+    const existing = inFlight.get(url);
+    if (existing) {
+      return existing as Promise<T>;
+    }
+
+    // Register this request as in-flight and clean up when done
+    const request = executeApiCall<T>(url, method, body, skipAuth).finally(() => {
+      inFlight.delete(url);
+    });
+    inFlight.set(url, request);
+    return request;
   }
 
+  return executeApiCall<T>(url, method, body, skipAuth);
+}
+
+async function executeApiCall<T>(
+  url: string,
+  method: string,
+  body?: Record<string, unknown>,
+  skipAuth: boolean = false,
+): Promise<T> {
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
@@ -208,11 +294,16 @@ export async function apiCall<T>(
     throw new Error("Server Error");
   }
 
-  // Invalidate GET cache after successful mutations
+  // Invalidate GET cache after successful mutations (prefix-based + cross-domain)
   if (method !== "GET") {
-    const basePath = "/" + url.replace(/^\//, "").split("/")[0];
-    cache.delete(url);
-    if (basePath !== url) cache.delete(basePath);
+    const pathWithoutQuery = url.split("?")[0];
+    invalidateByPrefix(pathWithoutQuery);
+    const segments = pathWithoutQuery.replace(/^\//, "").split("/");
+    if (segments.length > 1) {
+      const parentPath = "/" + segments.slice(0, -1).join("/");
+      invalidateByPrefix(parentPath);
+    }
+    invalidateCrossDomain(url);
   }
 
   // Success Cases
@@ -514,9 +605,9 @@ export async function notificationsCount(): Promise<number> {
   return response.result;
 }
 
+/** @deprecated Use invalidateCache("/notifications") instead */
 export function invalidateNotificationsCache(): void {
-  cache.delete("/notifications");
-  cache.delete("/notifications/count");
+  invalidateCache("/notifications");
 }
 
 // ─────────────────────────────────────────────────────────
@@ -595,10 +686,6 @@ export async function newsGroupsList({
   if (commented != null) params.push(`commented=${commented}`);
   const qs = params.length > 0 ? `?${params.join("&")}` : "";
   return await apiCall<NewsGroupsResponse>(`/news/groups${qs}`);
-}
-
-export async function newsReactionOptions(): Promise<ResponseMulti<string>> {
-  return await apiCall<ResponseMulti<string>>("/news/reactions");
 }
 
 export async function newsItemGet(itemId: number): Promise<NewsItemDetail> {

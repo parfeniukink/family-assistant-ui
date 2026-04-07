@@ -123,7 +123,7 @@ export default function ExchangeCreate() {
         <Datepicker date={selectedDate} setDateCallback={setDate} />
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="from value"
+            placeholder="From value"
             value={fromValue ?? ""}
             onChangeCallback={(e) => setFromValue(e.target.value)}
           />
@@ -144,7 +144,7 @@ export default function ExchangeCreate() {
         <div style={{ textAlign: "center", margin: "0.3rem 0" }}>↓</div>
         <div className="transaction__items_group">
           <DecimalInput
-            placeholder="to value"
+            placeholder="To value"
             value={toValue ?? ""}
             onChangeCallback={(e) => setToValue(e.target.value)}
           />
@@ -163,8 +163,8 @@ export default function ExchangeCreate() {
           </Dropdown>
         </div>
         <ActionButtons
-          greenText="save"
-          redText="reset"
+          greenText="Save"
+          redText="Reset"
           greenCallback={handleSave}
           redCallback={handleReset}
         />

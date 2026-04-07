@@ -418,9 +418,10 @@ function CashCard({
       ) : (
         <span
           style={{
-            fontSize: "1.4rem",
+            fontSize: "1.6rem",
             fontWeight: 700,
             textAlign: "center",
+            color: TOKENS.INK_FADED,
           }}
         >
           {prettyMoney(card.balance)} {card.currency.sign}
@@ -458,7 +459,8 @@ function CashCard({
           style={{
             textAlign: "center",
             color: TOKENS.INK_FADED,
-            fontSize: "1rem",
+            fontSize: "1.1rem",
+            fontWeight: 500,
           }}
         >
           step: {prettyMoney(card.step)} {card.currency.sign}

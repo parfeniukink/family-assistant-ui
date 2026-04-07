@@ -51,7 +51,7 @@ export function SnippetsTable({
             <div
               onClick={(e) => e.stopPropagation()}
               style={{
-                backgroundImage: "url('/textures/parchment.jpg')",
+                backgroundImage: "url('/textures/parchment.webp')",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 border: TOKENS.BORDER_HEAVY,
