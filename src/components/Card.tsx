@@ -1,6 +1,4 @@
 import React from "react";
-import { TOKENS } from "src/styles/tokens";
-import { SketchBorder } from "./SketchBorder";
 
 type CardProps = {
   children: React.ReactNode;
@@ -8,29 +6,11 @@ type CardProps = {
 };
 
 export function Card({ children, style }: CardProps) {
-  const hideBorder = style?.border === "none";
-
-  const defaults: React.CSSProperties = {
-    position: "relative",
-    display: "flex",
-    flexDirection: "column",
-    boxShadow: TOKENS.SHADOW,
-    borderRadius: TOKENS.RADIUS,
-    padding: TOKENS.SPACE_4,
-    background: TOKENS.BG_LIGHTER,
-    gap: TOKENS.SPACE_2,
-  };
+  const borderless = style?.border === "none";
+  const className = borderless ? "card card--borderless" : "card";
 
   return (
-    <div
-      style={{
-        overflow: "auto",
-        ...defaults,
-        ...style,
-        border: "none",
-      }}
-    >
-      {!hideBorder && <SketchBorder />}
+    <div className={className} style={style}>
       {children}
     </div>
   );

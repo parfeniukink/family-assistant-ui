@@ -11,8 +11,8 @@ export function Navbar() {
   const isActive = (path: string) => location.pathname.startsWith(path);
 
   const linkStyle = (path: string): React.CSSProperties => ({
-    color: isActive(path) ? TOKENS.INK : TOKENS.INK_LIGHT,
-    fontWeight: isActive(path) ? 700 : 500,
+    color: isActive(path) ? TOKENS.INK : TOKENS.INK_FADED,
+    fontWeight: isActive(path) ? 800 : 600,
     fontSize: "1.3rem",
     padding: "0.5rem 1rem",
     textDecoration: isActive(path) ? "underline" : "none",

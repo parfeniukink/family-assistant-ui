@@ -7,7 +7,7 @@ import {
   useCurrencies,
   useMobile,
 } from "src/context";
-import { Button, Card } from "src/components";
+import { Button, Card, Modal } from "src/components";
 import toast from "react-hot-toast";
 
 function moveItem<T>(list: T[], from: number, to: number): T[] {
@@ -183,110 +183,82 @@ export default function ShortcutsReorderSection() {
 
   // --- Render Modal ---
   function renderModal() {
-    return showModal ? (
-      <div
-        style={{
-          position: "fixed",
-          left: 0,
-          top: 0,
-          zIndex: 999,
-          width: "100vw",
-          height: "100vh",
-          background: "rgba(26, 18, 10, 0.85)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onClick={() => !creating && setShowModal(false)}
+    if (!showModal) return null;
+    return (
+      <Modal
+        onClose={() => !creating && setShowModal(false)}
+        style={{ minWidth: "350px", maxWidth: "80%", gap: TOKENS.SPACE_4 }}
       >
-        <div
-          onClick={(e) => e.stopPropagation()}
+        <h3 style={{ margin: 0, textAlign: "center" }}>Create Shortcut</h3>
+        <input
+          type="text"
+          placeholder="name"
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          disabled={creating}
+          autoFocus
+          style={{ height: "50px", fontSize: "1rem" }}
+        />
+        <input
+          type="text"
+          inputMode="decimal"
+          placeholder="value (optional)"
+          pattern="\d*"
+          value={newValue}
+          onChange={(e) => setNewValue(e.target.value)}
+          disabled={creating}
+          style={{ height: "50px", fontSize: "1rem" }}
+        />
+        <select
+          value={newCurrencyId ?? ""}
+          onChange={(e) => setNewCurrencyId(Number(e.target.value))}
+          disabled={creating}
           style={{
-            minWidth: "350px",
-            maxWidth: "80%",
-            backgroundImage: "url('/textures/parchment.webp')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: TOKENS.RADIUS,
-            boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
-            padding: "32px",
-            border: TOKENS.BORDER_HEAVY,
-            display: "flex",
-            flexDirection: "column",
-            gap: TOKENS.SPACE_4,
+            height: "50px",
+            fontSize: "1rem",
+            color: TOKENS.INK,
+            background: "transparent",
+            border: TOKENS.BORDER,
           }}
         >
-          <h3 style={{ margin: 0, textAlign: "center" }}>Create Shortcut</h3>
-          <input
-            type="text"
-            placeholder="name"
-            value={newName}
-            onChange={(e) => setNewName(e.target.value)}
-            disabled={creating}
-            autoFocus
-            style={{ height: "50px", fontSize: "1rem" }}
-          />
-          <input
-            type="text"
-            inputMode="decimal"
-            placeholder="value (optional)"
-            pattern="\d*"
-            value={newValue}
-            onChange={(e) => setNewValue(e.target.value)}
-            disabled={creating}
-            style={{ height: "50px", fontSize: "1rem" }}
-          />
-          <select
-            value={newCurrencyId ?? ""}
-            onChange={(e) => setNewCurrencyId(Number(e.target.value))}
-            disabled={creating}
-            style={{
-              height: "50px",
-              fontSize: "1rem",
-              color: TOKENS.INK,
-              background: "transparent",
-              border: TOKENS.BORDER,
+          {currencies.map((c) => (
+            <option value={c.id} key={c.id}>
+              {c.sign}
+            </option>
+          ))}
+        </select>
+        <select
+          value={newCategoryId ?? ""}
+          onChange={(e) => setNewCategoryId(Number(e.target.value))}
+          disabled={creating}
+          style={{
+            height: "50px",
+            fontSize: "1rem",
+            color: TOKENS.INK,
+            background: "transparent",
+            border: TOKENS.BORDER,
+          }}
+        >
+          {categories.map((cat) => (
+            <option value={cat.id} key={cat.id}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
+          <Button
+            color="darkslategrey"
+            onClickCallback={handleCreateShortcut}
+            overrideStyles={{
+              height: "75px",
+              fontSize: "1.15rem",
             }}
           >
-            {currencies.map((c) => (
-              <option value={c.id} key={c.id}>
-                {c.sign}
-              </option>
-            ))}
-          </select>
-          <select
-            value={newCategoryId ?? ""}
-            onChange={(e) => setNewCategoryId(Number(e.target.value))}
-            disabled={creating}
-            style={{
-              height: "50px",
-              fontSize: "1rem",
-              color: TOKENS.INK,
-              background: "transparent",
-              border: TOKENS.BORDER,
-            }}
-          >
-            {categories.map((cat) => (
-              <option value={cat.id} key={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </select>
-          <div style={{ display: "flex", justifyContent: "flex-end", gap: 12 }}>
-            <Button
-              color="darkslategrey"
-              onClickCallback={handleCreateShortcut}
-              overrideStyles={{
-                height: "75px",
-                fontSize: "1.15rem",
-              }}
-            >
-              {creating ? "Saving…" : "Save"}
-            </Button>
-          </div>
+            {creating ? "Saving..." : "Save"}
+          </Button>
         </div>
-      </div>
-    ) : null;
+      </Modal>
+    );
   }
   // ---
 

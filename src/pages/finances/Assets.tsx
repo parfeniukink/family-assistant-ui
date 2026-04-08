@@ -308,7 +308,7 @@ export default function Page() {
           <Button
             color="green"
             onClickCallback={() => setShowAddForm(true)}
-            overrideStyles={{ padding: "12px 24px" }}
+            overrideStyles={{ padding: "12px 24px", fontSize: "large" }}
           >
             + Add Asset
           </Button>

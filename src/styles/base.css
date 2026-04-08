@@ -1,18 +1,10 @@
 @import "./tokens.css";
 
 /* ───────────────────────────────────────────────────────── */
-/* Sketch border animations */
+/* Hand-drawn effect                                         */
 /* ───────────────────────────────────────────────────────── */
-@keyframes drawBorder {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes fadeContent {
-  to {
-    opacity: 1;
-  }
+.handdrawn {
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 }
 
 /* ───────────────────────────────────────────────────────── */
@@ -84,21 +76,93 @@ hr::after {
   padding: 0 4px;
 }
 
-rect {
-  width: calc(100% - 3px);
-  height: calc(100% - 2px);
-  fill: none;
-  rx: 2;
-  filter: url(#sketchy);
-  will-change: transform;
+/* ───────────────────────────────────────────────────────── */
+/* Card                                                      */
+/* ───────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow:
+    3px 3px 6px rgba(26, 18, 10, 0.25),
+    inset 0 0 20px rgba(26, 18, 10, 0.06);
+  padding: var(--space-4);
+  background: rgba(255, 255, 255, 0.04);
+  gap: var(--space-2);
+  border: var(--border);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  overflow: auto;
+}
+.card--borderless {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: none;
+  background: transparent;
 }
 
-svg {
-  position: absolute;
+/* ───────────────────────────────────────────────────────── */
+/* Modal                                                     */
+/* ───────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
+  background: rgba(26, 18, 10, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-overlay--blur {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.modal-content {
+  background-image: url("/textures/parchment.webp");
+  background-size: cover;
+  background-position: center;
+  border: var(--border-heavy);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.4);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ───────────────────────────────────────────────────────── */
+/* Container (responsive)                                    */
+/* ───────────────────────────────────────────────────────── */
+.container-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ───────────────────────────────────────────────────────── */
+/* Auth skeleton                                             */
+/* ───────────────────────────────────────────────────────── */
+.auth-skeleton {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2) 5%;
+  gap: var(--space-3);
+}
+.auth-skeleton-block {
+  background: var(--ink-faded);
+  border-radius: var(--radius);
+  opacity: 0.1;
+}
+
+/* ───────────────────────────────────────────────────────── */
+/* Tab button                                                */
+/* ───────────────────────────────────────────────────────── */
+.tab-btn {
+  position: relative;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.08em;
+  border: var(--border);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
 }
 
 /* Links */
@@ -346,6 +410,9 @@ span {
 }
 
 @media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
   .news-filter-label {
     display: none;
   }

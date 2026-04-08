@@ -28,8 +28,8 @@ export function EquitySection() {
 
   const defaultButtonStyles: React.CSSProperties = {
     minHeight: "3.5rem",
-    fontSize: "1rem",
-    fontWeight: 700,
+    fontSize: "1.1rem",
+    fontWeight: 800,
     padding: `${TOKENS.SPACE_2} ${TOKENS.SPACE_4}`,
   };
 
@@ -43,8 +43,8 @@ export function EquitySection() {
       <div
         style={
           isMobile
-            ? { display: "flex", flexDirection: "column", gap: TOKENS.SPACE_2 }
-            : { display: "flex", gap: TOKENS.SPACE_4, alignItems: "center" }
+            ? { display: "flex", flexDirection: "column", gap: TOKENS.SPACE_1 }
+            : { display: "flex", gap: TOKENS.SPACE_4, alignItems: "stretch" }
         }
       >
         {/* Equity rows */}
@@ -56,19 +56,32 @@ export function EquitySection() {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
-                alignItems: "center",
-                padding: "0.5rem 0",
+                alignItems: "baseline",
+                padding: "0.4rem 0",
                 borderBottom:
                   idx < equities.length - 1
-                    ? "1px solid rgba(26, 18, 10, 0.15)"
+                    ? "1px solid rgba(26, 18, 10, 0.2)"
                     : "none",
-                fontSize: "1.3rem",
-                fontWeight: 700,
-                color: TOKENS.INK,
               }}
             >
-              <span>{item.currency.name}</span>
-              <span>
+              <span
+                style={{
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  color: TOKENS.INK_FADED,
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {item.currency.name}
+              </span>
+              <span
+                style={{
+                  fontSize: "1.6rem",
+                  fontWeight: 800,
+                  color: "#0a0704",
+                  fontFamily: "'IM Fell DW Pica SC', serif",
+                }}
+              >
                 {user.configuration.showEquity
                   ? `${prettyMoney(item.amount)} ${item.currency.sign}`
                   : `x x x ${item.currency.sign}`}
@@ -81,8 +94,8 @@ export function EquitySection() {
         {!isMobile ? (
           <div
             style={{
-              width: "1px",
-              background: "rgba(26, 18, 10, 0.15)",
+              width: "2px",
+              background: "rgba(26, 18, 10, 0.2)",
               alignSelf: "stretch",
               flexShrink: 0,
             }}
@@ -91,8 +104,8 @@ export function EquitySection() {
           <hr
             style={{
               width: "100%",
-              margin: 0,
-              borderTop: "1px solid rgba(26, 18, 10, 0.15)",
+              margin: "0.25rem 0",
+              borderTop: "2px solid rgba(26, 18, 10, 0.15)",
             }}
           />
         )}
@@ -103,24 +116,30 @@ export function EquitySection() {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: TOKENS.SPACE_1,
+              alignItems: "baseline",
+              marginBottom: "0.3rem",
             }}
           >
             <span
               style={{
-                fontSize: TOKENS.FONT_SM,
+                fontSize: "0.85rem",
                 fontWeight: 700,
-                color: TOKENS.INK_GHOST,
-                letterSpacing: "0.08em",
+                color: TOKENS.INK_FADED,
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
               }}
             >
-              RECENT
+              Recent
             </span>
             <Link
               to="/finances/transactions"
               className="equity-link"
-              style={{ color: TOKENS.INK_FADED, fontSize: TOKENS.FONT_SM, fontWeight: 600 }}
+              style={{
+                color: TOKENS.INK_FADED,
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                fontStyle: "italic",
+              }}
             >
               view all
             </Link>
@@ -135,16 +154,9 @@ export function EquitySection() {
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "0.3rem 0",
-                  fontSize: TOKENS.FONT_SM,
-                  color:
-                    item.operation === "income"
-                      ? TOKENS.ACCENT_GREEN
-                      : item.operation === "exchange"
-                        ? TOKENS.ACCENT_BLUE
-                        : TOKENS.INK_FADED,
-                  fontWeight: item.operation === "income" ? 700 : 600,
+                  alignItems: "baseline",
+                  padding: "0.25rem 0",
+                  borderBottom: "1px solid rgba(26, 18, 10, 0.08)",
                 }}
               >
                 <span
@@ -154,11 +166,32 @@ export function EquitySection() {
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
+                    fontSize: "1.05rem",
+                    fontWeight: 600,
+                    color:
+                      item.operation === "income"
+                        ? TOKENS.ACCENT_GREEN
+                        : item.operation === "exchange"
+                          ? TOKENS.ACCENT_BLUE
+                          : TOKENS.INK_LIGHT,
                   }}
                 >
                   {operationSign(item)} {item.name}
                 </span>
-                <span style={{ flexShrink: 0, marginLeft: "0.5rem" }}>
+                <span
+                  style={{
+                    flexShrink: 0,
+                    marginLeft: "0.5rem",
+                    fontSize: "1.1rem",
+                    fontWeight: 800,
+                    color:
+                      item.operation === "income"
+                        ? TOKENS.ACCENT_GREEN
+                        : item.operation === "exchange"
+                          ? TOKENS.ACCENT_BLUE
+                          : TOKENS.INK,
+                  }}
+                >
                   {item.currency} {prettyMoney(item.value)}
                 </span>
               </div>
@@ -178,7 +211,7 @@ export function EquitySection() {
         </div>
       </div>
 
-      <div style={{ marginTop: TOKENS.SPACE_3 }} />
+      <div style={{ marginTop: TOKENS.SPACE_2 }} />
 
       {/* Action buttons — full width row */}
       <div
@@ -211,42 +244,40 @@ export function EquitySection() {
         </Button>
       </div>
 
-      <div style={{ marginTop: TOKENS.SPACE_2 }} />
+      <div style={{ marginTop: TOKENS.SPACE_1 }} />
 
       {/* Quick links */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
-          gap: "0",
-          fontSize: isMobile ? "1rem" : "1.2rem",
-          fontWeight: 600,
-          letterSpacing: "0.08em",
+          gap: isMobile ? "1rem" : "2rem",
+          fontSize: isMobile ? "1rem" : "1.15rem",
+          fontWeight: 800,
+          letterSpacing: "0.1em",
           alignItems: "center",
         }}
       >
         <Link
           to="/finances/assets"
           className="equity-link"
-          style={{
-            color: TOKENS.INK_LIGHT,
-            padding: isMobile ? "0 0.75rem" : `0 ${TOKENS.SPACE_4}`,
-          }}
+          style={{ color: TOKENS.INK }}
         >
           ASSETS
         </Link>
-        <span style={{ color: "rgba(26, 18, 10, 0.25)" }}>|</span>
+        <span style={{ color: "rgba(26, 18, 10, 0.3)", fontSize: "0.8em" }}>
+          &#x2022;
+        </span>
         <Link
           to="/finances/cash"
           className="equity-link"
-          style={{
-            color: TOKENS.INK_LIGHT,
-            padding: isMobile ? "0 0.75rem" : `0 ${TOKENS.SPACE_4}`,
-          }}
+          style={{ color: TOKENS.INK }}
         >
           CASH
         </Link>
-        <span style={{ color: "rgba(26, 18, 10, 0.25)" }}>|</span>
+        <span style={{ color: "rgba(26, 18, 10, 0.3)", fontSize: "0.8em" }}>
+          &#x2022;
+        </span>
         <Link
           to="#"
           className="equity-link"
@@ -254,10 +285,7 @@ export function EquitySection() {
             e.preventDefault();
             openNotifications();
           }}
-          style={{
-            color: TOKENS.INK_LIGHT,
-            padding: isMobile ? "0 0.75rem" : `0 ${TOKENS.SPACE_4}`,
-          }}
+          style={{ color: TOKENS.INK }}
         >
           ALERTS
         </Link>

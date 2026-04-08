@@ -1,14 +1,8 @@
-import * as React from "react";
+import React from "react";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router";
 import { Toaster } from "react-hot-toast";
 import { TOKENS } from "./styles/tokens.ts";
-
-const SVG_FILTER_STYLE: React.CSSProperties = {
-  position: "absolute",
-  width: 0,
-  height: 0,
-};
 
 const TOAST_BASE_STYLE: React.CSSProperties = {
   background: "rgba(139, 119, 80, 0.15)",
@@ -37,27 +31,6 @@ export function App() {
 
   return (
     <>
-      <svg style={SVG_FILTER_STYLE}>
-        <defs>
-          <filter id="sketchy" x="-5%" y="-5%" width="110%" height="110%">
-            <feTurbulence
-              type="turbulence"
-              baseFrequency="0.04"
-              numOctaves={2}
-              seed={2}
-              result="noise"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="noise"
-              scale={2}
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
       <React.Suspense fallback={<div className="page-loading">Loading…</div>}>
         <RouterProvider router={router} />
       </React.Suspense>

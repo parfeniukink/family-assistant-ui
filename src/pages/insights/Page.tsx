@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, SketchBorder } from "src/components";
+import { Container } from "src/components";
 import { TOKENS } from "src/styles/tokens";
 import FinancesInsights from "./Finances";
 import AiInsights from "./AiInsights";
@@ -16,18 +16,11 @@ export default function Page() {
     sessionStorage.setItem("insights-tab", t);
   }
 
-  const tabStyle = (t: Tab) => ({
-    position: "relative" as const,
-    padding: "0.5rem 1.5rem",
-    cursor: "pointer" as const,
-    fontFamily: "inherit",
+  const tabStyle = (t: Tab): React.CSSProperties => ({
     fontSize: "1.1rem",
-    letterSpacing: "0.08em",
     background: tab === t ? "rgba(26, 18, 10, 0.12)" : "transparent",
     color: tab === t ? TOKENS.INK_FADED : TOKENS.INK_GHOST,
     fontWeight: tab === t ? 700 : 500,
-    border: "none",
-    borderRadius: TOKENS.RADIUS,
   });
 
   return (
@@ -40,13 +33,19 @@ export default function Page() {
           marginBottom: "1.5rem",
         }}
       >
-        <button style={tabStyle("finances")} onClick={() => handleTabChange("finances")}>
-          <SketchBorder stroke={tab === "finances" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
-          <span style={{ position: "relative" }}>RESOURCES</span>
+        <button
+          className="tab-btn"
+          style={tabStyle("finances")}
+          onClick={() => handleTabChange("finances")}
+        >
+          RESOURCES
         </button>
-        <button style={tabStyle("ai")} onClick={() => handleTabChange("ai")}>
-          <SketchBorder stroke={tab === "ai" ? "rgba(26, 18, 10, 0.7)" : "rgba(26, 18, 10, 0.5)"} />
-          <span style={{ position: "relative" }}>AI</span>
+        <button
+          className="tab-btn"
+          style={tabStyle("ai")}
+          onClick={() => handleTabChange("ai")}
+        >
+          AI
         </button>
       </div>
 

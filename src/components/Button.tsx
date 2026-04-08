@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { TOKENS } from "../styles/tokens";
-import { SketchBorder } from "./SketchBorder";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -14,17 +13,15 @@ type ButtonProps = {
 const DEFAULT_STYLES: React.CSSProperties = {
   position: "relative",
   fontFamily: "inherit",
-  border: "none",
-  borderRadius: TOKENS.RADIUS,
-  color: TOKENS.INK_LIGHT,
+  borderRadius: "255px 15px 225px 15px/15px 225px 15px 255px",
+  color: TOKENS.INK,
   background: "transparent",
   cursor: "pointer",
   height: "100%",
   width: "100%",
-  transform: "translate(0, 0)",
   transition: "all 0.12s ease",
   boxSizing: "border-box",
-  boxShadow: "none",
+  boxShadow: "3px 3px 6px rgba(26, 18, 10, 0.25), inset 0 0 20px rgba(26, 18, 10, 0.06)",
   letterSpacing: "0.08em",
 };
 
@@ -41,16 +38,12 @@ export function Button({
   const handleMouseEnter = useCallback(() => setHovered(true), []);
   const handleMouseLeave = useCallback(() => setHovered(false), []);
 
-  const transform = "translate(0, 0)";
-
-  // Set button border + text color
-  let borderColor = "rgba(26, 18, 10, 0.7)";
-  let textColor = TOKENS.INK_LIGHT;
+  let borderColor = "rgba(26, 18, 10, 0.8)";
+  let textColor = TOKENS.INK;
   if (color === "red") { borderColor = TOKENS.ACCENT_RED; textColor = TOKENS.ACCENT_RED; }
   if (color === "green") { borderColor = TOKENS.ACCENT_GREEN; textColor = TOKENS.ACCENT_GREEN; }
   if (color === "blue") { borderColor = TOKENS.ACCENT_BLUE; textColor = TOKENS.ACCENT_BLUE; }
 
-  // Set `hover` background
   let hoverStyles: React.CSSProperties = {};
   if (isHovered) {
     if (hoverBackground) {
@@ -69,9 +62,8 @@ export function Button({
   const style: React.CSSProperties = {
     ...DEFAULT_STYLES,
     ...extraStyles,
-    border: "none",
+    border: `3px solid ${borderColor}`,
     color: textColor,
-    transform,
     ...hoverStyles,
   };
 
@@ -84,8 +76,7 @@ export function Button({
       onClick={onClickCallback}
       type="button"
     >
-      <SketchBorder stroke={borderColor} strokeWidth={3} />
-      <span style={{ position: "relative" }}>{children}</span>
+      {children}
     </button>
   );
 }

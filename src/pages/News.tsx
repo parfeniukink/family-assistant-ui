@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Card, NoData, RequireAuth } from "src/components";
+import { Container, Card, NoData, RequireAuth, Modal } from "src/components";
 import { useMobile } from "src/context";
 import { renderMarkdown } from "src/utils/renderMarkdown";
 import { TOKENS } from "src/styles/tokens";
@@ -175,42 +175,20 @@ function PreviewModal({
   }
 
   return (
-    <div
-      onClick={onClose}
+    <Modal
+      onClose={onClose}
+      blur
       style={{
-        position: "fixed",
-        inset: 0,
-        zIndex: 1000,
-        background: "rgba(0,0,0,0.5)",
-        backdropFilter: "blur(6px)",
-        WebkitBackdropFilter: "blur(6px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: isMobile ? "0.25rem" : "1rem",
+        padding: isMobile ? "0.75rem" : "2rem",
+        maxWidth: isMobile ? "600px" : "1100px",
+        width: "100%",
+        maxHeight: isMobile ? "90vh" : "85vh",
+        overflowY: "auto",
+        gap: "1.25rem",
+        textAlign: "left",
+        fontSize: "1rem",
       }}
     >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          backgroundImage: "url('/textures/parchment.webp')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          border: TOKENS.BORDER_HEAVY,
-          borderRadius: TOKENS.RADIUS,
-          boxShadow: "4px 4px 20px rgba(0, 0, 0, 0.4)",
-          padding: isMobile ? "0.75rem" : "2rem",
-          maxWidth: isMobile ? "600px" : "1100px",
-          width: "100%",
-          maxHeight: isMobile ? "90vh" : "85vh",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "1.25rem",
-          textAlign: "left",
-          fontSize: "1rem",
-        }}
-      >
         {/* Header */}
         <div
           style={{
@@ -540,8 +518,8 @@ function PreviewModal({
             />
           ))}
         </div>
-      </div>
-    </div>
+    </Modal>
+
   );
 }
 

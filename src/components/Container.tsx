@@ -1,31 +1,12 @@
-import { TOKENS } from "src/styles/tokens";
 import { Navbar } from "./Navbar";
 import { NotificationModal } from "./NotificationModal";
-import { useMobile } from "src/context";
 
 export function Container({ children }: { children: React.ReactNode }) {
-  const { isMobile } = useMobile();
-
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        padding: isMobile ? "15px" : `${TOKENS.SPACE_2} 5%`,
-        gap: TOKENS.SPACE_3,
-      }}
-    >
+    <div className="container">
       <Navbar />
       <NotificationModal />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: TOKENS.SPACE_4,
-        }}
-      >
-        {children}
-      </div>
+      <div className="container-content">{children}</div>
     </div>
   );
 }

@@ -13,18 +13,18 @@
   --bg-green: rgba(74, 122, 74, 0.15);
   --bg-yellow: rgba(139, 119, 80, 0.18);
 
-  --accent-blue: #4a6a8a;
-  --accent-red: #8a4a4a;
-  --accent-green: #4a7a4a;
+  --accent-blue: #2a5a80;
+  --accent-red: #7a2020;
+  --accent-green: #1a6a1a;
 
   /* Ink tones */
-  --ink: #1a120a;
-  --ink-light: #352008;
-  --ink-faded: #5a4020;
-  --ink-ghost: #5a4a2a;
+  --ink: #0e0a05;
+  --ink-light: #1a120a;
+  --ink-faded: #3d2a14;
+  --ink-ghost: #4a3a20;
 
-  --border: 3px solid rgba(26, 18, 10, 0.5);
-  --border-heavy: 1.5px solid rgba(26, 18, 10, 0.7);
+  --border: 3px solid rgba(26, 18, 10, 0.7);
+  --border-heavy: 2px solid rgba(26, 18, 10, 0.8);
   --shadow: inset 0 0 30px rgba(139, 119, 80, 0.05);
   --radius: 4px;
 
