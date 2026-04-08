@@ -62,7 +62,7 @@ export function Button({
   const style: React.CSSProperties = {
     ...DEFAULT_STYLES,
     ...extraStyles,
-    border: `3px solid ${borderColor}`,
+    border: `4px solid ${borderColor}`,
     color: textColor,
     ...hoverStyles,
   };

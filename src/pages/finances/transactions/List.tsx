@@ -99,7 +99,7 @@ export default function Page() {
               style={{
                 width: "100%",
                 padding: isMobile ? "10px" : TOKENS.SPACE_2,
-                gap: TOKENS.SPACE_1,
+                gap: "0.15rem",
                 textAlign: "left",
                 border: "none",
               }}
@@ -162,16 +162,16 @@ export default function Page() {
                       display: "flex",
                       justifyContent: "space-between",
                       alignItems: "center",
-                      padding: "0.4rem 0",
+                      padding: "0.15rem 0",
                       borderBottom: "1px solid rgba(26, 18, 10, 0.15)",
-                      fontSize: "1.15rem",
+                      fontSize: "1.05rem",
                       color:
                         item.operation === "income"
                           ? TOKENS.ACCENT_GREEN
                           : item.operation === "exchange"
                             ? TOKENS.ACCENT_BLUE
                             : TOKENS.INK_FADED,
-                      fontWeight: item.operation === "income" ? 700 : 600,
+                      fontWeight: 400,
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>

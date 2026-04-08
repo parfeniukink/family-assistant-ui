@@ -23,7 +23,7 @@
   --ink-faded: #3d2a14;
   --ink-ghost: #4a3a20;
 
-  --border: 3px solid rgba(26, 18, 10, 0.7);
+  --border: 4px solid rgba(26, 18, 10, 0.7);
   --border-heavy: 2px solid rgba(26, 18, 10, 0.8);
   --shadow: inset 0 0 30px rgba(139, 119, 80, 0.05);
   --radius: 4px;

@@ -66,20 +66,18 @@ export function EquitySection() {
             >
               <span
                 style={{
-                  fontSize: "1.1rem",
-                  fontWeight: 600,
-                  color: TOKENS.INK_FADED,
-                  letterSpacing: "0.05em",
+                  fontSize: "1.5rem",
+                  fontWeight: 900,
+                  color: "#050301",
                 }}
               >
                 {item.currency.name}
               </span>
               <span
                 style={{
-                  fontSize: "1.6rem",
-                  fontWeight: 800,
-                  color: "#0a0704",
-                  fontFamily: "'IM Fell DW Pica SC', serif",
+                  fontSize: "1.5rem",
+                  fontWeight: 900,
+                  color: "#050301",
                 }}
               >
                 {user.configuration.showEquity

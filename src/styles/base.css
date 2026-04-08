@@ -23,8 +23,27 @@ body {
   background-image: url("/textures/parchment-seamless.webp");
   background-size: 800px;
   background-repeat: repeat;
+  /* Old font: "Cormorant Garamond", serif  |  Alt: "Special Elite"  |  Alt: "Noto Sans Mono" */
+  font-family: "Courier Prime", "Courier New", monospace;
+  line-height: 1.6;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   color: var(--white);
   max-width: 100%;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  min-height: 100vh;
+  position: relative;
+}
+#root > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Headings */
@@ -32,7 +51,8 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: "IM Fell DW Pica SC", serif;
+  /* Old heading font: "IM Fell DW Pica SC", serif */
+  font-family: "Courier Prime", "Courier New", monospace;
 }
 h1 {
   font-size: var(--font-2xl);

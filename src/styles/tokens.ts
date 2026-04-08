@@ -23,7 +23,7 @@ export const TOKENS = {
   INK_GHOST: "#4a3a20",
 
   // Borders & Effects
-  BORDER: "3px solid rgba(26, 18, 10, 0.7)",
+  BORDER: "4px solid rgba(26, 18, 10, 0.7)",
   BORDER_HEAVY: "2px solid rgba(26, 18, 10, 0.8)",
   SHADOW: "inset 0 0 30px rgba(139, 119, 80, 0.05)",
   RADIUS: "4px",
