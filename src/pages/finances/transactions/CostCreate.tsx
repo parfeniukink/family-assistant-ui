@@ -9,6 +9,7 @@ import {
 import { costCreate } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { type Response } from "src/infrastructure/generic";
+import { makeNumber } from "src/domain/validation";
 import type { Cost } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import {
@@ -90,23 +91,6 @@ export default function Page() {
       } catch (error) {
         toast.error(`${error}`);
       }
-    }
-  }
-
-  // Utils
-  function makeNumber(input: string): number {
-    const result = input
-      .replace(" ", "")
-      .replace(/[^0-9.,]+/g, "")
-      .replace(",", ".");
-
-    const cleaned = Number(result);
-
-    if (!cleaned) {
-      setValue(null);
-      throw new Error("Invalid Value. Please try again");
-    } else {
-      return cleaned;
     }
   }
 

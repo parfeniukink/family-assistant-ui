@@ -18,21 +18,7 @@ import { TOKENS } from "src/styles/tokens";
 import { costShortcutApply } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { prettyMoney } from "src/domain/transactions";
-
-function moveItem<T>(list: T[], from: number, to: number): T[] {
-  if (from === to) return list;
-  const next = list.slice();
-  const [removed] = next.splice(from, 1);
-  next.splice(to, 0, removed);
-  return next;
-}
-
-function withReindexedPositions(list: CostShortcut[]): CostShortcut[] {
-  return list.map((sc, i) => ({
-    ...sc,
-    ui: { ...(sc.ui ?? { positionIndex: i }), positionIndex: i },
-  }));
-}
+import { moveItem, withReindexedPositions } from "src/domain/dragDrop";
 
 export function CostShortcutsSection() {
   const { isMobile } = useMobile();
@@ -111,7 +97,8 @@ export function CostShortcutsSection() {
         setActiveShortcut(null);
         setUserValue(null);
         refreshEquity();
-      } catch (error) {
+      } catch {
+        // Error already handled by apiCall toast
       } finally {
         setIsSubmitting(false);
       }
@@ -166,7 +153,6 @@ export function CostShortcutsSection() {
       await updateShortcutsOrder(reindexed);
     } catch (err) {
       setShortcutOrder(before);
-      console.error("Failed to update shortcuts order:", err);
     } finally {
       resetDrag();
       setSaving(false);
@@ -506,12 +492,7 @@ export function CostShortcutsSection() {
         </Modal>
       )}
 
-      {isMobile && (
-        <>
-          <br />
-          <br />
-        </>
-      )}
+      {isMobile && <div style={{ height: "100px" }} />}
     </>
   );
 }

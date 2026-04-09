@@ -80,7 +80,7 @@ export default function Authentication() {
         alignItems: "center",
         gap: "24px",
         width: "100%",
-        padding: isMobile ? TOKENS.SPACE_5: TOKENS.SPACE_5,
+        padding: TOKENS.SPACE_5,
       }}
     >
       <h2 style={{ margin: 0, fontSize: "2rem" }}>STOP!</h2>

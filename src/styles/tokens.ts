@@ -13,9 +13,9 @@ export const TOKENS = {
   BG_GREEN: "rgba(74, 122, 74, 0.15)",
   BG_YELLOW: "rgba(139, 119, 80, 0.18)",
 
-  ACCENT_BLUE: "#2a5a80",
-  ACCENT_RED: "#7a2020",
-  ACCENT_GREEN: "#1a6a1a",
+  ACCENT_BLUE: "#474e81",
+  ACCENT_RED: "#822c1a",
+  ACCENT_GREEN: "#44692a",
 
   INK: "#0e0a05",
   INK_LIGHT: "#1a120a",

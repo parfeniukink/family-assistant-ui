@@ -1,7 +1,7 @@
 type DecimalInputProps = {
   value: string;
   placeholder?: string;
-  onChangeCallback: (e: any) => void;
+  onChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function DecimalInput({

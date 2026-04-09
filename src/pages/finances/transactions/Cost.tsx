@@ -9,6 +9,7 @@ import {
 } from "src/context";
 import { costRetrieve, costUpdate, costDelete } from "src/data/api/client";
 import toast from "react-hot-toast";
+import { makeNumber } from "src/domain/validation";
 import type { Cost } from "src/data/types";
 import { ActionButtons, SnippetsTable } from "./shared";
 import {
@@ -94,16 +95,6 @@ export default function CostEdit() {
     } catch (error) {
       toast.error(`${error}`);
     }
-  }
-
-  function makeNumber(input: string): number {
-    const result = input
-      .replace(" ", "")
-      .replace(/[^0-9.,]+/g, "")
-      .replace(",", ".");
-    const cleaned = Number(result);
-    if (!cleaned) throw new Error("Invalid Value. Please try again");
-    return cleaned;
   }
 
   if (!cost) {

@@ -6,12 +6,6 @@ import type { Filters, TransactionsBasicAnalytics } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import { TOKENS } from "src/styles/tokens";
 
-// Style definitions moved outside component to avoid recreation on every render
-// Higher contrast colors for analytics page readability
-const COST_COLOR = "#7a2020";
-const INCOME_COLOR = "#1a6a1a";
-const EXCHANGE_COLOR = "#1a4a7a";
-
 const STYLES: { [key: string]: React.CSSProperties } = {
   flexBetween: {
     display: "flex",
@@ -20,19 +14,19 @@ const STYLES: { [key: string]: React.CSSProperties } = {
   },
   costs: {
     padding: "0.4rem 0.5rem",
-    color: COST_COLOR,
+    color: TOKENS.ACCENT_RED,
     fontWeight: 600,
     borderBottom: "1px solid rgba(26, 18, 10, 0.2)",
   },
   incomes: {
     padding: "0.4rem 0.5rem",
-    color: INCOME_COLOR,
+    color: TOKENS.ACCENT_GREEN,
     fontWeight: 600,
     borderBottom: "1px solid rgba(26, 18, 10, 0.2)",
   },
   exchange: {
     padding: "0.4rem 0.5rem",
-    color: EXCHANGE_COLOR,
+    color: TOKENS.ACCENT_BLUE,
     fontWeight: 600,
     borderBottom: "1px solid rgba(26, 18, 10, 0.2)",
   },
@@ -41,15 +35,15 @@ const STYLES: { [key: string]: React.CSSProperties } = {
     borderBottom: "1px solid rgba(26, 18, 10, 0.2)",
   },
   ratioGood: {
-    background: "rgba(26, 106, 26, 0.18)",
-    borderLeft: `4px solid ${INCOME_COLOR}`,
-    color: "#1a120a",
+    background: TOKENS.BG_GREEN,
+    borderLeft: `4px solid ${TOKENS.ACCENT_GREEN}`,
+    color: TOKENS.INK,
     fontWeight: 700,
   },
   ratioBad: {
-    background: "rgba(122, 32, 32, 0.18)",
-    borderLeft: `4px solid ${COST_COLOR}`,
-    color: "#1a120a",
+    background: TOKENS.BG_RED,
+    borderLeft: `4px solid ${TOKENS.ACCENT_RED}`,
+    color: TOKENS.INK,
     fontWeight: 700,
   },
 };
@@ -166,7 +160,7 @@ export default function Component({
                     ...(item.costs.total ? STYLES.costs : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: COST_COLOR }}>COSTS:</p>
+                  <p style={{ margin: 0, color: TOKENS.ACCENT_RED }}>COSTS:</p>
                   <p style={{ margin: 0 }}>
                     {`${prettyMoney(item.costs.total)} ${item.currency.sign}`}
                   </p>
@@ -183,7 +177,7 @@ export default function Component({
                     ...(item.incomes.total ? STYLES.incomes : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: INCOME_COLOR }}>INCOMES:</p>
+                  <p style={{ margin: 0, color: TOKENS.ACCENT_GREEN }}>INCOMES:</p>
                   <p style={{ margin: 0 }}>
                     {`${prettyMoney(item.incomes.total)} ${item.currency.sign}`}
                   </p>
@@ -200,7 +194,7 @@ export default function Component({
                     ...(item.fromExchanges ? STYLES.exchange : STYLES.flexBox),
                   }}
                 >
-                  <p style={{ margin: 0, color: EXCHANGE_COLOR }}>
+                  <p style={{ margin: 0, color: TOKENS.ACCENT_BLUE }}>
                     CURRENCY EXCHANGE:
                   </p>
                   {item.fromExchanges > 0 ? (

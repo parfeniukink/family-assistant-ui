@@ -9,21 +9,7 @@ import {
 } from "src/context";
 import { Button, Card, Modal } from "src/components";
 import toast from "react-hot-toast";
-
-function moveItem<T>(list: T[], from: number, to: number): T[] {
-  if (from === to) return list;
-  const next = list.slice();
-  const [removed] = next.splice(from, 1);
-  next.splice(to, 0, removed);
-  return next;
-}
-
-function withReindexedPositions(list: CostShortcut[]): CostShortcut[] {
-  return list.map((sc, i) => ({
-    ...sc,
-    ui: { ...(sc.ui ?? { positionIndex: i }), positionIndex: i },
-  }));
-}
+import { moveItem, withReindexedPositions } from "src/domain/dragDrop";
 
 export default function ShortcutsReorderSection() {
   // Context
@@ -125,9 +111,6 @@ export default function ShortcutsReorderSection() {
     } catch (err) {
       // If API fails, revert UI order so it doesn’t lie to the user
       setShortcutOrder(before);
-      // Consider surfacing an error toast here
-      // eslint-disable-next-line no-console
-      console.error("Failed to update shortcuts order:", err);
     } finally {
       dragFromRef.current = null;
       overRef.current = null;

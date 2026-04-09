@@ -34,8 +34,6 @@ export default function Page() {
         <div className="settings-content" style={{ fontSize: "1.1rem" }}>
           <IdentityActions />
 
-          <br></br>
-
           <div
             style={{
               display: "flex",
@@ -100,12 +98,7 @@ export default function Page() {
           )}
         </div>
       </Container>
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-      </div>
+      <div style={{ height: "100px" }} />
     </>
   );
 }

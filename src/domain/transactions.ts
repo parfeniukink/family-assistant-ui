@@ -52,6 +52,6 @@ export function operationSign(transaction: Transaction) {
     case "exchange":
       return "~";
     default:
-      console.error(`Invalid operation ${transaction.operation}`);
+      return "";
   }
 }

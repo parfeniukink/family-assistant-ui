@@ -4,6 +4,6 @@ export function makeNumber(input: string): number {
     .replace(/[^0-9.,]+/g, "")
     .replace(",", ".");
   const cleaned = Number(result);
-  if (!cleaned) return 0;
+  if (!cleaned) throw new Error("Invalid value");
   return cleaned;
 }

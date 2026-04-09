@@ -3,6 +3,7 @@ import { useCurrencies, useEquities, useMobile } from "src/context";
 import { exchangeCreate } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { type Response } from "src/infrastructure/generic";
+import { makeNumber } from "src/domain/validation";
 import type { Exchange } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import { useNavigate } from "react-router-dom";
@@ -83,19 +84,6 @@ export default function ExchangeCreate() {
     } catch (error) {
       toast.error(`${error}`);
     }
-  }
-
-  function makeNumber(input: string): number {
-    const result = input
-      .replace(" ", "")
-      .replace(/[^0-9.,]+/g, "")
-      .replace(",", ".");
-    const cleaned = Number(result);
-    if (!cleaned) {
-      // Clear and error
-      throw new Error("Invalid Value. Please try again");
-    }
-    return cleaned;
   }
 
   if (!currencies) {

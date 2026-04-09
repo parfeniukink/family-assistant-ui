@@ -3,7 +3,7 @@ import { TOKENS } from "src/styles/tokens";
 type DropdownProps = {
   children: React.ReactNode;
   value: string;
-  onChangeCallback: (e: any) => void;
+  onChangeCallback: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export function Dropdown({ children, value, onChangeCallback }: DropdownProps) {

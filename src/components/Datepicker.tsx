@@ -5,7 +5,7 @@ import { Button } from "./Button";
 
 type DatepickerProps = {
   date?: string;
-  setDateCallback: CallableFunction;
+  setDateCallback: (date: string) => void;
   disabled?: boolean;
   showShortcuts?: boolean;
 };

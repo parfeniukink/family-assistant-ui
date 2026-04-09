@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { incomeCreate } from "src/data/api/client";
 import toast from "react-hot-toast";
 import { type Response } from "src/infrastructure/generic";
+import { makeNumber } from "src/domain/validation";
 import type { Income, IncomeSource } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import {
@@ -76,20 +77,6 @@ export default function IncomeCreate() {
       );
     } catch (error) {
       toast.error(`${error}`);
-    }
-  }
-
-  function makeNumber(input: string): number {
-    const result = input
-      .replace(" ", "")
-      .replace(/[^0-9.,]+/g, "")
-      .replace(",", ".");
-    const cleaned = Number(result);
-    if (!cleaned) {
-      setValue(null);
-      throw new Error("Invalid Value. Please try again");
-    } else {
-      return cleaned;
     }
   }
 

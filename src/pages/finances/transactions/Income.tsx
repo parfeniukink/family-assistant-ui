@@ -12,6 +12,7 @@ import {
   incomeDelete,
 } from "src/data/api/client";
 import toast from "react-hot-toast";
+import { makeNumber } from "src/domain/validation";
 import type { Income, IncomeSource } from "src/data/types";
 import { SnippetsTable, ActionButtons } from "./shared";
 import {
@@ -101,16 +102,6 @@ export default function IncomeEdit() {
     } catch (error) {
       toast.error(`deleting failed: ${error}`);
     }
-  }
-
-  function makeNumber(input: string): number {
-    const result = input
-      .replace(" ", "")
-      .replace(/[^0-9.,]+/g, "")
-      .replace(",", ".");
-    const cleaned = Number(result);
-    if (!cleaned) throw new Error("invalid value");
-    return cleaned;
   }
 
   if (!income) {

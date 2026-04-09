@@ -220,8 +220,7 @@ export default function Page() {
         </div>
       )}
 
-      {isMobile && <br />}
-      {isMobile && <br />}
+      {isMobile && <div style={{ height: "100px" }} />}
     </Container>
   );
 }

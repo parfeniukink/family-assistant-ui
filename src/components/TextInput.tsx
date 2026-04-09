@@ -2,7 +2,7 @@ type TextInputProps = {
   value: string;
   placeholder?: string;
   disabled?: boolean;
-  onChangeCallback: (e: any) => void;
+  onChangeCallback: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export function TextInput({

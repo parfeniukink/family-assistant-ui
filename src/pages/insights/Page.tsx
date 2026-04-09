@@ -51,8 +51,7 @@ export default function Page() {
 
       {tab === "finances" && <FinancesInsights />}
       {tab === "ai" && <AiInsights />}
-      <br />
-      <br />
+      <div style={{ height: "100px" }} />
     </Container>
   );
 }
