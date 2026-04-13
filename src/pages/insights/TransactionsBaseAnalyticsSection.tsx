@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card } from "src/components";
-import { useMobile } from "src/context";
+import { Card } from "src/components/Card";
+import { useMobile } from "src/context/MobileContext";
 import type { Filters, TransactionsBasicAnalytics } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
 import { TOKENS } from "src/styles/tokens";

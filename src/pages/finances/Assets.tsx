@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import toast from "react-hot-toast";
-import { Container, Card, Button, NoData, TextInput } from "src/components";
+import { Container } from "src/components/Container";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
+import { NoData } from "src/components/NoData";
+import { TextInput } from "src/components/TextInput";
 import { TOKENS } from "src/styles/tokens";
-import { useMobile } from "src/context";
+import { useMobile } from "src/context/MobileContext";
 import {
   assetsList,
   assetsCreate,
@@ -14,7 +18,7 @@ import {
   assetDocumentDownload,
   assetDocumentUpload,
   assetDocumentDelete,
-} from "src/data/api/client";
+} from "src/data/api/assets";
 import type { Asset, AssetField } from "src/data/types";
 
 export default function Page() {

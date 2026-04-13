@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-  useCurrencies,
-  useCostCategories,
-  useIdentity,
-  useMobile,
-} from "src/context";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useCostCategories } from "src/context/CostCategoriesContext";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 
-import { Dropdown } from "src/components";
+import { Dropdown } from "src/components/Dropdown";
 
 export default function Component() {
   const { user, updateConfig } = useIdentity();

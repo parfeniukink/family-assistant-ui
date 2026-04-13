@@ -1,4 +1,4 @@
-import { useNotifications } from "src/context";
+import { useNotifications } from "src/context/NotificationsContext";
 import { TOKENS } from "src/styles/tokens";
 import { Modal } from "./Modal";
 

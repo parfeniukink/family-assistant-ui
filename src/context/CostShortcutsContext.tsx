@@ -4,7 +4,7 @@ import {
   costShortcutDelete,
   costShortcutsList,
   updateCostShortcutsOrder,
-} from "../data/api/client";
+} from "../data/api/transactions";
 import type {
   CostShortcut,
   CostShortcutCreateRequestBody,

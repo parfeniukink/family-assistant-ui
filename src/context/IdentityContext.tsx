@@ -3,11 +3,8 @@ import type {
   User,
   ConfigurationPartialUpdateRequestBody,
 } from "../data/types/identity";
-import {
-  configurationUpdate,
-  getTokens as apiLogin,
-  fetchCurrentUser,
-} from "../data/api/client";
+import { getTokens as apiLogin } from "../data/api/auth";
+import { fetchCurrentUser, configurationUpdate } from "../data/api/identity";
 import {
   setTokens,
   clearTokens,

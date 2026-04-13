@@ -1,7 +1,12 @@
-import { Card, Button, DecimalInput, TextInput } from "src/components";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
+import { DecimalInput } from "src/components/DecimalInput";
+import { TextInput } from "src/components/TextInput";
+import { Dropdown } from "src/components/Dropdown";
 import { useSearchParams } from "react-router-dom";
-import { useCurrencies, useMobile, useTransactions } from "src/context";
-import { Dropdown } from "src/components";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useMobile } from "src/context/MobileContext";
+import { useTransactions } from "src/context/TransactionsContext";
 import { TOKENS } from "src/styles/tokens";
 import toast from "react-hot-toast";
 

@@ -1,5 +1,5 @@
 import type { ChangeEvent } from "react";
-import { useMobile } from "src/context";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 import { Button } from "./Button";
 

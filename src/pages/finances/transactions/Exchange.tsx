@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Datepicker,
-  NoData,
-  Card,
-  DecimalInput,
-  Dropdown,
-} from "src/components";
+import { Container } from "src/components/Container";
+import { Datepicker } from "src/components/Datepicker";
+import { NoData } from "src/components/NoData";
+import { Card } from "src/components/Card";
+import { DecimalInput } from "src/components/DecimalInput";
+import { Dropdown } from "src/components/Dropdown";
 import { ActionButtons } from "./shared";
-import { useCurrencies, useEquities, useMobile } from "src/context";
-import { exchangeRetrieve, exchangeDelete } from "src/data/api/client";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useEquities } from "src/context/EquityContext";
+import { useMobile } from "src/context/MobileContext";
+import { exchangeRetrieve, exchangeDelete } from "src/data/api/transactions";
 import toast from "react-hot-toast";
 import type { Exchange } from "src/data/types";
 

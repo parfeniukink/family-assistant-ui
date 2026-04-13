@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useCallback, useMemo } from "react";
 import type { CostCategory } from "../data/types";
-import { costCategoriesList } from "../data/api/client";
+import { costCategoriesList } from "../data/api/transactions";
 import { useIdentity } from "./IdentityContext";
 
 type CostCategoryContextState = {

@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
-import {
-  useCostCategories,
-  useCurrencies,
-  useEquities,
-  useIdentity,
-  useMobile,
-} from "src/context";
-import { costCreate } from "src/data/api/client";
+import { useCostCategories } from "src/context/CostCategoriesContext";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useEquities } from "src/context/EquityContext";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
+import { costCreate } from "src/data/api/transactions";
 import toast from "react-hot-toast";
 import { type Response } from "src/infrastructure/generic";
 import { makeNumber } from "src/domain/validation";
 import type { Cost } from "src/data/types";
 import { prettyMoney } from "src/domain/transactions";
-import {
-  TextInput,
-  DecimalInput,
-  Dropdown,
-  Datepicker,
-  Card,
-  Container,
-  NoData,
-} from "src/components";
+import { TextInput } from "src/components/TextInput";
+import { DecimalInput } from "src/components/DecimalInput";
+import { Dropdown } from "src/components/Dropdown";
+import { Datepicker } from "src/components/Datepicker";
+import { Card } from "src/components/Card";
+import { Container } from "src/components/Container";
+import { NoData } from "src/components/NoData";
 import { ActionButtons, SnippetsTable } from "./shared";
 
 export default function Page() {

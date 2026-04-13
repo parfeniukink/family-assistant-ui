@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { fetchAiAnalytics } from "src/data/api/client";
+import { fetchAiAnalytics } from "src/data/api/analytics";
 import type { PipelineCostSummary } from "src/data/types";
 import { TOKENS } from "src/styles/tokens";
 

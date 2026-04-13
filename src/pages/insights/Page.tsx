@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container } from "src/components";
+import { Container } from "src/components/Container";
 import { TOKENS } from "src/styles/tokens";
 import FinancesInsights from "./Finances";
 import AiInsights from "./AiInsights";

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Button, Modal } from "src/components";
-import { useMobile } from "src/context";
+import { Button } from "src/components/Button";
+import { Modal } from "src/components/Modal";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 
 type ComponentProps = {

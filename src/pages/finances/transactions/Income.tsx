@@ -1,29 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  useCurrencies,
-  useEquities,
-  useIdentity,
-  useMobile,
-} from "src/context";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useEquities } from "src/context/EquityContext";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
 import {
   incomeRetrieve,
   incomeUpdate,
   incomeDelete,
-} from "src/data/api/client";
+} from "src/data/api/transactions";
 import toast from "react-hot-toast";
 import { makeNumber } from "src/domain/validation";
 import type { Income, IncomeSource } from "src/data/types";
 import { SnippetsTable, ActionButtons } from "./shared";
-import {
-  Card,
-  Container,
-  Datepicker,
-  TextInput,
-  Dropdown,
-  DecimalInput,
-  NoData,
-} from "src/components";
+import { Card } from "src/components/Card";
+import { Container } from "src/components/Container";
+import { Datepicker } from "src/components/Datepicker";
+import { TextInput } from "src/components/TextInput";
+import { Dropdown } from "src/components/Dropdown";
+import { DecimalInput } from "src/components/DecimalInput";
+import { NoData } from "src/components/NoData";
 
 const incomeSources: IncomeSource[] = ["revenue", "gift", "debt", "other"];
 

@@ -1,26 +1,22 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  useCostCategories,
-  useCurrencies,
-  useEquities,
-  useIdentity,
-  useMobile,
-} from "src/context";
-import { costRetrieve, costUpdate, costDelete } from "src/data/api/client";
+import { useCostCategories } from "src/context/CostCategoriesContext";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useEquities } from "src/context/EquityContext";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
+import { costRetrieve, costUpdate, costDelete } from "src/data/api/transactions";
 import toast from "react-hot-toast";
 import { makeNumber } from "src/domain/validation";
 import type { Cost } from "src/data/types";
 import { ActionButtons, SnippetsTable } from "./shared";
-import {
-  Card,
-  Dropdown,
-  TextInput,
-  Datepicker,
-  DecimalInput,
-  Container,
-  NoData,
-} from "src/components";
+import { Card } from "src/components/Card";
+import { Dropdown } from "src/components/Dropdown";
+import { TextInput } from "src/components/TextInput";
+import { Datepicker } from "src/components/Datepicker";
+import { DecimalInput } from "src/components/DecimalInput";
+import { Container } from "src/components/Container";
+import { NoData } from "src/components/NoData";
 
 export default function CostEdit() {
   const navigate = useNavigate();

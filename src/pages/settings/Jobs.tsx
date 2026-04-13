@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { Button, TextInput, Dropdown } from "src/components";
-import { useMobile } from "src/context";
+import { Button } from "src/components/Button";
+import { TextInput } from "src/components/TextInput";
+import { Dropdown } from "src/components/Dropdown";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 import {
   jobActionsList,
@@ -10,7 +12,7 @@ import {
   jobUpdate,
   jobDelete,
   jobRun,
-} from "src/data/api/client";
+} from "src/data/api/jobs";
 import type {
   Job,
   JobTypeAction,
@@ -290,7 +292,8 @@ export default function JobsSection() {
             className="job-card"
             style={{
               display: "flex",
-              alignItems: "center",
+              flexDirection: isMobile ? "column" : "row",
+              alignItems: isMobile ? "stretch" : "center",
               justifyContent: "space-between",
               gap: "0.5rem",
               padding: "0.5rem 0",
@@ -312,9 +315,12 @@ export default function JobsSection() {
                   alignItems: "center",
                   gap: "0.5rem",
                   flexWrap: "wrap",
+                  minWidth: 0,
                 }}
               >
-                <strong>{job.name}</strong>
+                <strong style={{ overflowWrap: "anywhere", minWidth: 0 }}>
+                  {job.name}
+                </strong>
                 <span
                   style={{
                     fontSize: "0.9rem",

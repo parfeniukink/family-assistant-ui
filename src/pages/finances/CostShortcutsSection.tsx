@@ -6,16 +6,18 @@ import React, {
   useCallback,
 } from "react";
 import type { CostShortcut } from "src/data/types";
-import { NoData, Card, Button, Datepicker, Modal } from "src/components";
-import {
-  useCostShortcuts,
-  useCostCategories,
-  useCurrencies,
-  useEquities,
-  useMobile,
-} from "src/context";
+import { NoData } from "src/components/NoData";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
+import { Datepicker } from "src/components/Datepicker";
+import { Modal } from "src/components/Modal";
+import { useCostShortcuts } from "src/context/CostShortcutsContext";
+import { useCostCategories } from "src/context/CostCategoriesContext";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useEquities } from "src/context/EquityContext";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
-import { costShortcutApply } from "src/data/api/client";
+import { costShortcutApply } from "src/data/api/transactions";
 import toast from "react-hot-toast";
 import { prettyMoney } from "src/domain/transactions";
 import { moveItem, withReindexedPositions } from "src/domain/dragDrop";
@@ -243,7 +245,7 @@ export function CostShortcutsSection() {
             justifyContent: "space-around",
             alignItems: "center",
             gridTemplateColumns: isMobile
-              ? "repeat(2, 1fr)"
+              ? "repeat(2, minmax(0, 1fr))"
               : "repeat(auto-fit, minmax(140px, 1fr))",
             gap: TOKENS.SPACE_2,
           }}

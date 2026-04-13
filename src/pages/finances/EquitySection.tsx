@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { prettyMoney, operationSign } from "src/domain/transactions";
-import {
-  useIdentity,
-  useEquities,
-  useNotifications,
-  useTransactions,
-  useMobile,
-} from "src/context";
-import { NoData, Card, Button } from "src/components";
+import { useIdentity } from "src/context/IdentityContext";
+import { useEquities } from "src/context/EquityContext";
+import { useNotifications } from "src/context/NotificationsContext";
+import { useTransactions } from "src/context/TransactionsContext";
+import { useMobile } from "src/context/MobileContext";
+import { NoData } from "src/components/NoData";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
 import { TOKENS } from "src/styles/tokens";
 import { useEffect } from "react";
 

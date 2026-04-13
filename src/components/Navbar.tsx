@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { useMobile } from "src/context";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 import { useScrollDirection } from "src/hooks/useScrollDirection";
 

@@ -1,5 +1,6 @@
-import { NoData } from "src/components";
-import { useIdentity, useMobile } from "src/context";
+import { NoData } from "src/components/NoData";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
 
 import { TOKENS } from "src/styles/tokens";
 
@@ -18,10 +19,11 @@ export default function Component() {
           color: TOKENS.ACCENT_RED,
           cursor: "pointer",
           fontWeight: 600,
+          marginLeft: "0.5rem"
         }}
         className="equity-link"
       >
-        Sign out
+        Sign out?
       </span>
     </p>
   );

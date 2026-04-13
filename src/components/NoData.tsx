@@ -1,4 +1,4 @@
-import { Card } from "src/components";
+import { Card } from "src/components/Card";
 
 export function NoData() {
   return (

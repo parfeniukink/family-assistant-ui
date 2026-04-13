@@ -6,9 +6,11 @@ import {
   groupTransactionsByDate,
   operationSign,
 } from "src/domain/transactions";
-import { useMobile, useTransactions } from "src/context";
+import { useMobile } from "src/context/MobileContext";
+import { useTransactions } from "src/context/TransactionsContext";
 import TransactionsFiltersForm from "./TransactionsFiltersForm";
-import { Container, Card } from "src/components";
+import { Container } from "src/components/Container";
+import { Card } from "src/components/Card";
 import { TOKENS } from "src/styles/tokens";
 
 export default function Page() {

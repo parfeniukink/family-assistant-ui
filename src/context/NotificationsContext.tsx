@@ -1,9 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from "react";
 import type { Notification } from "../data/types/notification";
-import {
-  notificationsList as fetchNotificationsApi,
-  invalidateCache,
-} from "../data/api/client";
+import { notificationsList as fetchNotificationsApi } from "../data/api/notifications";
+import { invalidateCache } from "../data/api/client";
 
 type NotificationsContextType = {
   notifications: Notification[];

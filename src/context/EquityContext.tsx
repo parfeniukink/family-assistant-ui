@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react";
-import { equityList } from "../data/api/client";
+import { equityList } from "../data/api/analytics";
 import type { Equity } from "../data/types";
 import { useIdentity } from "./IdentityContext";
 

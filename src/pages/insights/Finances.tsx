@@ -2,14 +2,15 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   fetchBasicAnalyticsByPeriod,
   fetchBasicAnalyticsFiltered,
-} from "src/data/api/client";
+} from "src/data/api/analytics";
 import type { TransactionsBasicAnalyticsResponse } from "src/data/types/analytics";
-import { Button, Card } from "src/components";
+import { Button } from "src/components/Button";
+import { Card } from "src/components/Card";
 import TransactionsBaseAnalyticsSection from "./TransactionsBaseAnalyticsSection";
 import { TOKENS } from "src/styles/tokens";
 import toast from "react-hot-toast";
 import { type Filters } from "src/data/types/transactions";
-import { useMobile } from "src/context";
+import { useMobile } from "src/context/MobileContext";
 
 // Types
 function AnalyticsFilters({

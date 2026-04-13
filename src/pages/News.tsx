@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
-import { Container, Card, NoData, RequireAuth, Modal } from "src/components";
-import { useMobile } from "src/context";
+import { Container } from "src/components/Container";
+import { Card } from "src/components/Card";
+import { NoData } from "src/components/NoData";
+import { RequireAuth } from "src/components/RequireAuth";
+import { Modal } from "src/components/Modal";
+import { useMobile } from "src/context/MobileContext";
 import { renderMarkdown } from "src/utils/renderMarkdown";
 import { TOKENS } from "src/styles/tokens";
 import toast from "react-hot-toast";
@@ -13,7 +17,7 @@ import {
   newsItemExtend,
   newsItemFeedback,
   addManualArticle,
-} from "src/data/api/client";
+} from "src/data/api/news";
 import type {
   NewsGroup,
   NewsGroupItem,

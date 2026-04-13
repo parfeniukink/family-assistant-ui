@@ -1,6 +1,6 @@
 import { EquitySection } from "./EquitySection";
 import { CostShortcutsSection } from "./CostShortcutsSection";
-import { Container } from "src/components";
+import { Container } from "src/components/Container";
 
 export default function Page() {
   return (

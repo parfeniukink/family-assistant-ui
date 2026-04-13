@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { Card, Button, Container } from "src/components";
-import { useIdentity, useMobile } from "src/context";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
+import { Container } from "src/components/Container";
+import { useIdentity } from "src/context/IdentityContext";
+import { useMobile } from "src/context/MobileContext";
 import { TOKENS } from "src/styles/tokens";
 
 export default function Authentication() {

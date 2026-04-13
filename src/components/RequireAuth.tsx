@@ -1,4 +1,4 @@
-import { useIdentity } from "src/context";
+import { useIdentity } from "src/context/IdentityContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

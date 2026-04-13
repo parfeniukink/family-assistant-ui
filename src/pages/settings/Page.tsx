@@ -3,9 +3,10 @@ import IdentityActions from "./IdentityActions";
 import FinancesSection from "./Finances";
 import NewsSection from "./News";
 import JobsSection from "./Jobs";
-import { Card, Container } from "src/components";
+import { Card } from "src/components/Card";
+import { Container } from "src/components/Container";
 import { TOKENS } from "src/styles/tokens";
-import { useMobile } from "src/context";
+import { useMobile } from "src/context/MobileContext";
 
 type SettingsTab = "resources" | "news";
 

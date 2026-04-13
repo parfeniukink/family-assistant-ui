@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useMemo, useRef } from "react";
 import type { Transaction } from "../data/types/transactions";
-import { transactionsList } from "src/data/api/client";
+import { transactionsList } from "src/data/api/transactions";
 
 type TransactionsContextState = {
   transactions: Transaction[];

@@ -1,4 +1,4 @@
-import { Button } from "src/components";
+import { Button } from "src/components/Button";
 import { TOKENS } from "src/styles/tokens";
 
 type ActionButtonsProps = {

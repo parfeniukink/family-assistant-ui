@@ -1,16 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
-import { Container, Card, Button, NoData, Dropdown } from "src/components";
-import { DecimalInput } from "src/components";
+import { Container } from "src/components/Container";
+import { Card } from "src/components/Card";
+import { Button } from "src/components/Button";
+import { NoData } from "src/components/NoData";
+import { Dropdown } from "src/components/Dropdown";
+import { DecimalInput } from "src/components/DecimalInput";
 import { TOKENS } from "src/styles/tokens";
-import { useCurrencies, useMobile } from "src/context";
+import { useCurrencies } from "src/context/CurrenciesContext";
+import { useMobile } from "src/context/MobileContext";
 import { prettyMoney } from "src/domain/transactions";
 import {
   cashList,
   cashCreate,
   cashUpdate,
   cashDelete,
-} from "src/data/api/client";
+} from "src/data/api/cash";
 import type { CashBalance } from "src/data/types";
 import type { Currency } from "src/data/types/currency";
 
